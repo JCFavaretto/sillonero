@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 06 Paso de audio en una escena</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("06 · Paso de audio en una escena", "Fase B4, R6. La hoja de paso de B3 (apps-escenas/11) suma el tipo Audio: elegir la salida, si se hace predeterminada y, opcional, a qué volumen (D37). Al menos una de las dos cosas. Si la salida todavía no está (la tele recién prendida), espera hasta 8 s.", ["05-agregar-tecla-audio-2026-11-07.html", "05 · Agregar al Inicio · Audio"], ["07-elegir-app-media-2026-11-07.html", "07 · Elegir la app de Media"]);
+
+const bg = `<div class="field" style="border-color:#bbb"><span>Modo sillón</span></div><div class="box" style="margin-top:8px">${[1, 2].map((n) => `<div class="step"><span class="n">${n}</span><div class="grow">Paso</div></div>`).join("")}</div>`;
+const tall = (inner) => `<div class="sheetwrap"><div class="sheet" style="max-height:90%;overflow:hidden">${inner}</div></div>`;
+const wide = (inner) => `<div class="sheetwrap center"><div class="sheet" style="width:88%;max-height:92%;overflow:hidden">${inner}</div></div>`;
+
+const T = (n, d, nu = false) => `<div class="row"><span class="ico"></span><div class="grow">${n}${nu ? ' <span class="chip on">nuevo</span>' : ""}<div class="sub" style="white-space:normal">${d}</div></div><span class="sub">›</span></div>`;
+const types = `<h3>Nuevo paso</h3>${T("Pantallas", "Prender o apagar pantallas")}${T("Abrir app", "Una app de la PC, y dónde ponerla")}${T("Abrir link", "Una página, y dónde ponerla")}${T("Juntar todo", "Traer todas las ventanas a la principal")}${T("Audio", "Cambiar la salida o el volumen", true)}<div class="acts"><span class="btn">Cancelar</span></div>`;
+pair("A", "Elegir el tipo", "Audio se suma al final de la lista de tipos.",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(types) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(`<h3>Nuevo paso</h3><div class="c2"><div>${T("Pantallas", "Prender o apagar")}${T("Abrir app", "Y dónde ponerla")}${T("Abrir link", "Y dónde ponerla")}</div><div>${T("Juntar todo", "En la principal")}${T("Audio", "Salida o volumen", true)}</div></div>`) }));
+
+const chips = (sel) => `<div style="display:flex;gap:6px;flex-wrap:wrap">${[["hp", "Auriculares"], ["sp", "Parlantes"], ["tv", "Tele"]].map(([k, n]) => `<span class="chip ${n === sel ? "on" : ""}">${KIND[k]} ${n}</span>`).join("")}</div>`;
+const tg = (on) => `<span class="tg ${on ? "on" : ""}" style="flex:none"></span>`;
+const cfg = (o) => `<h3>Audio</h3><div class="sec" style="margin-top:0">Salida</div>${chips("Tele")}
+  <div class="row"><div class="grow">Hacerla predeterminada<div class="sub">Lo que suena se pasa a la tele</div></div>${tg(o.def)}</div>
+  <div class="row"><div class="grow">Poner el volumen${o.vol ? `<div class="row" style="border:0;padding:4px 0 0;gap:8px">${sl(30)}${vol(30)}</div>` : ""}</div>${tg(o.vol)}</div>
+  ${o.err ? `<div class="err">Elegí al menos una: hacerla predeterminada o poner el volumen.</div>` : ""}
+  <div class="acts"><span class="btn">Atrás</span><span class="btn ${o.err ? "" : "p"}" style="${o.err ? "opacity:.45" : ""}">Listo</span></div>`;
+pair("B", "Configurar", "Salidas: las activas y las que tienen apodo (la tele aunque esté apagada). Los dos interruptores arrancan prendidos el primero y apagado el segundo.",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(cfg({ def: true, vol: true })) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(cfg({ def: true, vol: true })) }));
+pair("C", "Sin nada que hacer", "Con los dos interruptores apagados, \"Listo\" no anda y aparece el aviso.",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(cfg({ def: false, vol: false, err: true })) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(cfg({ def: false, vol: false, err: true })) }));
+
+const step = (n, t, st = "", txt = "") => `<div class="step"><span class="n">${n}</span><div class="grow">${t}</div>${st ? `<span class="st ${st}">${txt}</span>` : ""}</div>`;
+const ed = `<div class="field" style="border-color:#bbb"><span>Modo sillón</span></div><div class="box" style="margin-top:8px">${step(1, "Prender Tele living")}${step(2, "Audio → Tele, predeterminada, volumen 30")}${step(3, "Abrir Stremio → Tele, pantalla completa")}</div>`;
+pair("D", "En el editor", "El resumen del paso se arma solo. Orden recomendado: primero prender la tele, después el audio.",
+  V({ title: "Editar escena", back: true, body: ed }), L({ title: "Editar escena", back: true, body: ed }));
+
+const done = `<h3>Modo sillón terminó con 1 problema</h3>${step(1, "Prender Tele living", "ok", "listo")}${step(2, "Audio → Tele", "bad", "falló")}<div class="sub" style="white-space:normal;margin:-2px 0 6px 28px;color:#a02020">La tele no apareció como salida de audio en 8 s. ¿Está enchufada por HDMI?</div>${step(3, "Abrir Stremio → Tele, pantalla completa", "ok", "listo")}<div class="acts"><span class="btn">Editar escena</span><span class="btn p">Listo</span></div>`;
+pair("E", "Resultado: la salida no apareció", "La hoja de resultado de B3 (apps-escenas/09 C) con el motivo nuevo. Los demás pasos siguen.",
+  V({ title: "Escenas", back: true, body: "", dim: true, over: sheet(done) }),
+  L({ title: "Escenas", back: true, body: "", dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:80%;max-height:90%;overflow:auto">${done}</div></div>` }));
+</script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyecto E — Bocetos v2 (fase B1)</title>
+<style>
+  :root{--bg:#f3f3f1;--ink:#222;--mut:#888;--line:#bbb;--card:#fff;--fill:#e6e6e3;--acc:#3b6fe0}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+  header{padding:28px 32px 8px;max-width:1400px;margin:auto}
+  h1{margin:0 0 6px;font-size:22px}
+  header p{margin:0;color:#555;max-width:760px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 0;font-size:12px;color:#555}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:14px;height:14px;border:1.5px dashed var(--line);border-radius:3px;display:inline-block}
+  .grid{display:flex;flex-wrap:wrap;gap:36px 28px;padding:24px 32px 48px;max-width:1400px;margin:auto}
+  .item{width:300px}
+  .item h2{font-size:14px;margin:0 0 2px}
+  .item .why{font-size:12px;color:#666;margin:0 0 10px;min-height:34px}
+  .phone{width:300px;height:620px;background:var(--card);border:2px solid #333;border-radius:34px;padding:14px 12px 0;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .notch{width:90px;height:6px;border-radius:4px;background:#333;margin:0 auto 10px}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:0 4px 8px}
+  .top b{font-size:17px}
+  .pc{font-size:11px;color:var(--mut);display:flex;align-items:center;gap:5px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#3a3}
+  .body{flex:1;overflow:auto;padding:0 4px 8px}
+  .nav{display:flex;border-top:1.5px solid var(--line);margin:0 -12px;background:#fafafa}
+  .nav div{flex:1;text-align:center;padding:8px 0 14px;font-size:10px;color:var(--mut)}
+  .nav div i{display:block;width:20px;height:20px;margin:0 auto 3px;border:1.5px solid var(--mut);border-radius:6px}
+  .nav .on{color:var(--acc);font-weight:600}.nav .on i{border-color:var(--acc);background:#e7eefc}
+  .sec{font-size:11px;letter-spacing:.06em;color:var(--mut);margin:12px 0 6px;text-transform:uppercase}
+  .box{border:1.5px dashed var(--line);border-radius:12px;padding:10px;background:#fcfcfb}
+  .row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eee}
+  .row:last-child{border-bottom:0}
+  .ico{width:30px;height:30px;border-radius:8px;background:var(--fill);flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;color:#777}
+  .grow{flex:1;min-width:0}
+  .sub{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tg{width:38px;height:22px;border-radius:12px;background:#ccc;position:relative;flex:none;cursor:pointer;border:0}
+  .tg::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+  .tg.on{background:var(--acc)}.tg.on::after{left:19px}
+  .deck{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .key{aspect-ratio:1;border-radius:14px;background:var(--fill);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;text-align:center;gap:4px;border:1.5px solid #d5d5d0;cursor:pointer}
+  .key i{width:22px;height:22px;border-radius:6px;border:1.5px solid #999}
+  .key.add{background:transparent;border-style:dashed;color:var(--mut)}
+  .key:active{background:#d8e2f8}
+  .slider{height:6px;border-radius:4px;background:#ddd;position:relative;flex:1}
+  .slider b{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--acc)}
+  .slider em{position:absolute;top:-5px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid var(--acc);margin-left:-8px}
+  .btn{display:inline-block;padding:7px 12px;border-radius:10px;background:var(--fill);font-size:12px;border:1.5px solid #d5d5d0}
+  .btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .chip{display:inline-block;padding:3px 8px;border-radius:20px;border:1.5px solid var(--line);font-size:11px;margin:2px 2px 0 0}
+  .chip.on{border-color:var(--acc);color:var(--acc);background:#eef3fd}
+  .map{position:relative;height:120px;border-radius:12px;background:#f0f0ec;border:1.5px dashed var(--line)}
+  .mon{position:absolute;border:2px solid #999;border-radius:6px;background:#fff;font-size:10px;padding:3px;color:#555}
+  .mon.off{border-style:dashed;color:#aaa;background:transparent}
+  .mon .w{position:absolute;background:#c9d6f3;border-radius:2px}
+  .note{font-size:11px;color:#a05a00;background:#fff4e0;border-radius:8px;padding:6px 8px;margin-top:8px}
+  .pad{height:300px;border-radius:16px;background:#ececea;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:12px;text-align:center;padding:20px}
+  .kb{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-top:6px}
+  .kb span{background:var(--fill);border-radius:4px;font-size:9px;text-align:center;padding:6px 0;color:#666}
+  .qr{width:150px;height:150px;margin:10px auto;background:repeating-linear-gradient(45deg,#ddd 0 6px,#f5f5f5 6px 12px);border:2px solid #333;border-radius:8px}
+  .np{display:flex;gap:10px;align-items:center}
+  .art{width:54px;height:54px;border-radius:8px;background:var(--fill)}
+  .ctr{display:flex;justify-content:center;gap:10px;margin-top:8px}
+  .ctr span{width:34px;height:34px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;font-size:12px}
+  .ctr .pl{background:var(--acc);color:#fff}
+  .thumb{width:62px;height:40px;border-radius:6px;background:#dde3ee;flex:none}
+  .tabs{display:flex;gap:4px;margin-bottom:8px}
+  .tabs span{flex:1;text-align:center;padding:6px;border-radius:8px;font-size:12px;background:var(--fill);cursor:pointer}
+  .tabs .on{background:var(--acc);color:#fff}
+  .step{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #eee;font-size:12px}
+  .step .n{width:20px;height:20px;border-radius:50%;background:var(--fill);font-size:11px;display:flex;align-items:center;justify-content:center;flex:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:3px;height:70px;border:2px solid #999;border-radius:6px;padding:3px}
+  .grid2 div{background:#c9d6f3;border-radius:2px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#456}
+  footer{max-width:1400px;margin:auto;padding:0 32px 40px;color:#666;font-size:12px}
+  .err{font-size:12px;color:#a02020;background:#fdecec;border-radius:8px;padding:8px 10px;margin:8px 0;text-align:left}
+  .cam{height:250px;border-radius:14px;background:#222;color:#bbb;display:flex;align-items:center;justify-content:center;position:relative;margin:8px 0}
+  .cam::after{content:"";width:150px;height:150px;border:2px solid #fff;border-radius:12px;position:absolute}
+  .stat{display:flex;align-items:center;gap:8px;font-weight:600}
+  .dot.y{background:#e0a020}.dot.g{background:#aaa}
+  .meter{height:8px;border-radius:5px;background:#ddd;margin:4px 0 10px;overflow:hidden}.meter b{display:block;height:100%;background:var(--acc)}
+  .stale{opacity:.5}
+  .browser{width:620px;border:2px solid #333;border-radius:12px;overflow:hidden;background:#fff}
+  .bar{background:#e6e6e3;padding:7px 12px;font-size:12px;color:#555;border-bottom:1.5px solid var(--line)}
+  .page{padding:14px 18px}
+  .page h3{margin:0 0 6px;font-size:15px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .tray{display:inline-block;border:1.5px solid #333;border-radius:8px;background:#fff;font-size:12px;box-shadow:2px 2px 0 #ccc}
+  .tray div{padding:7px 16px;border-bottom:1px solid #eee}.tray div:last-child{border:0}
+  [data-state]{display:none}[data-state].show{display:block}
+  .pair{max-width:1400px;margin:0 auto;padding:0 32px 34px}
+  .pair h2{font-size:15px;margin:0 0 2px}
+  .pair .why{font-size:12px;color:#666;margin:0 0 10px}
+  .both{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+  .lbl{font-size:11px;color:var(--mut);margin:0 0 4px;text-transform:uppercase;letter-spacing:.06em}
+  .phoneL{width:620px;height:300px;background:var(--card);border:2px solid #333;border-radius:30px;padding:10px 14px 8px 18px;position:relative;overflow:hidden;display:flex;flex-direction:row}
+  .notchL{position:absolute;left:5px;top:105px;width:6px;height:90px;border-radius:4px;background:#333}
+  .rail{width:64px;flex:none;border-right:1.5px solid var(--line);margin:-10px 10px -8px -4px;padding:10px 0;display:flex;flex-direction:column;justify-content:center;gap:2px;background:#fafafa}
+  .rail div{text-align:center;padding:5px 0;font-size:10px;color:var(--mut)}
+  .rail div i{display:block;width:18px;height:18px;margin:0 auto 2px;border:1.5px solid var(--mut);border-radius:6px}
+  .rail .on{color:var(--acc);font-weight:600}.rail .on i{border-color:var(--acc);background:#e7eefc}
+  .mainL{flex:1;min-width:0;display:flex;flex-direction:column}
+  .bodyL{flex:1;overflow:auto;padding:0 2px 4px}
+  .c2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .c3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .deckL{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .deckL .key{aspect-ratio:auto;height:58px}
+  .padL{height:225px;border-radius:16px;background:#ececea;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:12px;text-align:center;padding:16px}
+  .camL{height:205px;border-radius:14px;background:#222;color:#bbb;display:flex;align-items:center;justify-content:center;position:relative}
+  .camL::after{content:"";width:130px;height:130px;border:2px solid #fff;border-radius:12px;position:absolute}
+  .mainL .row{padding:5px 0}
+  .mainL .sec{margin:6px 0 4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Proyecto E — bocetos v3 · cada pantalla vertical y apaisada</h1>
+  <p>Versión consolidada del 06/11/2026. <b>Desde ahora cada boceto muestra cada pantalla del celu en vertical y apaisado.</b> Reúne las pantallas de v1 y v2 y suma el apaisado. Criterio: rotación libre en toda la app; la barra de navegación pasa de abajo a un costado en apaisado; las listas largas se parten en dos columnas; el Pad aprovecha todo el alto. El panel de la PC y la bandeja no dependen del celu (al final). Los interruptores, pestañas y estados se pueden tocar.</p>
+  <div class="legend"><span><i class="sw"></i>zona o lista dinámica</span><span><i class="sw" style="background:#3b6fe0;border-style:solid"></i>acción principal / activo</span></div>
+</header>
+<section class="pair"><h2>1 · Conectar (primera vez)</h2><p class="why">B1. Una sola PC; el QR sale del panel de la PC.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body" style="text-align:center">
+  <p style="margin:6px 0 0">Abrí el panel del agente en tu PC y tocá <b>“Emparejar celu”</b>.</p>
+  <div class="qr"></div>
+  <span class="btn p">Escanear QR</span>
+  <div class="note" style="text-align:left">Solo red local. El control de mouse y teclado es un permiso aparte, apagado por defecto.</div>
+ </div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="mainL"><div class="top"><b>Conectar</b></div>
+<div class="bodyL c2" style="align-items:center">
+ <div style="text-align:left">
+  <p style="margin:0 0 10px">Abrí el panel del agente en tu PC y tocá <b>“Emparejar celu”</b>.</p>
+  <span class="btn p">Escanear QR</span>
+  <div class="note">Solo red local. El control de mouse y teclado es un permiso aparte, apagado por defecto.</div>
+ </div>
+ <div class="qr" style="width:170px;height:170px;margin:0 auto"></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>2 · Escaneando el QR</h2><p class="why">B1. Se lee una sola vez aunque el QR siga a la vista.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Escaneá el QR</b><span class="btn">Cancelar</span></div>
+ <div class="body"><div class="cam">cámara</div><div class="sub" style="text-align:center">Apuntá al QR que muestra la PC.</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="mainL"><div class="top"><b>Escaneá el QR</b><span class="btn">Cancelar</span></div>
+<div class="bodyL c2" style="align-items:center">
+ <div class="camL">cámara</div>
+ <div><p style="margin:0 0 6px"><b>Apuntá al QR que muestra la PC.</b></p><div class="sub" style="white-space:normal">Se lee una sola vez, aunque el QR siga a la vista.</div></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>3 · Esperando confirmación</h2><p class="why">B1. Falta que Jay toque Permitir en la PC (hasta 60 s).</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body" style="text-align:center">
+  <div style="font-size:40px;margin-top:70px">⏳</div>
+  <p><b>Confirmá en la PC…</b></p>
+  <div class="sub">DESKTOP-PSB9K0R pregunta si te deja entrar.</div>
+  <p style="margin-top:30px"><span class="btn">Cancelar</span></p>
+ </div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="mainL"><div class="top"><b>Conectar</b></div>
+<div class="bodyL" style="display:flex;align-items:center;justify-content:center;gap:24px">
+ <div style="font-size:44px">⏳</div>
+ <div><p style="margin:0 0 4px"><b>Confirmá en la PC…</b></p><div class="sub" style="white-space:normal">DESKTOP-PSB9K0R pregunta si te deja entrar.</div><p style="margin:12px 0 0"><span class="btn">Cancelar</span></p></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>4 · Errores de conexión</h2><p class="why">B1. Tocá las pestañas. Siempre se vuelve a Escanear QR.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body" style="text-align:center">
+  <div class="tabs" data-tabs><span class="on" data-k="e1">QR</span><span data-k="e2">PC</span><span data-k="e3">Permiso</span></div>
+  <div data-state="e1" class="show">
+   <div class="err">El QR venció. Generá otro en la PC.</div>
+   <div class="sub" style="white-space:normal">Otros mensajes de QR: “Ese QR no es de Proyecto E.” · “No pude leer el QR.” · “La PC no está en una red local.”</div>
+  </div>
+  <div data-state="e2">
+   <div class="err">La PC rechazó el pedido.</div>
+   <div class="sub" style="white-space:normal">Otros: “Nadie confirmó en la PC a tiempo.” · “El código ya se usó o venció.” · “La PC ya está atendiendo otro pedido.” · “No encuentro la PC. ¿Están en el mismo Wi-Fi?”</div>
+  </div>
+  <div data-state="e3">
+   <div class="err">Sin permiso de cámara no puedo leer el QR.</div>
+   <span class="btn">Abrir ajustes</span>
+   <div class="sub" style="white-space:normal;margin-top:8px">Este mismo lugar muestra “La PC te quitó el acceso. Volvé a emparejar.” cuando se revoca el celu.</div>
+  </div>
+  <p style="margin-top:20px"><span class="btn p">Escanear QR</span></p>
+ </div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="mainL"><div class="top"><b>Conectar</b></div>
+<div class="bodyL">
+ <div class="tabs" data-tabs style="max-width:300px"><span class="on" data-k="e1">QR</span><span data-k="e2">PC</span><span data-k="e3">Permiso</span></div>
+ <div class="c2">
+  <div>
+   <div data-state="e1" class="show"><div class="err">El QR venció. Generá otro en la PC.</div><div class="sub" style="white-space:normal">Otros: “Ese QR no es de Proyecto E.” · “No pude leer el QR.” · “La PC no está en una red local.”</div></div>
+   <div data-state="e2"><div class="err">La PC rechazó el pedido.</div><div class="sub" style="white-space:normal">Otros: “Nadie confirmó en la PC a tiempo.” · “El código ya se usó o venció.” · “La PC ya está atendiendo otro pedido.” · “No encuentro la PC. ¿Están en el mismo Wi-Fi?”</div></div>
+   <div data-state="e3"><div class="err">Sin permiso de cámara no puedo leer el QR.</div><span class="btn">Abrir ajustes</span><div class="sub" style="white-space:normal;margin-top:6px">Acá también: “La PC te quitó el acceso. Volvé a emparejar.”</div></div>
+  </div>
+  <div style="padding-top:8px"><span class="btn p">Escanear QR</span></div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>5 · Inicio en B1: tarjeta de estado</h2><p class="why">B1. Tocá las pestañas para ver los 4 estados.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Inicio</b><span class="pc"><span class="dot" id="hdot"></span>DESKTOP-PSB9K0R</span></div>
+ <div class="body">
+  <div class="tabs" data-tabs data-hdot><span class="on" data-k="s1">En línea</span><span data-k="s2">Reconect.</span><span data-k="s3">Sin conex.</span><span data-k="s0">Conect.</span></div>
+  <div class="box">
+   <div data-state="s1" class="show">
+    <div class="stat"><span class="dot"></span>En línea</div>
+    <div class="sec">CPU</div><div class="meter"><b style="width:23%"></b></div><div class="sub">23 %</div>
+    <div class="sec">RAM</div><div class="meter"><b style="width:61%"></b></div><div class="sub">9,8 de 16 GB</div>
+    <div class="sec">Encendida hace</div><div>2 h 15 min</div>
+   </div>
+   <div data-state="s2">
+    <div class="stat"><span class="dot y"></span>Reconectando…</div>
+    <div class="stale"><div class="sec">CPU</div><div class="meter"><b style="width:23%"></b></div><div class="sub">23 % (último dato)</div>
+    <div class="sec">RAM</div><div class="meter"><b style="width:61%"></b></div><div class="sub">9,8 de 16 GB</div></div>
+   </div>
+   <div data-state="s3">
+    <div class="stat"><span class="dot g"></span>Sin conexión</div>
+    <div class="sub" style="margin:6px 0 10px;white-space:normal">No encuentro la PC. ¿Están en el mismo Wi-Fi?</div>
+    <span class="btn p">Reintentar</span>
+   </div>
+   <div data-state="s0">
+    <div class="stat"><span class="dot y"></span>Conectando…</div>
+   </div>
+  </div>
+  <div class="note">El resto del Inicio (escenas, Media, volumen) llega en B3 y B4.</div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Inicio</b><span class="pc"><span class="dot" id="hdotL"></span>DESKTOP-PSB9K0R</span></div>
+<div class="bodyL">
+ <div class="tabs" data-tabs data-hdot="hdotL" style="max-width:380px"><span class="on" data-k="s1">En línea</span><span data-k="s2">Reconect.</span><span data-k="s3">Sin conex.</span><span data-k="s0">Conect.</span></div>
+ <div class="box">
+  <div data-state="s1" class="show">
+   <div class="stat"><span class="dot"></span>En línea</div>
+   <div class="c3"><div><div class="sec">CPU</div><div class="meter"><b style="width:23%"></b></div><div class="sub">23 %</div></div>
+   <div><div class="sec">RAM</div><div class="meter"><b style="width:61%"></b></div><div class="sub">9,8 de 16 GB</div></div>
+   <div><div class="sec">Encendida hace</div><div>2 h 15 min</div></div></div>
+  </div>
+  <div data-state="s2"><div class="stat"><span class="dot y"></span>Reconectando…</div>
+   <div class="stale c3"><div><div class="sec">CPU</div><div class="meter"><b style="width:23%"></b></div><div class="sub">23 % (último dato)</div></div><div><div class="sec">RAM</div><div class="meter"><b style="width:61%"></b></div><div class="sub">9,8 de 16 GB</div></div><div></div></div></div>
+  <div data-state="s3"><div class="stat"><span class="dot g"></span>Sin conexión</div><div class="sub" style="margin:6px 0 10px;white-space:normal">No encuentro la PC. ¿Están en el mismo Wi-Fi?</div><span class="btn p">Reintentar</span></div>
+  <div data-state="s0"><div class="stat"><span class="dot y"></span>Conectando…</div></div>
+ </div>
+ <div class="note">El resto del Inicio llega en B3 y B4.</div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>6 · Pestañas pendientes</h2><p class="why">B1. Pantallas, Apps, Audio y Pad existen pero avisan cuándo llegan.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div>
+ <div class="body" style="text-align:center">
+  <div style="font-size:40px;margin-top:100px">🚧</div>
+  <p><b>Llega en B2</b></p>
+  <div class="sub">Apps y Escenas: B3 · Audio: B4 · Pad: B5</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Pantallas</b></div>
+<div class="bodyL" style="display:flex;align-items:center;justify-content:center;gap:24px">
+ <div style="font-size:44px">🚧</div>
+ <div><p style="margin:0 0 4px"><b>Llega en B2</b></p><div class="sub">Apps y Escenas: B3 · Audio: B4 · Pad: B5</div></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>7 · Ajustes en B1</h2><p class="why">B1. Solo Conexión. Tocá Olvidar.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Ajustes</b></div>
+ <div class="body">
+  <div class="sec">Conexión</div>
+  <div class="box">
+   <div class="row"><div class="grow">DESKTOP-PSB9K0R<div class="sub">192.168.1.23:47800</div><div class="sub">Emparejada el 06/11/2026</div></div><span class="btn js-forget">Olvidar</span></div>
+  </div>
+  <div class="note">Olvidar borra el acceso del celu. Para quitarlo del todo, revocalo también en la PC.</div>
+  <div class="box js-confirm" style="display:none">
+   <b>¿Olvidar DESKTOP-PSB9K0R?</b>
+   <div class="sub" style="white-space:normal;margin:4px 0 8px">Vas a tener que escanear el QR de nuevo.</div>
+   <span class="btn p">Olvidar</span> <span class="btn js-cancel">Cancelar</span>
+  </div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Ajustes</b></div>
+<div class="bodyL c2">
+ <div><div class="sec" style="margin-top:0">Conexión</div><div class="box">
+  <div class="row"><div class="grow">DESKTOP-PSB9K0R<div class="sub">192.168.1.23:47800</div><div class="sub">Emparejada el 06/11/2026</div></div><span class="btn js-forget">Olvidar</span></div></div></div>
+ <div><div class="note" style="margin-top:0">Olvidar borra el acceso del celu. Para quitarlo del todo, revocalo también en la PC.</div>
+  <div class="box js-confirm" style="display:none;margin-top:8px"><b>¿Olvidar DESKTOP-PSB9K0R?</b><div class="sub" style="white-space:normal;margin:4px 0 8px">Vas a tener que escanear el QR de nuevo.</div><span class="btn p">Olvidar</span> <span class="btn js-cancel">Cancelar</span></div></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>8 · Inicio completo (stream deck)</h2><p class="why">B3/B4. Escenas, Media y volumen. Apaisado: 5 columnas.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Inicio</b><span class="pc"><span class="dot"></span>DESKTOP-PSB9K0R</span></div>
+ <div class="body">
+  <div class="box np"><div class="art"></div><div class="grow"><b style="font-size:13px">Canción que suena</b><div class="sub">Artista · Spotify</div></div></div>
+  <div class="ctr"><span>⏮</span><span class="pl">⏯</span><span>⏭</span></div>
+  <div class="row" style="border:0"><span style="font-size:11px;color:#888">Vol.</span><div class="slider"><b style="width:55%"></b><em style="left:55%"></em></div><span style="font-size:11px">55</span></div>
+  <div class="sec">Escenas y acciones</div>
+  <div class="deck">
+   <div class="key"><i></i>Trabajo</div><div class="key"><i></i>Modo juego</div><div class="key"><i></i>Modo sillón</div>
+   <div class="key"><i></i>Tele on/off</div><div class="key"><i></i>Traer todo</div><div class="key"><i></i>Silenciar</div>
+   <div class="key"><i></i>Moonlight</div><div class="key"><i></i>Discord</div><div class="key add">+ agregar</div>
+  </div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Inicio</b><span class="pc"><span class="dot"></span>DESKTOP-PSB9K0R</span></div>
+<div class="bodyL">
+ <div class="box np" style="padding:6px 10px"><div class="art" style="width:40px;height:40px"></div><div class="grow"><b style="font-size:13px">Canción que suena</b><div class="sub">Artista · Spotify</div></div>
+  <div class="ctr" style="margin:0"><span>⏮</span><span class="pl">⏯</span><span>⏭</span></div>
+  <div style="display:flex;align-items:center;gap:6px;width:130px"><span style="font-size:11px;color:#888">Vol.</span><div class="slider"><b style="width:55%"></b><em style="left:55%"></em></div><span style="font-size:11px">55</span></div></div>
+ <div class="sec">Escenas y acciones</div>
+ <div class="deckL">
+  <div class="key"><i></i>Trabajo</div><div class="key"><i></i>Modo juego</div><div class="key"><i></i>Modo sillón</div><div class="key"><i></i>Tele on/off</div><div class="key"><i></i>Traer todo</div>
+  <div class="key"><i></i>Silenciar</div><div class="key"><i></i>Moonlight</div><div class="key"><i></i>Discord</div><div class="key add">+ agregar</div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>9 · Pantallas</h2><p class="why">B2. Mapa y lista lado a lado.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+ <div class="body">
+  <div class="map">
+   <div class="mon" style="left:8px;top:28px;width:78px;height:50px">1<div class="w" style="left:6px;top:14px;width:40px;height:26px"></div></div>
+   <div class="mon" style="left:92px;top:28px;width:78px;height:50px;border-color:var(--acc)">2 ★<div class="w" style="left:4px;top:12px;width:68px;height:32px"></div></div>
+   <div class="mon off" style="left:176px;top:16px;width:90px;height:62px">3 · Tele</div>
+  </div>
+  <div class="sec">Pantallas detectadas</div>
+  <div class="box">
+   <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo<div class="sub">1920×1080 · apodo editable</div></div><button class="tg on"></button></div>
+   <div class="row"><div class="ico">2</div><div class="grow">Principal ★<div class="sub">2560×1440 · no se puede apagar</div></div><button class="tg on" disabled style="opacity:.5"></button></div>
+   <div class="row"><div class="ico">3</div><div class="grow">Tele living<div class="sub">3840×2160 · HDMI</div></div><button class="tg"></button></div>
+  </div>
+  <div class="note">Toque largo en una pantalla: renombrar, marcar como principal, elegir posición en el mapa.</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+<div class="bodyL c2">
+ <div><div class="map" style="height:170px">
+  <div class="mon" style="left:8px;top:50px;width:78px;height:50px">1<div class="w" style="left:6px;top:14px;width:40px;height:26px"></div></div>
+  <div class="mon" style="left:92px;top:50px;width:78px;height:50px;border-color:var(--acc)">2 ★<div class="w" style="left:4px;top:12px;width:68px;height:32px"></div></div>
+  <div class="mon off" style="left:176px;top:38px;width:90px;height:62px">3 · Tele</div></div>
+  <div class="note">Toque largo: renombrar, marcar como principal, mover en el mapa.</div></div>
+ <div class="box">
+  <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo<div class="sub">1920×1080</div></div><button class="tg on"></button></div>
+  <div class="row"><div class="ico">2</div><div class="grow">Principal ★<div class="sub">2560×1440 · no se apaga</div></div><button class="tg on" disabled style="opacity:.5"></button></div>
+  <div class="row"><div class="ico">3</div><div class="grow">Tele living<div class="sub">3840×2160 · HDMI</div></div><button class="tg"></button></div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>10 · Apps</h2><p class="why">B3. Ventanas a la izquierda, acciones a la derecha.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Apps</b></div>
+ <div class="body">
+  <div class="tabs" data-tabs><span class="on">Abiertas</span><span>Lanzadores</span></div>
+  <div class="box">
+   <div class="row"><div class="thumb"></div><div class="grow">VS Code<div class="sub">proyecto-e — PLAN.md · pantalla 2</div></div></div>
+   <div class="row"><div class="thumb"></div><div class="grow">Chrome<div class="sub">YouTube · pantalla 1</div></div></div>
+   <div class="row"><div class="thumb"></div><div class="grow">Discord<div class="sub">pantalla 1</div></div></div>
+   <div class="row"><div class="thumb" style="opacity:.5"></div><div class="grow">Spotify<div class="sub">minimizada</div></div></div>
+  </div>
+  <div class="sec">Al tocar una ventana</div>
+  <div><span class="chip">Mover a 1</span><span class="chip on">Mover a 2</span><span class="chip">Mover a 3</span><span class="chip">Traer al frente</span><span class="chip">Pantalla completa</span><span class="chip">Minimizar</span><span class="chip">Cerrar</span></div>
+  <div class="note">“Lanzadores”: grilla de apps y links para abrir o enfocar. Se agregan desde la lista de apps instaladas de la PC.</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div class="on"><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div class="on"><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Apps</b></div>
+<div class="bodyL">
+ <div class="tabs" data-tabs style="max-width:260px"><span class="on" data-k="a1">Abiertas</span><span data-k="a2">Lanzadores</span></div>
+ <div class="c2">
+  <div class="box">
+   <div class="row"><div class="thumb"></div><div class="grow">VS Code<div class="sub">proyecto-e · pantalla 2</div></div></div>
+   <div class="row"><div class="thumb"></div><div class="grow">Chrome<div class="sub">YouTube · pantalla 1</div></div></div>
+   <div class="row"><div class="thumb"></div><div class="grow">Discord<div class="sub">pantalla 1</div></div></div>
+  </div>
+  <div><div class="sec" style="margin-top:0">Al tocar una ventana</div>
+   <span class="chip">Mover a 1</span><span class="chip on">Mover a 2</span><span class="chip">Mover a 3</span><span class="chip">Traer al frente</span><span class="chip">Pantalla completa</span><span class="chip">Minimizar</span><span class="chip">Cerrar</span>
+   <div class="note">“Lanzadores”: grilla de apps y links para abrir o enfocar.</div></div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>11 · Escenas</h2><p class="why">B3. Lista y ejecución automática lado a lado.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Escenas</b><span class="btn p">+ Nueva</span></div>
+ <div class="body">
+  <div class="box">
+   <div class="row"><div class="ico">▶</div><div class="grow">Trabajo<div class="sub">VS Code + Chrome · pantallas 1 y 2</div></div><span class="btn">Editar</span></div>
+   <div class="row"><div class="ico">▶</div><div class="grow">Modo juego<div class="sub">4 streams en 2×2 · pantalla 2 · audio auriculares</div></div><span class="btn">Editar</span></div>
+   <div class="row"><div class="ico">▶</div><div class="grow">Modo sillón<div class="sub">tele on · audio tele · Moonlight listo</div></div><span class="btn">Editar</span></div>
+  </div>
+  <div class="sec">Ejecutar automáticamente</div>
+  <div class="box">
+   <div class="row"><div class="grow">Al prender la tele<div class="sub">Modo sillón</div></div><button class="tg"></button></div>
+   <div class="row"><div class="grow">Al iniciar la PC<div class="sub">Trabajo</div></div><button class="tg"></button></div>
+  </div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Escenas</b><span class="btn p">+ Nueva</span></div>
+<div class="bodyL c2">
+ <div class="box">
+  <div class="row"><div class="ico">▶</div><div class="grow">Trabajo<div class="sub">VS Code + Chrome · pantallas 1 y 2</div></div><span class="btn">Editar</span></div>
+  <div class="row"><div class="ico">▶</div><div class="grow">Modo juego<div class="sub">4 streams 2×2 · auriculares</div></div><span class="btn">Editar</span></div>
+  <div class="row"><div class="ico">▶</div><div class="grow">Modo sillón<div class="sub">tele on · audio tele</div></div><span class="btn">Editar</span></div>
+ </div>
+ <div><div class="sec" style="margin-top:0">Ejecutar automáticamente</div><div class="box">
+  <div class="row"><div class="grow">Al prender la tele<div class="sub">Modo sillón</div></div><button class="tg"></button></div>
+  <div class="row"><div class="grow">Al iniciar la PC<div class="sub">Trabajo</div></div><button class="tg"></button></div></div></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>12 · Editar escena</h2><p class="why">B3. Pasos a la izquierda, vista previa y atajo a la derecha.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Modo juego</b><span class="btn p">Probar</span></div>
+ <div class="body">
+  <div class="step"><span class="n">1</span><div class="grow"><b>Pantallas</b><div class="sub">Tele: apagada · las demás: prendidas</div></div></div>
+  <div class="step"><span class="n">2</span><div class="grow"><b>Audio</b><div class="sub">Salida: Auriculares · volumen 40%</div></div></div>
+  <div class="step"><span class="n">3</span><div class="grow"><b>Abrir 4 links en grilla 2×2</b><div class="sub">Pantalla 2 · ventanas separadas</div>
+   <div class="grid2" style="margin-top:6px"><div>stream 1</div><div>stream 2</div><div>stream 3</div><div>stream 4</div></div></div></div>
+  <div class="step"><span class="n">4</span><div class="grow"><b>Abrir Discord</b><div class="sub">Pantalla 1 · mitad derecha · si está abierta, moverla</div></div></div>
+  <div style="margin-top:10px"><span class="btn">+ Paso</span> <span class="btn">Capturar de la PC</span></div>
+  <div class="sec">Atajo en la PC</div>
+  <div class="box"><div class="row"><div class="grow">Ctrl+Alt+J</div><span class="btn">Cambiar</span></div></div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Modo juego</b><span class="btn p">Probar</span></div>
+<div class="bodyL c2">
+ <div>
+  <div class="step"><span class="n">1</span><div class="grow"><b>Pantallas</b><div class="sub">Tele apagada · las demás prendidas</div></div></div>
+  <div class="step"><span class="n">2</span><div class="grow"><b>Audio</b><div class="sub">Auriculares · volumen 40%</div></div></div>
+  <div class="step"><span class="n">3</span><div class="grow"><b>Abrir 4 links en grilla 2×2</b><div class="sub">Pantalla 2</div></div></div>
+  <div class="step"><span class="n">4</span><div class="grow"><b>Abrir Discord</b><div class="sub">Pantalla 1 · mitad derecha</div></div></div>
+ </div>
+ <div>
+  <div class="grid2"><div>stream 1</div><div>stream 2</div><div>stream 3</div><div>stream 4</div></div>
+  <div style="margin-top:10px"><span class="btn">+ Paso</span> <span class="btn">Capturar de la PC</span></div>
+  <div class="sec">Atajo en la PC</div>
+  <div class="box"><div class="row"><div class="grow">Ctrl+Alt+J</div><span class="btn">Cambiar</span></div></div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>13 · Audio</h2><p class="why">B4. Salidas y apps en dos columnas.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Audio</b></div>
+ <div class="body">
+  <div class="sec">Salidas</div>
+  <div class="box">
+   <div class="row"><div class="ico">🎧</div><div class="grow">Auriculares <span class="chip on">predeterminada</span><div class="row" style="border:0;padding:4px 0 0"><div class="slider"><b style="width:40%"></b><em style="left:40%"></em></div></div></div></div>
+   <div class="row"><div class="ico">🔊</div><div class="grow">Parlantes<div class="row" style="border:0;padding:4px 0 0"><div class="slider"><b style="width:70%"></b><em style="left:70%"></em></div></div></div></div>
+   <div class="row"><div class="ico">📺</div><div class="grow">Tele (HDMI)<div class="sub">apagada</div></div></div>
+  </div>
+  <div class="sec">Por aplicación</div>
+  <div class="box">
+   <div class="row"><div class="ico">Sp</div><div class="grow">Spotify<div class="sub">→ Parlantes ▾</div><div class="row" style="border:0;padding:4px 0 0"><div class="slider"><b style="width:60%"></b><em style="left:60%"></em></div></div></div></div>
+   <div class="row"><div class="ico">Dc</div><div class="grow">Discord<div class="sub">→ Auriculares ▾</div><div class="row" style="border:0;padding:4px 0 0"><div class="slider"><b style="width:80%"></b><em style="left:80%"></em></div></div></div></div>
+  </div>
+  <div class="note">Elegir predeterminada y mandar una app a otra salida usa funciones no documentadas de Windows: pueden fallar tras una actualización.</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div class="on"><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div class="on"><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Audio</b></div>
+<div class="bodyL c2">
+ <div><div class="sec" style="margin-top:0">Salidas</div><div class="box">
+  <div class="row"><div class="ico">🎧</div><div class="grow">Auriculares <span class="chip on">predeterminada</span><div class="row" style="border:0;padding:3px 0 0"><div class="slider"><b style="width:40%"></b><em style="left:40%"></em></div></div></div></div>
+  <div class="row"><div class="ico">🔊</div><div class="grow">Parlantes<div class="row" style="border:0;padding:3px 0 0"><div class="slider"><b style="width:70%"></b><em style="left:70%"></em></div></div></div></div>
+  <div class="row"><div class="ico">📺</div><div class="grow">Tele (HDMI)<div class="sub">apagada</div></div></div></div></div>
+ <div><div class="sec" style="margin-top:0">Por aplicación</div><div class="box">
+  <div class="row"><div class="ico">Sp</div><div class="grow">Spotify <span class="sub">→ Parlantes ▾</span><div class="row" style="border:0;padding:3px 0 0"><div class="slider"><b style="width:60%"></b><em style="left:60%"></em></div></div></div></div>
+  <div class="row"><div class="ico">Dc</div><div class="grow">Discord <span class="sub">→ Auriculares ▾</span><div class="row" style="border:0;padding:3px 0 0"><div class="slider"><b style="width:80%"></b><em style="left:80%"></em></div></div></div></div></div>
+  <div class="note">Elegir predeterminada y mandar una app a otra salida usa funciones no documentadas de Windows.</div></div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>14 · Pad (mouse y teclado)</h2><p class="why">B5. Es la que más gana: el touchpad ocupa todo el alto.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pad</b><span class="pc" style="color:#a05a00">● control activo</span></div>
+ <div class="body">
+  <div class="tabs" data-tabs><span class="on">Touchpad</span><span>Teclado</span><span>Atajos</span></div>
+  <div class="pad">Mové el dedo acá<br>toque: clic · 2 dedos: scroll<br>mantener: arrastrar</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px"><span class="btn" style="text-align:center">Clic izq.</span><span class="btn" style="text-align:center">Clic der.</span></div>
+  <div class="kb"><span>Esc</span><span>Tab</span><span>Win</span><span>Alt</span><span>Ctrl</span><span>←</span><span>↑</span><span>↓</span><span>→</span><span>⌫</span></div>
+  <div class="note">“Teclado” abre el teclado del celu y lo escribe en la PC. “Atajos”: Alt+Tab, copiar, pegar, F11…</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div class="on"><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div class="on"><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Pad</b><span class="pc" style="color:#a05a00">● control activo</span></div>
+<div class="bodyL" style="display:grid;grid-template-columns:2fr 1fr;gap:12px">
+ <div class="padL">Mové el dedo acá<br>toque: clic · 2 dedos: scroll<br>mantener: arrastrar</div>
+ <div>
+  <div class="tabs" data-tabs><span class="on">Touch</span><span>Teclado</span><span>Atajos</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><span class="btn" style="text-align:center">Clic izq.</span><span class="btn" style="text-align:center">Clic der.</span></div>
+  <div class="kb" style="grid-template-columns:repeat(5,1fr)"><span>Esc</span><span>Tab</span><span>Win</span><span>Alt</span><span>Ctrl</span><span>←</span><span>↑</span><span>↓</span><span>→</span><span>⌫</span></div>
+  <div class="note">Apaisado: el touchpad ocupa todo el alto. “Teclado” abre el del celu.</div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>15 · Ajustes completo</h2><p class="why">B6. Dos columnas.</p><div class="both"><div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Ajustes</b></div>
+ <div class="body">
+  <div class="sec">Conexión</div>
+  <div class="box"><div class="row"><div class="grow">DESKTOP-PSB9K0R<div class="sub">Emparejada el 06/11/2026</div></div><span class="btn">Olvidar</span></div></div>
+  <div class="sec">Permisos</div>
+  <div class="box">
+   <div class="row"><div class="grow">Controlar mouse y teclado<div class="sub">Se corta tras 10 min sin uso</div></div><button class="tg"></button></div>
+   <div class="row"><div class="grow">Cerrar ventanas</div><button class="tg on"></button></div>
+  </div>
+  <div class="sec">Secciones visibles</div>
+  <div><span class="chip on">Pantallas</span><span class="chip on">Apps</span><span class="chip on">Audio</span><span class="chip on">Pad</span></div>
+  <div class="sec">Atajos de teclado de la PC</div>
+  <div class="box">
+   <div class="row"><div class="grow">Mover ventana a 1 / 2 / 3</div><span class="sub">Ctrl+Alt+1…3</span></div>
+   <div class="row"><div class="grow">Pantalla completa</div><span class="sub">Ctrl+Alt+4</span></div>
+   <div class="row"><div class="grow">Música</div><span class="sub">Ctrl+Alt+5…7</span></div>
+  </div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div><div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="rail"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div><div class="mainL"><div class="top"><b>Ajustes</b></div>
+<div class="bodyL c2">
+ <div>
+  <div class="sec" style="margin-top:0">Conexión</div>
+  <div class="box"><div class="row"><div class="grow">DESKTOP-PSB9K0R<div class="sub">Emparejada el 06/11/2026</div></div><span class="btn">Olvidar</span></div></div>
+  <div class="sec">Permisos</div>
+  <div class="box">
+   <div class="row"><div class="grow">Controlar mouse y teclado<div class="sub">Se corta a los 10 min sin uso</div></div><button class="tg"></button></div>
+   <div class="row"><div class="grow">Cerrar ventanas</div><button class="tg on"></button></div></div>
+ </div>
+ <div>
+  <div class="sec" style="margin-top:0">Secciones visibles</div>
+  <div><span class="chip on">Pantallas</span><span class="chip on">Apps</span><span class="chip on">Audio</span><span class="chip on">Pad</span></div>
+  <div class="sec">Atajos de teclado de la PC</div>
+  <div class="box">
+   <div class="row"><div class="grow">Mover ventana a 1 / 2 / 3</div><span class="sub">Ctrl+Alt+1…3</span></div>
+   <div class="row"><div class="grow">Pantalla completa</div><span class="sub">Ctrl+Alt+4</span></div>
+   <div class="row"><div class="grow">Música</div><span class="sub">Ctrl+Alt+5…7</span></div></div>
+ </div>
+</div></div></div></div></div></section>
+<section class="pair"><h2>Fuera del celu · Panel de la PC y bandeja</h2><p class="why">Se ven en el navegador y en la bandeja de Windows, así que no hay versión apaisada. Igual que en v2.</p>
+<div class="both"><div><div class="item" style="width:640px"><h2>P1 · Panel de la PC: QR</h2><p class="why">Se abre en el navegador desde la bandeja. Ahí se prende el remoto, se muestra el QR y se ven los dispositivos.</p>
+<div class="browser"><div class="bar">http://127.0.0.1:47801/ &nbsp;·&nbsp; Proyecto E — Panel del agente</div>
+ <div class="page">
+  <div class="row" style="border:0"><div class="grow"><h3>Remoto</h3><div class="sub">El celu solo puede conectarse mientras esté prendido.</div></div><button class="tg on"></button></div>
+  <div class="cols">
+   <div>
+    <h3>Emparejar celu</h3>
+    <div class="qr" style="margin:6px 0;width:130px;height:130px"></div>
+    <div class="sub">Vence en 1:42 · <u>Generar otro</u></div>
+    <div class="sec">IP que va en el QR</div>
+    <div class="box" style="font-size:12px">Wi-Fi · 192.168.1.23 ▾<div class="sub">Otras: Ethernet 10.0.0.7</div></div>
+   </div>
+   <div>
+    <h3>Dispositivos</h3>
+    <div class="box">
+     <div class="row"><div class="grow">Pixel de Jay<div class="sub">Android · emparejado 06/11/2026</div></div><span class="dot"></span><span class="btn">Revocar</span></div>
+    </div>
+    <div class="note" style="margin-top:12px">Si el celu no conecta, revisá que la red de Windows sea <b>Privada</b>. (Aparece solo si pasó 1 minuto sin conexiones.)</div>
+   </div>
+  </div>
+ </div>
+</div></div></div>
+<div><div class="item" style="width:640px"><h2>P2 · Panel de la PC: pedido pendiente</h2><p class="why">Aparece solo, con el título de la pestaña en “(1) Permitir…”. Un único pedido a la vez.</p>
+<div class="browser"><div class="bar">http://127.0.0.1:47801/ &nbsp;·&nbsp; (1) Permitir… — Panel del agente</div>
+ <div class="page">
+  <div class="box" style="border-color:var(--acc);background:#eef3fd">
+   <h3 style="margin-top:0">¿Permitir a “Pixel de Jay”?</h3>
+   <div class="sub" style="white-space:normal">Android · desde 192.168.1.41 · te quedan 38 s</div>
+   <div style="margin-top:10px"><span class="btn p">Permitir</span> <span class="btn">Rechazar</span></div>
+  </div>
+  <div class="note">Permitir crea un acceso solo para ese celu. Se puede revocar cuando quieras.</div>
+  <div class="note" style="margin-top:6px;background:#fdecec;color:#a02020">Si el panel se abre desde otra pestaña o sitio (sin pasar por la bandeja): “Abrí el panel desde la bandeja”.</div>
+ </div>
+</div></div></div>
+<div><div class="item"><h2>T1 · Bandeja de Windows</h2><p class="why">Mínima a propósito: todo lo demás está en el panel. Si ninguna librería de bandeja anda, no hay ícono y el panel abre solo al iniciar.</p>
+<div class="tray"><div>Abrir panel</div><div>✓ Remoto</div><div>Salir</div></div>
+<div class="note" style="max-width:260px">Ícono provisorio. El diseño final llega más adelante.</div></div></div></div></section>
+<footer style="max-width:1400px;margin:auto;padding:0 32px 40px;color:#666;font-size:12px">
+ <p>Criterio de layout (para la implementación): <code>isLandscape = width &gt; height</code> con <code>useWindowDimensions</code>; barra de pestañas con <code>tabBarPosition</code> <code>bottom</code> (vertical) o <code>left</code> (apaisado); columnas de la grilla según el ancho. Ver <code>docs/PLAN.md</code> sección 8.1.</p>
+ <p>Boceto v3 del 06/11/2026. Reemplaza a v1 y v2 como referencia visual; ellos se conservan.</p>
+</footer>
+<script>
+document.querySelectorAll('.tg').forEach(t=>t.addEventListener('click',()=>{if(!t.disabled)t.classList.toggle('on')}));
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('on')));
+document.querySelectorAll('[data-tabs]').forEach(g=>g.querySelectorAll('span').forEach(s=>s.addEventListener('click',()=>{
+  g.querySelectorAll('span').forEach(x=>x.classList.remove('on'));s.classList.add('on');
+  if(s.dataset.k){g.parentElement.querySelectorAll('[data-state]').forEach(d=>d.classList.toggle('show',d.dataset.state===s.dataset.k));}
+  if(g.hasAttribute('data-hdot')){const h=document.getElementById(g.getAttribute('data-hdot')||'hdot');if(h)h.className='dot'+(s.dataset.k==='s1'?'':s.dataset.k==='s3'?' g':' y')}
+})));
+document.querySelectorAll('.js-forget').forEach(b=>b.addEventListener('click',()=>{b.closest('.phone,.phoneL').querySelector('.js-confirm').style.display='block'}));
+document.querySelectorAll('.js-cancel').forEach(b=>b.addEventListener('click',()=>{b.closest('.js-confirm').style.display='none'}));
+</script>
+</body>
+</html>

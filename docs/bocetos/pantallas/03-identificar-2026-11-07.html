@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pantallas · 03 identificar</title>
+<link rel="stylesheet" href="../_base.css">
+<style>
+  .desk{display:flex;gap:10px;align-items:flex-end;margin:10px 0 4px}
+  .scr{border:3px solid #333;border-radius:6px;background:#1c2230;position:relative;display:flex;align-items:flex-start;justify-content:flex-start}
+  .scr .bubble{margin:10px;background:var(--acc);color:#fff;font:700 54px/1 system-ui;width:84px;height:84px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+  .scr .nm{position:absolute;bottom:6px;left:0;right:0;text-align:center;color:#8a93a8;font-size:11px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Pantallas · 03 · Identificar</h1>
+  <p>Fase B2, rebanada R7. Versión del 07/11/2026. El botón <b>Identificar</b> del celu hace que la PC muestre, <b>2 segundos</b>, un número grande en la esquina de cada pantalla prendida: el mismo número que ves en el celu (1, 2, 3…). Sirve para saber cuál es cuál. No hay pantalla nueva en el celu: es el botón que ya estaba en el header de Pantallas, más el aviso de error si falla.</p>
+  <p class="nav-links"><a href="01-pantalla-2026-11-07.html">← 01 · Pantalla principal</a> · <a href="../README.md">Índice de bocetos</a></p>
+</div>
+
+<section class="pair"><h2>A · Lo que se ve en la PC (2 segundos)</h2>
+<p class="why">Un cuadro azul con el número, arriba a la izquierda de cada pantalla prendida, siempre por encima de todo, sin bordes y sin robar el foco ni aparecer en la barra de tareas. Desaparece solo. Las apagadas no muestran nada.</p>
+<div class="desk">
+  <div class="scr" style="width:210px;height:118px"><div class="bubble">1</div><span class="nm">Izquierda</span></div>
+  <div class="scr" style="width:280px;height:158px"><div class="bubble">2</div><span class="nm">Principal ★</span></div>
+  <div class="scr" style="width:210px;height:118px;border-style:dashed;background:transparent"><span class="nm" style="color:#999;top:50px;bottom:auto">Tele apagada: no muestra nada</span></div>
+</div>
+</section>
+
+<section class="pair"><h2>B · El botón en el celu</h2>
+<p class="why">Mientras la PC está respondiendo el botón queda deshabilitado (no se puede apretar dos veces). Si falla o no hay conexión, el aviso de siempre arriba de la pantalla. Ya existe en el boceto 01; solo cambia que ahora se puede tocar.</p>
+<div class="both">
+<div><p class="lbl">Vertical · tocando</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn" style="opacity:.45">Identificar</span></div>
+ <div class="body"><div class="map" style="height:110px"><div class="mon sel" style="left:92px;top:20px;width:78px;height:50px">2 ★</div><div class="mon" style="left:8px;top:20px;width:78px;height:50px">1</div></div></div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+<div><p class="lbl">Vertical · no se pudo</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+ <div class="body"><div class="err">No se pudo completar el cambio. Probá de nuevo.</div><div class="map" style="height:110px"><div class="mon" style="left:8px;top:20px;width:78px;height:50px">1</div></div></div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+</div></section>
+</body>
+</html>

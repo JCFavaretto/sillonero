@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 02 Editar Inicio</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("02 · Editar Inicio", "Fase B3, R1 y R7. Se entra con un toque largo en cualquier tecla. Cada tecla muestra ✕ (quitar del Inicio: no borra la escena ni el lanzador) y flechas ◀ ▶ para moverla un lugar, como Ordenar de B2 (sin arrastrar; arrastrar queda en la sección 12). Nada se guarda hasta tocar <b>Listo</b>; Atrás de Android pregunta si descartar.", ["01-inicio-2026-11-07.html", "01 · Inicio"], ["03-agregar-al-inicio-2026-11-07.html", "03 · Agregar al Inicio"]);
+
+const E = (label, inner, sel = false) => `<div class="key" style="${sel ? "border-color:#3b6fe0;background:#eef3fd" : ""}"><span class="x">✕</span>${inner}<b>${label}</b><span class="mv"><span>◀</span><span>▶</span></span></div>`;
+const keys = [E("Trabajo", "<i></i>"), E("Juego", "<i></i>", true), E("Modo sillón", "<i></i>"), E("Tele", "<i></i>"), E("Traer todo", "<i></i>"), E("Identificar", "<i></i>"), E("Discord", ic("discord")), E("Spotify", ic("spotify")), `<div class="key add">+<b>Agregar</b></div>`];
+const R = `<span class="btn p">Listo</span>`;
+const hint = `<div class="sub" style="white-space:normal;margin-bottom:8px">Tocá ✕ para quitar o ◀ ▶ para mover. El orden se guarda en la PC al tocar Listo.</div>`;
+
+pair("A", "Modo edición", "La tecla que se acaba de mover queda marcada para no perderla de vista. ◀ en la primera y ▶ en la última están deshabilitadas.",
+  V({ title: "Editar Inicio", right: R, body: `${hint}<div class="deck">${keys.join("")}</div>` }),
+  L({ title: "Editar Inicio", right: R, body: `${hint}<div class="deckL">${keys.join("")}</div>` }));
+
+const discard = sheet(`<h3>¿Descartar los cambios?</h3><div class="sub" style="white-space:normal">Moviste 2 teclas y quitaste 1. Si salís, el Inicio queda como estaba.</div><div class="acts"><span class="btn">Seguir editando</span><span class="btn p" style="background:#a02020;border-color:#a02020">Descartar</span></div>`, true);
+pair("B", "Salir sin guardar", "Con Atrás de Android o tocando afuera del modo edición, si hubo cambios.",
+  V({ title: "Editar Inicio", right: R, body: `<div class="deck">${keys.join("")}</div>`, dim: true, over: discard }),
+  L({ title: "Editar Inicio", right: R, body: `<div class="deckL">${keys.join("")}</div>`, dim: true, over: discard }));
+
+const saving = `<span class="btn p"><span class="spin" style="border-color:#fff;border-top-color:transparent"></span>Guardando…</span>`;
+const err = `<div class="err">No se pudo guardar el orden (la PC no respondió). Tus cambios siguen acá: probá de nuevo.</div>`;
+pair("C", "Guardando y error", "Listo pasa a \"Guardando…\" hasta que la PC confirma; si falla, se queda en modo edición con el aviso.",
+  V({ title: "Editar Inicio", right: saving, body: `${err}<div class="deck">${keys.slice(0, 6).join("")}</div>` }),
+  L({ title: "Editar Inicio", right: saving, body: `${err}<div class="deckL">${keys.slice(0, 5).join("")}</div>` }));
+</script>
+</body>
+</html>

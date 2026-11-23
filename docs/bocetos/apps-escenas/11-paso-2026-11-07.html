@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 11 Paso</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("11 · Agregar o editar un paso (hoja en dos tiempos)", "Fase B3, R1 y R5. Primero se elige el tipo; después se configura. Editar un paso existente entra directo al segundo tiempo. Tipos: Pantallas, Abrir app, Abrir link, Juntar todo en la principal. La zona (\"Ubicar en\") es opcional: \"No moverla\" deja la ventana donde la abra Windows. En apaisado, cuadro centrado.", ["10-editor-escena-2026-11-07.html", "10 · Editor de escena"], null);
+
+const bg = `<div class="field" style="border-color:#bbb"><span>Juego</span></div><div class="box" style="margin-top:8px">${[1, 2].map((n) => `<div class="step"><span class="n">${n}</span><div class="grow">Paso</div></div>`).join("")}</div>`;
+const tall = (inner) => `<div class="sheetwrap"><div class="sheet" style="max-height:90%;overflow:hidden">${inner}</div></div>`;
+const wide = (inner) => `<div class="sheetwrap center"><div class="sheet" style="width:88%;max-height:92%;overflow:hidden">${inner}</div></div>`;
+
+const T = (n, d) => `<div class="row"><span class="ico"></span><div class="grow">${n}<div class="sub" style="white-space:normal">${d}</div></div><span class="sub">›</span></div>`;
+const types = `<h3>Nuevo paso</h3>${T("Pantallas", "Prender o apagar pantallas")}${T("Abrir app", "Una app de la PC, y dónde ponerla")}${T("Abrir link", "Una página en el navegador, y dónde ponerla")}${T("Juntar todo", "Traer todas las ventanas a la principal")}<div class="acts"><span class="btn">Cancelar</span></div>`;
+pair("A", "Elegir el tipo", "Audio no aparece todavía (B4).",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(types) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(`<h3>Nuevo paso</h3><div class="c2"><div>${T("Pantallas", "Prender o apagar")}${T("Abrir app", "Y dónde ponerla")}</div><div>${T("Abrir link", "Y dónde ponerla")}${T("Juntar todo", "En la principal")}</div></div>`) }));
+
+const M = (n, name, st) => `<div class="row"><span class="ico">${n}</span><div class="grow">${name}</div><span class="chip ${st === "on" ? "on" : ""}">${st === "on" ? "Prender" : st === "off" ? "Apagar" : "No tocar"}</span></div>`;
+const screens = `<h3>Pantallas</h3><div class="sub" style="white-space:normal;margin-bottom:4px">Para cada pantalla: prender, apagar o no tocar. La principal no se puede apagar.</div>${M(1, "Monitor izquierdo", "")}${M("★", "Principal", "")}${M("–", "Tele living", "on")}<div class="acts"><span class="btn">Atrás</span><span class="btn p">Listo</span></div>`;
+pair("B", "Configurar: Pantallas", "Cada fila rota entre No tocar → Prender → Apagar al tocarla. Al correr, la PC prende antes de apagar, para no quedar nunca sin pantalla.",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(screens) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(screens) }));
+
+const zones = [["No moverla", ""], ["Maximizada", "inset:2px"], ["Pantalla completa", "inset:0;background:#9fb4e6"], ["Izquierda", "left:2px;top:2px;bottom:2px;width:45%"], ["Derecha", "right:2px;top:2px;bottom:2px;width:45%"], ["Arriba", "left:2px;right:2px;top:2px;height:45%"], ["Abajo", "left:2px;right:2px;bottom:2px;height:45%"], ["Arriba izq.", "left:2px;top:2px;width:45%;height:45%"], ["Arriba der.", "right:2px;top:2px;width:45%;height:45%"], ["Abajo izq.", "left:2px;bottom:2px;width:45%;height:45%"], ["Abajo der.", "right:2px;bottom:2px;width:45%;height:45%"]];
+const zp = (sel) => `<div class="zones">${zones.map(([n, s]) => `<div style="text-align:center;font-size:10px;color:#666"><div class="zone ${n === sel ? "sel" : ""}" style="height:34px">${s ? `<i style="${s}"></i>` : ""}</div>${n}</div>`).join("")}</div>`;
+const mons = `<div style="display:flex;gap:6px"><span class="chip on">1 · Izquierdo</span><span class="chip">2 · Principal</span><span class="chip">Tele</span></div>`;
+const app = `<h3>Abrir app</h3><div class="row" style="padding-top:0">${ic("discord")}<div class="grow">Discord</div><span class="btn">Cambiar</span></div><div class="sec">Ubicar en</div>${mons}<div style="margin-top:8px">${zp("Derecha")}</div><div class="sub" style="white-space:normal;margin-top:6px">Si ya está abierta, la trae y la ubica; si no, la abre y espera hasta 8 s a que aparezca.</div><div class="acts"><span class="btn">Atrás</span><span class="btn p">Listo</span></div>`;
+pair("C", "Configurar: Abrir app (con zona)", "\"Cambiar\" abre el buscador de apps de la hoja 08 (A). Con \"No moverla\", se oculta la fila de pantallas. Si la pantalla elegida está apagada al correr la escena, la ventana queda donde Windows la abra (\"abierta, sin ubicar\").",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(app) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(`<h3>Abrir app</h3><div class="c2"><div><div class="row" style="padding-top:0">${ic("discord")}<div class="grow">Discord</div><span class="btn">Cambiar</span></div><div class="sec">Ubicar en</div>${mons}</div><div>${zp("Derecha")}</div></div><div class="acts"><span class="btn">Atrás</span><span class="btn p">Listo</span></div>`) }));
+
+const link = `<h3>Abrir link</h3><div class="field"><span>https://youtube.com/…</span></div><div class="sec">Ubicar en</div><div style="display:flex;gap:6px"><span class="chip">1</span><span class="chip">2</span><span class="chip on">Tele</span></div><div style="margin-top:8px">${zp("Pantalla completa")}</div><div class="note">El navegador suele abrir el link como pestaña de una ventana que ya está abierta: en ese caso se ubica esa ventana.</div><div class="acts"><span class="btn">Atrás</span><span class="btn p">Listo</span></div>`;
+pair("D", "Configurar: Abrir link", "Mismas zonas. La aclaración del navegador es honesta sobre el límite de B3 (abrir varios links como ventanas separadas es R9, recortable).",
+  V({ title: "Editar escena", back: true, body: bg, dim: true, over: tall(link) }),
+  L({ title: "Editar escena", back: true, body: bg, dim: true, over: wide(`<h3>Abrir link</h3><div class="c2"><div><div class="field"><span>https://youtube.com/…</span></div><div class="sec">Ubicar en</div><div style="display:flex;gap:6px"><span class="chip">1</span><span class="chip">2</span><span class="chip on">Tele</span></div></div><div>${zp("Pantalla completa")}</div></div><div class="acts"><span class="btn">Atrás</span><span class="btn p">Listo</span></div>`) }));
+</script>
+</body>
+</html>

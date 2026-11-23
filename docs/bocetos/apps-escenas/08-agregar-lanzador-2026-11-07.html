@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 08 Agregar lanzador</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("08 · Agregar lanzador (hoja alta)", "Fase B3, R1 y R4. Dos pestañas: <b>App de la PC</b> (buscador sobre las apps del menú Inicio de Windows; la PC devuelve hasta 40 resultados con su ícono) y <b>Link</b> (solo http o https). No se puede escribir una ruta ni un comando: por seguridad, el celu solo elige lo que la PC le ofrece. Este mismo buscador se usa en el paso \"Abrir app\" de una escena (11). En apaisado, cuadro centrado.", ["07-lanzadores-2026-11-07.html", "07 · Lanzadores"], ["09-escenas-2026-11-07.html", "09 · Escenas"]);
+
+const bg = `<div class="tabs"><span>Abiertas</span><span class="on">Lanzadores</span></div><div class="deck">${["VS Code", "Discord", "Spotify"].map((n) => `<div class="key"><i></i><b>${n}</b></div>`).join("")}</div>`;
+const tabsA = `<div class="tabs"><span class="on">App de la PC</span><span>Link</span></div>`;
+const R = (k, n, sub, added) => `<div class="row">${ic(k)}<div class="grow">${n}${sub ? `<div class="sub">${sub}</div>` : ""}</div>${added ? `<span class="sub">✓ Agregada</span>` : `<span class="btn">Agregar</span>`}</div>`;
+const results = `${R("discord", "Discord", "", true)}${R("calc", "Calculadora", "Microsoft Store")}${R("cursor", "Cursor", "")}${R("code", "Visual Studio Code", "")}`;
+const tall = (inner) => `<div class="sheetwrap"><div class="sheet" style="height:88%;display:flex;flex-direction:column"><h3>Agregar lanzador</h3>${inner}</div></div>`;
+const wide = (inner) => `<div class="sheetwrap center"><div class="sheet" style="width:86%;height:86%;overflow:hidden"><h3 style="margin-bottom:4px">Agregar lanzador</h3>${inner}</div></div>`;
+
+const a = `${tabsA}<div class="search">🔍 Buscá una app (ej.: disc)</div><div class="sec">Apps de la PC · 152</div><div style="flex:1;overflow:hidden">${results}</div>`;
+pair("A", "Buscar una app", "Sin escribir nada, se ven las primeras 40 en orden alfabético. Se busca mientras se escribe (con una pausa de 250 ms). Agregar la suma a la grilla con su nombre (se puede renombrar después) y la hoja sigue abierta.",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: tall(a) }),
+  L({ title: "Apps", body: bg, dim: true, over: wide(`<div class="c2"><div>${tabsA}<div class="search">🔍 disc</div></div><div>${R("discord", "Discord", "", true)}${R("calc", "Calculadora", "Microsoft Store")}</div></div>`) }));
+
+const load = `${tabsA}<div class="search">🔍 Buscá una app</div><div style="text-align:center;padding:30px 0;color:#888"><span class="spin"></span>Leyendo las apps de la PC…</div>`;
+const none = `${tabsA}<div class="search">🔍 photoshop</div><div style="text-align:center;padding:24px 0;color:#888">Ninguna app se llama “photoshop”.<div class="sub" style="white-space:normal">Solo aparecen las que están en el menú Inicio de Windows.</div></div>`;
+const fail = `${tabsA}<div class="err">No se pudo leer la lista de apps de la PC. <u>Reintentar</u></div>`;
+pair("B", "Cargando, sin resultados y error", "La primera vez la PC tarda un par de segundos en armar la lista; después la guarda 10 minutos.",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: tall(load + `<div style="border-top:1.5px dashed #ccc;margin:8px 0"></div>` + none.replace(tabsA, "") + fail.replace(tabsA, "")) }),
+  L({ title: "Apps", body: bg, dim: true, over: wide(`<div class="c2"><div>${load}</div><div>${none.replace(tabsA, "")}${fail.replace(tabsA, "")}</div></div>`) }));
+
+const tabsB = `<div class="tabs"><span>App de la PC</span><span class="on">Link</span></div>`;
+const link = `${tabsB}<div class="sec">Dirección</div><div class="field"><span>https://www.youtube.com/watch?v=…&t=42</span></div><div class="sec">Nombre</div><div class="field" style="border-color:#bbb"><span>YouTube|</span><small>7/32</small></div><div class="sub" style="white-space:normal;margin-top:6px">Se abre en el navegador predeterminado de la PC.</div><div class="acts"><span class="btn">Cancelar</span><span class="btn p">Agregar</span></div>`;
+const linkErr = `<div class="err">Tiene que empezar con http:// o https://</div>`;
+pair("C", "Link", "El nombre se completa solo con el sitio (youtube.com → YouTube) y se puede cambiar. Si la dirección no es http(s), Agregar queda deshabilitado con el aviso.",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: tall(link + linkErr) }),
+  L({ title: "Apps", body: bg, dim: true, over: wide(`<div class="c2"><div>${tabsB}<div class="sec">Dirección</div><div class="field"><span>https://youtube.com/…</span></div></div><div><div class="sec">Nombre</div><div class="field" style="border-color:#bbb"><span>YouTube|</span><small>7/32</small></div><div class="acts"><span class="btn">Cancelar</span><span class="btn p">Agregar</span></div></div></div>`) }));
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 03 Agregar al Inicio</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("03 · Agregar al Inicio (hoja)", "Fase B3, R1 y R7. Se abre con la tecla \"+ Agregar\" o con el botón del Inicio vacío. Tres grupos: Escenas, Lanzadores y Acciones de la PC. Lo que ya está en el Inicio aparece con ✓ y no se puede agregar dos veces. Si no hay escenas o lanzadores, el grupo ofrece crearlos. En apaisado es un cuadro centrado con dos columnas.", ["02-editar-inicio-2026-11-07.html", "02 · Editar Inicio"], ["04-apps-abiertas-2026-11-07.html", "04 · Apps · Abiertas"]);
+
+const row = (icon, name, sub, state) => `<div class="row">${icon}<div class="grow">${name}${sub ? `<div class="sub">${sub}</div>` : ""}</div>${state === "on" ? `<span class="sub">✓ En el Inicio</span>` : `<span class="btn">Agregar</span>`}</div>`;
+const sq = `<span class="ico"></span>`;
+const scenes = `<div class="sec">Escenas</div>${row(sq, "Trabajo", "3 pasos", "on")}${row(sq, "Modo sillón", "2 pasos")}<div class="row"><span class="ico">+</span><div class="grow" style="color:#3b6fe0">Crear escena</div></div>`;
+const launchers = `<div class="sec">Lanzadores</div>${row(ic("discord"), "Discord", "", "on")}${row(ic("code"), "VS Code", "")}<div class="row"><span class="ico">+</span><div class="grow" style="color:#3b6fe0">Crear lanzador</div></div>`;
+const actions = `<div class="sec">Acciones de la PC</div>${row(sq, "Prender / apagar la tele", "Elegí la pantalla", "")}${row(sq, "Traer todo a la principal", "", "on")}${row(sq, "Identificar pantallas", "")}`;
+
+const base = `<div class="deck">${["Trabajo", "Juego", "Tele"].map((k) => `<div class="key"><i></i><b>${k}</b></div>`).join("")}</div>`;
+const sv = sheet(`<h3>Agregar al Inicio</h3><div style="max-height:400px;overflow:auto">${scenes}${launchers}${actions}</div><div class="acts"><span class="btn">Cerrar</span></div>`);
+const sl = `<div class="sheetwrap center"><div class="sheet" style="width:88%"><h3>Agregar al Inicio</h3><div class="c2" style="max-height:190px;overflow:auto"><div>${scenes}</div><div>${launchers}${actions}</div></div><div class="acts"><span class="btn">Cerrar</span></div></div></div>`;
+pair("A", "Hoja con los tres grupos", "\"Agregar\" pone la tecla al final del Inicio y la hoja sigue abierta para agregar más. \"Crear escena\" lleva al editor (10) y \"Crear lanzador\" a la hoja 08; al volver, lo creado aparece listo para agregar.",
+  V({ title: "Inicio", body: base, dim: true, over: sv }),
+  L({ title: "Inicio", body: base, dim: true, over: sl }));
+
+const pick = sheet(`<h3>¿Qué pantalla prende y apaga?</h3><div class="row"><span class="ico">1</span><div class="grow">Monitor izquierdo</div><span class="btn">Elegir</span></div><div class="row"><span class="ico">–</span><div class="grow">Tele living<div class="sub">Apagada · HDMI</div></div><span class="btn p">Elegir</span></div><div class="sub" style="white-space:normal;margin-top:6px">La principal no aparece: no se puede apagar.</div><div class="acts"><span class="btn">Atrás</span></div>`);
+const pickL = `<div class="sheetwrap center"><div class="sheet"><h3>¿Qué pantalla prende y apaga?</h3><div class="row"><span class="ico">1</span><div class="grow">Monitor izquierdo</div><span class="btn">Elegir</span></div><div class="row"><span class="ico">–</span><div class="grow">Tele living</div><span class="btn p">Elegir</span></div><div class="acts"><span class="btn">Atrás</span></div></div></div>`;
+pair("B", "Acción con una pantalla", "\"Prender / apagar la tele\" pide qué pantalla (solo las que se pueden apagar). La tecla se llama con el apodo de la pantalla.",
+  V({ title: "Inicio", body: base, dim: true, over: pick }),
+  L({ title: "Inicio", body: base, dim: true, over: pickL }));
+</script>
+</body>
+</html>

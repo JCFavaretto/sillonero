@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 09 Escenas</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("09 · Escenas", "Fase B3, R1, R5 y R6. Pantalla apilada (no es pestaña): se entra con \"Escenas\" desde el Inicio. Lista con ▶ (ejecutar) y Editar. Reemplaza la sección 11 del boceto v4 <b>sin</b> \"Ejecutar automáticamente\" (queda para B6, cuando el agente arranque con Windows). Una sola escena corre a la vez.", ["08-agregar-lanzador-2026-11-07.html", "08 · Agregar lanzador"], ["10-editor-escena-2026-11-07.html", "10 · Editor de escena"]);
+
+const S = (n, sub, st = "") => `<div class="row"><span class="ico" style="background:${st === "run" ? "#fff4e0" : ""}">${st === "run" ? '<span class="spin"></span>' : "▶"}</span><div class="grow">${n}<div class="sub">${sub}</div></div><span class="btn">Editar</span></div>`;
+const list = (run) => `<div class="box">${S("Trabajo", "3 pasos · VS Code y Chrome en la 1 y la 2")}${S("Juego", "3 pasos · tele, Discord, YouTube", run ? "run" : "")}${S("Modo sillón", "2 pasos · tele, Stremio a pantalla completa")}</div>`;
+const R = `<span class="btn p">+ Nueva</span>`;
+
+pair("A", "Lista", "El resumen de cada escena se arma solo con sus pasos. Tocar la fila (fuera de los botones) también la ejecuta.",
+  V({ title: "Escenas", back: true, right: R, body: list(false) }),
+  L({ title: "Escenas", back: true, right: R, body: `<div class="c2">${list(false)}<div class="sub" style="white-space:normal">Tocá ▶ para ejecutar.<br>Para tenerla a un toque, agregala al Inicio.</div></div>` }));
+
+const step = (n, t, st, txt) => `<div class="step"><span class="n">${n}</span><div class="grow">${t}</div><span class="st ${st}">${txt}</span></div>`;
+const prog = `<h3>Juego</h3>${step(1, "Prender Tele living", "ok", "listo")}${step(2, "Abrir Discord → pantalla 1, mitad derecha", "run", "abriendo…")}${step(3, "Abrir YouTube → Tele, pantalla completa", "wait", "esperando")}<div class="acts"><span class="btn">Ocultar</span></div>`;
+pair("B", "Corriendo", "Se abre sola al ejecutar desde esta pantalla; desde el Inicio, solo si se toca \"Ver\". Ocultar no la frena (sigue en la PC). No hay botón \"Frenar\": un paso a medias no se puede deshacer bien (plan 8.3.1, punto 5).",
+  V({ title: "Escenas", back: true, right: R, body: list(true), dim: true, over: sheet(prog) }),
+  L({ title: "Escenas", back: true, right: R, body: list(true), dim: true, over: sheet(prog, true) }));
+
+const done = `<h3>Juego terminó con 1 problema</h3>${step(1, "Prender Tele living", "bad", "falló")}<div class="sub" style="white-space:normal;margin:-2px 0 6px 28px;color:#a02020">La pantalla no está conectada.</div>${step(2, "Abrir Discord → pantalla 1, mitad derecha", "ok", "listo")}${step(3, "Abrir YouTube → Tele, pantalla completa", "part", "abierta, sin ubicar")}<div class="sub" style="white-space:normal;margin:-2px 0 6px 28px">La tele estaba apagada: quedó en la pantalla 1.</div><div class="acts"><span class="btn">Editar escena</span><span class="btn p">Listo</span></div>`;
+pair("C", "Resultado con problemas", "Si todo sale bien, la hoja se cierra sola a los 2 s con \"Juego listo\". Si algo falla, queda abierta con cada paso y el motivo en palabras. Los pasos siguen aunque uno falle.",
+  V({ title: "Escenas", back: true, right: R, body: list(false), dim: true, over: sheet(done) }),
+  L({ title: "Escenas", back: true, right: R, body: list(false), dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:80%;max-height:90%;overflow:auto">${done}</div></div>` }));
+
+const empty = `<div class="box" style="text-align:center;padding:22px 12px"><b>Todavía no hay escenas</b><div class="sub" style="white-space:normal;margin-top:4px">Una escena hace varias cosas con un toque: prender la tele, abrir apps y acomodarlas.</div><div style="margin-top:10px"><span class="btn p">+ Nueva escena</span></div></div>`;
+pair("D", "Vacía", "La primera vez.",
+  V({ title: "Escenas", back: true, body: empty }), L({ title: "Escenas", back: true, body: empty }));
+
+const busy = `<div class="err">Ya hay una escena corriendo (Trabajo). Esperá a que termine.</div>`;
+pair("E", "Otra escena corriendo", "Tocar ▶ con otra corriendo muestra el aviso; la que corre se marca en la lista.",
+  V({ title: "Escenas", back: true, right: R, body: busy + list(true) }), L({ title: "Escenas", back: true, right: R, body: busy + list(true) }));
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "proyecto-e",
+  "private": true,
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "scripts": {
+    "agent": "pnpm --filter @proyecto-e/agent dev",
+    "mobile": "pnpm --filter @proyecto-e/mobile start",
+    "test": "pnpm -r --workspace-concurrency=1 test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "apk": "pnpm --filter @proyecto-e/mobile apk",
+    "build:agent": "pnpm --filter @proyecto-e/agent build:agent",
+    "smoke:agent": "pnpm --filter @proyecto-e/agent smoke:agent"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-expo": "~58.0.4",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1"
+  }
+}

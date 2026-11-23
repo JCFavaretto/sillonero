@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 06 Confirmar</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("06 · Cuadro de confirmación", "Fase B3, R1, R3, R4 y R5. Un solo componente para todo lo que no tiene vuelta atrás: cerrar una ventana, quitar un lanzador, borrar una escena. Siempre centrado, en vertical y apaisado. El botón de la acción dice qué hace y va en rojo; Cancelar es el que tiene el foco.", ["05-acciones-ventana-2026-11-07.html", "05 · Acciones de una ventana"], ["07-lanzadores-2026-11-07.html", "07 · Lanzadores"]);
+
+const bg = `<div class="tabs"><span class="on">Abiertas</span><span>Lanzadores</span></div><div class="box">${["Code", "Chrome", "Discord"].map((n) => `<div class="row"><span class="ico"></span><div class="grow">${n}</div></div>`).join("")}</div>`;
+const dlg = (t, d, b) => sheet(`<h3>${t}</h3><div class="sub" style="white-space:normal">${d}</div><div class="acts"><span class="btn">Cancelar</span><span class="btn p" style="background:#a02020;border-color:#a02020">${b}</span></div>`, true);
+
+const c1 = dlg("¿Cerrar “YouTube — Age of Empires”?", "Si tiene algo sin guardar, la PC te lo va a preguntar ahí.", "Cerrar");
+pair("A", "Cerrar una ventana", "Le pide a la app que se cierre (como la ✕ de la ventana): no la mata.",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: c1 }), L({ title: "Apps", body: bg, dim: true, over: c1 }));
+
+const c2 = dlg("¿Quitar el lanzador “Discord”?", "También sale del Inicio. Las escenas que abren Discord siguen funcionando.", "Quitar");
+pair("B", "Quitar un lanzador", "Desde el menú del lanzador (07).",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: c2 }), L({ title: "Apps", body: bg, dim: true, over: c2 }));
+
+const c3 = dlg("¿Borrar la escena “Juego”?", "Tiene 3 pasos. También sale del Inicio. No se puede deshacer.", "Borrar");
+pair("C", "Borrar una escena", "Desde el editor (10).",
+  V({ title: "Juego", back: true, body: bg, dim: true, over: c3 }), L({ title: "Juego", back: true, body: bg, dim: true, over: c3 }));
+</script>
+</body>
+</html>

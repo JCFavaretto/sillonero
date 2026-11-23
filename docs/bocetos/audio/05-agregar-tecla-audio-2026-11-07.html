@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 05 Agregar al Inicio · Audio</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("05 · Agregar al Inicio · Audio", "Fase B4, R6. La hoja \"Agregar al Inicio\" de B3 (apps-escenas/03) suma un cuarto grupo, Audio, debajo de Acciones de la PC. \"Cambiar la salida\" pide cuál, como \"Prender / apagar la tele\" pide qué pantalla.", ["04-inicio-teclas-audio-2026-11-07.html", "04 · Inicio con teclas de audio"], ["06-paso-audio-2026-11-07.html", "06 · Paso de audio en una escena"]);
+
+const row = (icon, name, sub, state) => `<div class="row">${icon}<div class="grow">${name}${sub ? `<div class="sub">${sub}</div>` : ""}</div>${state === "on" ? `<span class="sub">✓ En el Inicio</span>` : `<span class="btn">Agregar</span>`}</div>`;
+const sq = (s = "") => `<span class="ico">${s}</span>`;
+const scenes = `<div class="sec">Escenas</div>${row(sq(), "Trabajo", "3 pasos", "on")}`;
+const actions = `<div class="sec">Acciones de la PC</div>${row(sq(), "Prender / apagar la tele", "Elegí la pantalla", "")}`;
+const audio = `<div class="sec">Audio</div>${row(sq("⏯"), "Anterior · Play / pausa · Siguiente", "Agrega las 3 teclas juntas", "")}${row(sq("🔊"), "Vol − y Vol +", "De a 5, sobre la salida predeterminada", "")}${row(sq("🔈"), "Silenciar", "", "on")}${row(sq("🎧"), "Cambiar la salida", "Elegí cuál", "")}`;
+
+const base = `<div class="deck">${["Trabajo", "Juego", "Silenciar"].map((k) => `<div class="key"><i></i><b>${k}</b></div>`).join("")}</div>`;
+const sv = sheet(`<h3>Agregar al Inicio</h3><div style="max-height:420px;overflow:auto">${scenes}${actions}${audio}</div><div class="acts"><span class="btn">Cerrar</span></div>`);
+const sL = `<div class="sheetwrap center"><div class="sheet" style="width:88%"><h3>Agregar al Inicio</h3><div class="c2" style="max-height:200px;overflow:auto"><div>${scenes}${actions}</div><div>${audio}</div></div><div class="acts"><span class="btn">Cerrar</span></div></div></div>`;
+pair("A", "Grupo Audio", "Media y Vol ± se agregan de a grupo (3 y 2 teclas) para no llenar la hoja; después se pueden quitar de a una en Editar. Si Audio no está disponible en la PC, el grupo sale gris con \"Audio no disponible\".",
+  V({ title: "Inicio", body: base, dim: true, over: sv }),
+  L({ title: "Inicio", body: base, dim: true, over: sL }));
+
+const o = (k, n, sub = "", dis = false) => `<div class="row" style="${dis ? "opacity:.45" : ""}"><span class="ico">${KIND[k]}</span><div class="grow">${n}${sub ? `<div class="sub">${sub}</div>` : ""}</div>${dis ? "" : `<span class="btn">Elegir</span>`}</div>`;
+const pickIn = `<h3>¿A qué salida cambia?</h3>${o("hp", "Auriculares", "predeterminada ahora")}${o("sp", "Parlantes")}${o("tv", "Tele", "no disponible ahora: se puede elegir igual")}<div class="sub" style="white-space:normal;margin-top:6px">La tecla se llama \"Salida: &lt;apodo&gt;\". Una tecla por salida: para ir y volver, agregá dos.</div><div class="acts"><span class="btn">Atrás</span></div>`;
+pair("B", "Elegir la salida", "Salen las activas y las que tienen apodo. Elegir una no disponible está bien: la tecla queda gris hasta que la tele se prenda.",
+  V({ title: "Inicio", body: base, dim: true, over: sheet(pickIn) }),
+  L({ title: "Inicio", body: base, dim: true, over: sheet(pickIn, true) }));
+</script>
+</body>
+</html>

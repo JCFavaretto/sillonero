@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pad · 06 Cortar el control</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+</head>
+<body>
+<script>
+head("06 · Cortar el control (pánico)", "Fase B5. <b>Un toque en \"■ Cortar\"</b> corta el control al instante, sin preguntar: la PC suelta todas las teclas y botones apretados y el celu vuelve a \"Tomar el control\". Es lo que se usa normalmente. <b>Mantener apretado \"■ Cortar\"</b> abre una confirmación para además <b>quitarle el permiso</b> a este celu (para volver a usarlo hay que prenderlo en la PC). Los dos están en todas las vistas del Pad mientras hay control. En la PC, lo mismo desde el panel y la bandeja (boceto 02 F).", ["05-ajustes-2026-11-08.html", "05 · Ajustes del pad"], null);
+
+const confirm = `<h3>¿Quitarle el permiso a este celu?</h3><div class="sub" style="margin-bottom:6px">Se corta el control ahora y el permiso queda apagado. Para volver a usar el mouse y el teclado desde este celu, hay que prenderlo en la PC.</div><div class="acts"><span class="btn">Cancelar</span><span class="btn" style="background:#FF5C5C;border-color:#FF5C5C;color:#1B1405;font-weight:700">Quitar el permiso</span></div>`;
+const bg = `${seg(0)}${surface({ h: 300 })}${clickbar()}`;
+const cut = `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px"><div style="font-size:30px;color:#A29DAE">◌</div><b>Control cortado</b><div class="sub">La PC soltó todo lo que estaba apretado.</div><span class="btn p" style="padding:12px 22px">Volver a tomarlo</span></div>`;
+
+pair("A", "Un toque: cortado", "Instantáneo, sin animación (en un pánico no se espera nada). Una vibración fuerte confirma. Atrás de Android en el Pad no corta el control: solo sale de la pestaña (y se corta solo al minuto, boceto 02).",
+  V({ right: chip("off"), body: cut }), L({ right: chip("off"), body: cut }));
+pair("B", "Mantener: quitar el permiso", "Cuadro con la acción destructiva en rojo y el texto que dice qué pasa y cómo se vuelve atrás. Si la conexión se cayó, el celu no puede quitar el permiso: el cuadro lo dice y manda a la PC.",
+  V({ right: chip("on"), body: bg, over: sheet(confirm, true) }),
+  L({ right: chip("on"), body: surface({ h: 220 }), over: sheet(confirm, true) }));
+</script>
+</body>
+</html>

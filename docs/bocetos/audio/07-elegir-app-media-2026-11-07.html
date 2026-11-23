@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 07 Elegir la app de Media</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("07 · Elegir la app de Media y carátula", "Fase B4, R6. Pedido de Jay el 07/11/2026 (D34 y D35). La tarjeta \"Ahora suena\" suma la carátula y un chip \"⏯ va a: … ▾\" que abre una hoja con las apps de media activas. La elegida vive en la PC: las teclas ⏮ ⏯ ⏭ del Inicio van a la misma. Completa la tarjeta del boceto 01 (el resto de 01 no cambia).", ["06-paso-audio-2026-11-07.html", "06 · Paso de audio en una escena"], null);
+
+const ART = { sp: "background:linear-gradient(135deg,#1db954,#0b5)", yt: "background:linear-gradient(135deg,#e22,#911);aspect-ratio:16/9;height:auto;width:72px" };
+const art = (k, size = 54) => k ? `<div class="art" style="${ART[k]};${k === "sp" ? `width:${size}px;height:${size}px` : ""}"></div>` : `<div class="art" style="width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#888">Sp</div>`;
+const btn = (s, on = true, pl = false) => `<span class="${pl ? "pl" : ""}" style="${on ? "" : "opacity:.3"}">${s}</span>`;
+const card = (o) => `<div class="box"><div class="np">${o.loading ? `<div class="art" style="display:flex;align-items:center;justify-content:center"><span class="spin"></span></div>` : art(o.art)}<div class="grow"><b style="font-size:13px">${o.t}</b><div class="sub">${o.a}</div></div></div>
+  <div class="ctr">${btn("⏮", o.prev !== false)}${btn(o.paused ? "▶" : "⏸", true, true)}${btn("⏭", o.next !== false)}</div>
+  <div style="text-align:center;margin-top:6px"><span class="chip ${o.chosen ? "on" : ""}">⏯ va a: ${o.to} ▾</span></div></div>`;
+const OUTS = `<div class="sec">Salidas</div><div class="box">${outRow({ k: "hp", n: "Auriculares", def: true, v: 46 })}</div>`;
+
+const sp = { art: "sp", t: "Nombre del tema", a: "Artista · Spotify", to: "Spotify", chosen: true };
+pair("A", "Tarjeta con carátula", "Carátula a la izquierda (cuadrada para Spotify). El chip dice a qué app van los botones; resaltado = la eligió Jay; gris = \"la que elija Windows\".",
+  V({ title: "Audio", tab: "Audio", body: card(sp) + OUTS }),
+  L({ title: "Audio", body: `<div class="c2"><div>${card(sp)}</div><div>${OUTS}</div></div>` }));
+
+const yt = { art: "yt", t: "Título del video de YouTube", a: "Canal · Chrome", to: "Chrome (la que elija Windows)", prev: false, next: false };
+pair("B", "YouTube: carátula apaisada y botones que no acepta", "La miniatura de YouTube viene apaisada (verificado: 150×83) y se muestra sin deformar. Chrome no acepta ⏮ ⏭ (verificado): salen apagados; ⏯ anda.",
+  V({ title: "Audio", tab: "Audio", body: card(yt) + OUTS }),
+  L({ title: "Audio", body: `<div class="c2"><div>${card(yt)}</div><div>${OUTS}</div></div>` }));
+
+const opt = (k, n, sub, on = false) => `<div class="row">${k === "win" ? `<span class="ico">↺</span>` : art(k, 36)}<div class="grow">${n}<div class="sub" style="white-space:normal">${sub}</div></div>${on ? '<span class="chip on">✓</span>' : ""}</div>`;
+const sheetBody = `<h3>¿A qué app van ⏮ ⏯ ⏭?</h3>
+  ${opt("win", "La que elija Windows", "Ahora: Chrome. Cambia sola según lo último que sonó")}
+  ${opt("sp", "Spotify", "▶ Nombre del tema · Artista", true)}
+  ${opt("yt", "Chrome", "⏸ Título del video de YouTube")}
+  <div class="sub" style="white-space:normal;margin-top:6px">Solo aparecen las apps que le cuentan a Windows qué reproducen. Si cerrás la elegida, vuelve a \"La que elija Windows\".</div>
+  <div class="acts"><span class="btn">Cerrar</span></div>`;
+pair("C", "Hoja: elegir la app", "Se abre tocando el chip. Cada app con su carátula chica y lo que está reproduciendo. Elegir cierra la hoja. En apaisado, cuadro centrado.",
+  V({ title: "Audio", tab: "Audio", body: card(sp) + OUTS, dim: true, over: sheet(sheetBody) }),
+  L({ title: "Audio", body: card(sp), dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:80%;max-height:90%;overflow:auto">${sheetBody}</div></div>` }));
+
+const noArt = { art: null, t: "Nombre del tema", a: "Artista · Spotify", to: "Spotify", chosen: true };
+const loading = { loading: true, t: "Nombre del tema", a: "Artista · Spotify", to: "Spotify", chosen: true };
+pair("D", "Carátula cargando y sin carátula", "Izquierda: la carátula se pide aparte y tarda un instante (ruedita). Derecha: la app no manda carátula, así que se ve la inicial de la app.",
+  V({ title: "Audio", tab: "Audio", body: card(loading) }),
+  L({ title: "Audio", body: `<div class="c2"><div>${card(noArt)}</div><div></div></div>` }));
+
+const K = (label, inner, cls = "") => `<div class="key ${cls}">${inner}<b>${label}</b></div>`;
+const G = (s) => `<span style="font-size:18px">${s}</span>`;
+const keys = [K("Anterior", G("⏮")), K("Play / pausa", G("⏯")), K("Siguiente", G("⏭"))].join("");
+const lbl = `<div class="sub" style="margin:6px 0 4px">⏮ ⏯ ⏭ van a: <b>Spotify</b></div>`;
+const keysYt = [K("Anterior", G("⏮"), "na"), K("Play / pausa", G("⏯")), K("Siguiente", G("⏭"), "na")].join("");
+pair("E", "En el Inicio", "Una línea chica arriba de las teclas de Media dice a qué app van (solo si hay teclas de Media). Si la app no acepta ⏮ ⏭, esas teclas salen grises, como una tecla no disponible.",
+  V({ title: "Inicio", body: `${lbl}<div class="deck">${keys}</div><div class="sub" style="margin:10px 0 4px">⏮ ⏯ ⏭ van a: <b>Chrome</b></div><div class="deck">${keysYt}</div>` }),
+  L({ title: "Inicio", body: `${lbl}<div class="deckL">${keys}</div>` }));
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pad · 02 Permiso y control</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+<style>.ctr2{flex:1;white-space:normal;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:0 10px}.ctr2 h3{margin:0;font-size:16px}.big{font-size:30px;color:#F5A524}
+.pcs{display:flex;gap:24px;flex-wrap:wrap;max-width:1400px;margin:0 auto;padding:0 32px 30px}</style>
+</head>
+<body>
+<script>
+head("02 · Permiso y control", "Dos cosas distintas. <b>Permiso</b>: se da <b>solo desde la PC</b> (panel o bandeja), por celu, y queda guardado; viene apagado. <b>Control</b>: con permiso, el celu lo toma con un toque y se corta solo tras 10 min sin usar el pad, al salir de la pestaña más de 1 min, al perder la conexión o con \"■ Cortar\". Mientras hay control, la bandeja de la PC lo muestra.", ["01-touchpad-2026-11-08.html", "01 · Touchpad"], ["03-teclado-2026-11-08.html", "03 · Teclado"]);
+
+const C = (inner) => `<div class="ctr2">${inner}</div>`;
+const noPerm = C(`<div class="big">⌨</div><h3>Falta el permiso en la PC</h3><div class="sub">El mouse y el teclado remotos vienen apagados. Prendelo en la PC: <b>bandeja → Abrir panel → Mouse y teclado → Pixel de Jay</b>.</div><div class="sub">Con el permiso, este celu puede hacer todo lo que harías sentado en la PC.</div><span class="btn">Ya lo prendí · Revisar</span>`);
+const take = C(`<div class="big">◉</div><h3>Tomar el control</h3><div class="sub">El mouse y el teclado de <b>DESKTOP-PSB9K0R</b> pasan a este celu hasta que lo cortes o dejes de usarlo 10 min.</div><span class="btn p" style="padding:12px 22px">Tomar el control</span>`);
+const idle = C(`<div class="big" style="color:#A29DAE">◌</div><h3>Se cortó por no usarlo</h3><div class="sub">Pasaron 10 min sin tocar el pad. La PC soltó todo lo que estaba apretado.</div><span class="btn p" style="padding:12px 22px">Volver a tomarlo</span>`);
+const lost = C(`<div class="big" style="color:#FF5C5C">⚠</div><h3>Sin conexión con la PC</h3><div class="sub">La PC suelta sola cualquier tecla o clic apretado a los 3 s. Cuando vuelva la conexión tenés que tomar el control otra vez.</div>`);
+
+pair("A", "Sin permiso", "Primera vez, o si se revocó. El texto dice dónde se prende y qué significa, sin vueltas. No hay botón para prenderlo desde el celu: a propósito (si el celu pudiera darse el permiso, el permiso no protegería nada).",
+  V({ right: chip("na"), body: noPerm }), L({ right: chip("na"), body: noPerm }));
+pair("B", "Con permiso, sin control", "El botón principal va en la zona del pulgar. Tomar el control no pide confirmación (el permiso ya se dio en la PC).",
+  V({ right: chip("off"), body: take }), L({ right: chip("off"), body: take }));
+pair("C", "Cortado por inactividad", "Igual que B, con el motivo. Mismo para \"saliste de la pestaña\" y \"lo cortaste desde la PC\" (cambia solo el texto).",
+  V({ right: chip("off"), body: idle }), L({ right: chip("off"), body: idle }));
+pair("D", "Sin conexión", "La superficie no se muestra para que no parezca que anda.",
+  V({ right: chip("lost"), body: lost }), L({ right: chip("lost"), body: lost }));
+
+const adm = `${seg(0)}${surface({ h: 260, note: `<div style="position:absolute;left:10px;right:10px;bottom:10px" class="note">La ventana activa es de <b>administrador</b> (Administrador de tareas). Windows no deja que el celu la controle. Cambiá de ventana con Alt+Tab o desde la PC.</div>` })}${clickbar()}`;
+pair("E", "Ventana de administrador", "SendInput no avisa cuando Windows lo bloquea (UIPI), así que el agente mira si la ventana del frente es de administrador y el celu lo dice. Tampoco anda en la pantalla de bloqueo ni en los avisos de UAC (lo mismo).",
+  V({ right: chip("on"), body: adm }),
+  L({ right: chip("on"), body: `<div style="display:flex;gap:10px"><div style="flex:1">${surface({ h: 205, note: `<div style="position:absolute;left:10px;right:10px;bottom:10px;font-size:10px" class="note">Ventana de <b>administrador</b>: Windows no deja controlarla.</div>` })}${clickbar()}</div><div style="width:118px">${stopBtn}</div></div>` }));
+
+// Panel y bandeja de la PC (no dependen del celu: se muestran una sola vez).
+const s = document.createElement("section");
+s.className = "pair";
+s.innerHTML = `<h2>F · En la PC: panel y bandeja</h2><p class="why">El permiso se da acá, por celu. "Cortar ahora" en el panel y "Cortar control remoto" en la bandeja son el botón de pánico de la PC: cortan el control <b>y apagan el permiso de todos</b> (hay que volver a prenderlo). Mientras hay control, el texto de la bandeja dice quién lo tiene.</p>
+<div class="pcs"><div class="pcbox"><div class="bar">Proyecto E · panel</div><div class="page"><b>Mouse y teclado remotos</b><div class="sub" style="color:#666;margin:4px 0 6px">Apagado por defecto. Con el permiso, el celu puede hacer todo lo que harías en la PC.</div>
+<div class="rowp"><span style="flex:1">Pixel de Jay<br><small style="color:#a05a00">● con control ahora · 3 min</small></span>${toggle(true)}</div>
+<div class="rowp"><span style="flex:1">Tablet<br><small style="color:#888">sin permiso</small></span>${toggle(false)}</div>
+<div style="margin-top:10px"><span class="btn" style="background:#fdecec;border-color:#d66;color:#a02020">■ Cortar ahora y apagar el permiso</span></div>
+<div class="sub" style="color:#666;margin-top:8px">Se corta solo tras <b>10 min</b> sin uso.</div></div></div>
+<div class="pcbox" style="width:240px"><div class="bar">Bandeja · menú</div><div class="page" style="padding:0"><div class="rowp" style="padding:8px 12px">Abrir panel</div><div class="rowp" style="padding:8px 12px">✓ Remoto</div><div class="rowp" style="padding:8px 12px;color:#a02020;font-weight:600">■ Cortar control remoto (Pixel de Jay)</div><div class="rowp" style="padding:8px 12px;border:0">Salir</div></div></div></div>`;
+document.body.appendChild(s);
+</script>
+</body>
+</html>

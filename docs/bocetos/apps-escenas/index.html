@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bocetos · Apps y Escenas (todos)</title>
+<link rel="stylesheet" href="../_base.css">
+<style>
+  .toc{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:8px 0 0}
+  .toc a{color:var(--acc)}
+  iframe{display:block;width:100%;max-width:1400px;margin:0 auto;border:0;border-top:2px solid #ccc;height:1400px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Apps y Escenas (B3) · todos los bocetos</h1>
+  <p>Los 11 bocetos de la fase, en orden, en una sola página. Cada uno sigue siendo su propio archivo (se abre solo desde el título de abajo); este índice solo los muestra juntos. Aprobados por Jay el 07/11/2026.</p>
+  <div class="toc" id="toc"></div>
+  <p class="nav-links" style="margin-top:8px"><a href="../README.md">Índice general de bocetos</a></p>
+</div>
+<div id="all"></div>
+<script>
+// Para sumar un boceto nuevo de esta carpeta: agregarlo acá, en orden.
+const BOCETOS = [
+  ["01-inicio-2026-11-07.html", "01 · Inicio"],
+  ["02-editar-inicio-2026-11-07.html", "02 · Editar Inicio"],
+  ["03-agregar-al-inicio-2026-11-07.html", "03 · Agregar al Inicio"],
+  ["04-apps-abiertas-2026-11-07.html", "04 · Apps · Abiertas"],
+  ["05-acciones-ventana-2026-11-07.html", "05 · Acciones de una ventana"],
+  ["06-confirmar-cerrar-2026-11-07.html", "06 · Confirmar"],
+  ["07-lanzadores-2026-11-07.html", "07 · Lanzadores"],
+  ["08-agregar-lanzador-2026-11-07.html", "08 · Agregar lanzador"],
+  ["09-escenas-2026-11-07.html", "09 · Escenas"],
+  ["10-editor-escena-2026-11-07.html", "10 · Editor de escena"],
+  ["11-paso-2026-11-07.html", "11 · Paso"],
+];
+const toc = document.getElementById("toc");
+const all = document.getElementById("all");
+for (const [file, name] of BOCETOS) {
+  const id = file.slice(0, 2);
+  toc.insertAdjacentHTML("beforeend", `<a href="#b${id}">${name}</a>`);
+  all.insertAdjacentHTML("beforeend", `<iframe id="b${id}" src="${file}" title="${name}" loading="lazy"></iframe>`);
+}
+// Cada boceto avisa su alto (ver el final de _kit.js).
+window.addEventListener("message", (e) => {
+  const { boceto, h } = e.data || {};
+  const frame = boceto && document.getElementById("b" + String(boceto).slice(0, 2));
+  if (frame && typeof h === "number") frame.style.height = h + 20 + "px";
+});
+</script>
+</body>
+</html>

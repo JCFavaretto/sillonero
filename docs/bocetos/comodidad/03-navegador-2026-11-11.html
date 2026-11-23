@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Comodidad · 03 Navegador</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("03 · Navegador: pestañas, marcadores y página", "Fase C2, pedido de Jay el 11/11/2026: \"veo Chrome clavado en Instagram, pero las otras 3 pestañas ni idea qué son\". Con la <b>extensión del navegador</b> (opcional) el celu ve todas las pestañas, cambia de una a otra, las cierra, abre un marcador o una dirección, y muestra botones propios de la página que está abierta. Sin la extensión, la pantalla ofrece lo que se puede hacer igual (atajos) y explica qué suma instalarla.", ["02-apps-visual-2026-11-11.html", "02 · Apps visual"], ["04-youtube-cola-buscar-2026-11-11.html", "04 · YouTube: cola y buscador"]);
+
+const fav = (c, l) => `<span class="fav" style="background:${c}">${l}</span>`;
+const tab = (c, l, t, o = {}) => `<div class="trow ${o.on ? "on" : ""}">${fav(c, l)}<div class="grow"><div class="tt">${t}</div>${o.sub ? `<div class="sub">${o.sub}</div>` : ""}</div>${o.snd ? '<span class="bg grn">🔊</span>' : ""}<span class="x">✕</span></div>`;
+const TABSL = tab("#c13584", "Ig", "Instagram", { on: true, sub: "a la vista · 📺 2" }) + tab("#e22", "▶", "lofi hip hop radio - YouTube", { snd: true }) + tab("#444", "Gh", "proyecto-e · GitHub") + tab("#9146ff", "Tw", "Twitch");
+const winHead = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">${ic("chrome", 36)}<div class="grow"><b>Chrome</b><div class="sub">📺 2 · 4 pestañas</div></div><span class="btn">Traer</span><span class="btn">📺 Mover</span></div>`;
+const seg = (on) => `<div class="tabs">${["Pestañas", "Marcadores", "Página"].map((s) => `<span class="${s === on ? "on" : ""}">${s}</span>`).join("")}</div>`;
+const go = `<div class="search">⌕ Buscar o escribir una dirección</div>`;
+
+pair("A", "Pestañas", "La pestaña a la vista va marcada; la que suena lleva 🔊. <b>Un toque cambia de pestaña</b> en la PC; ✕ la cierra (sin confirmar: se puede reabrir con \"Reabrir\"). Arriba, el buscador abre una dirección o una búsqueda en una pestaña nueva. Con varias ventanas del navegador, las pestañas se agrupan por ventana con su pantalla.",
+  V({ title: "Chrome", back: true, tab: "Apps", body: `${winHead}${seg("Pestañas")}${go}<div style="margin-top:6px">${TABSL}</div><div class="acts2">${act("＋", "Nueva")}${act("↺", "Reabrir")}${act("⟳", "Recargar")}${act("⛶", "Completa")}</div>` }),
+  L({ title: "Chrome", back: true, body: `<div style="display:flex;gap:12px"><div style="flex:1">${winHead}${go}<div class="acts2">${act("＋", "Nueva")}${act("↺", "Reabrir")}${act("⟳", "Recargar")}</div></div><div style="flex:1.2">${seg("Pestañas")}${TABSL}</div></div>` }));
+
+const bm = (c, l, n) => `<div class="tile" style="padding:8px 4px"><span class="app" style="width:34px;height:34px;border-radius:10px;font-size:13px;background:${c}">${l}</span><span class="nm">${n}</span></div>`;
+const BMS = [bm("#e22", "▶", "YouTube"), bm("#c00", "♪", "YT Music"), bm("#9146ff", "Tw", "Twitch"), bm("#e50914", "N", "Netflix"), bm("#444", "Gh", "GitHub"), bm("#1a73e8", "M", "Gmail")].join("");
+pair("B", "Marcadores", "La barra de marcadores del navegador, como fichas grandes; las carpetas se abren con un toque. Un toque abre el marcador en una pestaña nueva; mantener lo abre en la pestaña actual. Solo se leen: no se editan desde el celu.",
+  V({ title: "Chrome", back: true, tab: "Apps", body: `${winHead}${seg("Marcadores")}<div class="tiles">${BMS}</div><div class="trow" style="margin-top:6px"><span class="fav" style="background:#2C2935">📁</span><div class="grow"><div class="tt">Recetas</div></div><span class="sub">12 ›</span></div><div class="trow"><span class="fav" style="background:#2C2935">📁</span><div class="grow"><div class="tt">Trabajo</div></div><span class="sub">8 ›</span></div>` }),
+  L({ title: "Chrome", back: true, body: `${seg("Marcadores")}<div class="tiles" style="grid-template-columns:repeat(6,1fr)">${BMS}</div><div style="display:flex;gap:10px;margin-top:6px"><div class="trow" style="flex:1"><span class="fav" style="background:#2C2935">📁</span><div class="tt">Recetas</div></div><div class="trow" style="flex:1"><span class="fav" style="background:#2C2935">📁</span><div class="tt">Trabajo</div></div></div>` }));
+
+const pageActs = (a) => `<div class="acts2">${a}</div>`;
+const page = `<div class="trow on" style="margin-bottom:4px">${fav("#e22", "▶")}<div class="grow"><div class="tt">lofi hip hop radio - YouTube</div><div class="sub">youtube.com · suena en segundo plano</div></div></div>
+<div class="sec">En YouTube</div>${pageActs(act("☰", "Cola · 24", { on: true }) + act("⌕", "Buscar") + act("⏪", "−10 s") + act("⏩", "+10 s"))}${pageActs(act("⛶", "Completa") + act("▭", "Modo cine") + act("CC", "Subtítulos") + act("1×", "Velocidad"))}
+<div class="sec">En cualquier página</div>${pageActs(act("←", "Atrás") + act("→", "Adelante") + act("⟳", "Recargar") + act("⤒", "Arriba"))}`;
+pair("C", "Página: botones según el sitio", "La app reconoce el sitio de la pestaña elegida y muestra sus botones. Arranca con YouTube y YouTube Music (C3); Twitch y Netflix se suman después con la misma receta. Los de \"cualquier página\" están siempre. <b>Cola</b> y <b>Buscar</b> abren el boceto 04.",
+  V({ title: "Chrome", back: true, tab: "Apps", body: `${seg("Página")}${page}` }),
+  L({ title: "Chrome", back: true, body: `${seg("Página")}<div style="display:flex;gap:12px"><div style="flex:1"><div class="sec" style="margin-top:0">En YouTube</div>${pageActs(act("☰", "Cola", { on: true }) + act("⌕", "Buscar") + act("⏪", "−10 s") + act("⏩", "+10 s"))}${pageActs(act("⛶", "Completa") + act("▭", "Cine") + act("CC", "Subt.") + act("1×", "Veloc."))}</div><div style="flex:1"><div class="sec" style="margin-top:0">En cualquier página</div>${pageActs(act("←", "Atrás") + act("→", "Adelante"))}${pageActs(act("⟳", "Recargar") + act("⤒", "Arriba"))}</div></div>` }));
+
+const noExt = `${winHead}<div class="box" style="margin-bottom:8px"><b style="font-size:13px">Instagram - Google Chrome</b><div class="sub" style="white-space:normal">Sin la extensión solo se ve la pestaña que está a la vista.</div></div>
+<div class="sec">Atajos (traen Chrome al frente)</div><div class="acts2" style="margin:0">${act("⇤", "Pestaña ant.")}${act("⇥", "Pestaña sig.")}${act("＋", "Nueva")}${act("✕", "Cerrar")}</div>
+<div class="note" style="margin-top:10px"><b>Ver todas las pestañas, marcadores y la cola de YouTube</b><br>Se suma instalando la extensión de Proyecto E en este navegador. Es opcional y todo queda en tu PC.<div style="margin-top:8px;display:flex;gap:8px"><span class="btn p">Cómo instalarla</span><span class="btn">Ahora no</span></div></div>`;
+pair("D", "Sin la extensión (o navegador no compatible)", "Nada se rompe: quedan las acciones de ventana y los atajos de teclado, que necesitan traer el navegador al frente. El aviso explica en una frase qué se gana; \"Cómo instalarla\" abre los pasos en el panel de la PC. Con \"Ahora no\" se achica a una línea al pie.",
+  V({ title: "Chrome", back: true, tab: "Apps", body: noExt }),
+  L({ title: "Firefox", back: true, body: `<div style="display:flex;gap:12px"><div style="flex:1">${winHead.replace("Chrome", "Firefox").replace("4 pestañas", "ventana normal")}<div class="sec">Atajos (traen Firefox al frente)</div><div class="acts2" style="margin:0">${act("⇤", "Anterior")}${act("⇥", "Siguiente")}${act("＋", "Nueva")}${act("✕", "Cerrar")}</div></div><div style="flex:1"><div class="note" style="margin:0"><b>Pestañas y cola de YouTube</b><br>La extensión todavía no existe para Firefox. Anda en Chrome, Edge, Brave y Opera.</div></div></div>` }));
+
+pair("E", "Extensión instalada pero sin responder", "Si el navegador está cerrado o la extensión se desactivó, la lista queda con lo último que llegó, apagada, y un aviso con \"Reintentar\". Cambiar de pestaña que ya no existe: aviso de 3 s y la lista se refresca.",
+  V({ title: "Chrome", back: true, tab: "Apps", body: `${winHead}${seg("Pestañas")}<div class="err">La extensión de Chrome no responde. <b>Reintentar</b></div><div style="opacity:.45">${TABSL}</div>` }),
+  L({ title: "Chrome", back: true, body: `${seg("Pestañas")}<div class="err">Esa pestaña ya no existe. Se actualizó la lista.</div>${TABSL}` }));
+</script>
+</body>
+</html>

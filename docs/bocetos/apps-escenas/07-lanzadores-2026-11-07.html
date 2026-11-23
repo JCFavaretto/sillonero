@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 07 Lanzadores</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("07 · Apps · Lanzadores", "Fase B3, R1 y R4. Grilla de teclas con el ícono real de la app (lo saca la PC) o un globo para los links. Un toque abre la app; si ya está abierta, la trae al frente. Toque largo: menú con Renombrar, Agregar al Inicio y Quitar. 3 columnas en vertical, 5 en apaisado.", ["06-confirmar-cerrar-2026-11-07.html", "06 · Confirmar"], ["08-agregar-lanzador-2026-11-07.html", "08 · Agregar lanzador"]);
+
+const tabs = `<div class="tabs"><span>Abiertas</span><span class="on">Lanzadores</span></div>`;
+const K = (k, n, cls = "", extra = "") => `<div class="key ${cls}">${k ? ic(k) : "<i></i>"}<b>${n}</b>${extra}</div>`;
+const keys = [K("code", "VS Code"), K("discord", "Discord"), K("spotify", "Spotify"), K("cursor", "Cursor"), K("calc", "Calculadora"), K("yt", "YouTube"), K("stremio", "Stremio"), `<div class="key add">+<b>Agregar</b></div>`];
+
+pair("A", "Grilla", "Los links (YouTube) llevan el ícono de un globo con la inicial del sitio; las apps, el ícono de Windows.",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}<div class="deck">${keys.join("")}</div>` }),
+  L({ title: "Apps", body: `${tabs}<div class="deckL">${keys.join("")}</div>` }));
+
+const open = [K("code", "VS Code"), K("discord", "Discord", "run", "<span class='sub'>abriendo…</span>"), K("spotify", "Spotify"), K("cursor", "Cursor", "bad")];
+const err = `<div class="err">No se pudo abrir Cursor: ya no está instalada en la PC. <u>Quitar lanzador</u></div>`;
+pair("B", "Abriendo y error", "Mientras la PC abre la app, la tecla se enciende en ámbar (hasta 3 s o hasta que la PC confirma). Si falla, queda en rojo con el motivo: no está más instalada, Windows no la pudo abrir, o la PC no respondió.",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}${err}<div class="deck">${open.join("")}</div>` }),
+  L({ title: "Apps", body: `${tabs}${err}<div class="deckL">${open.join("")}</div>` }));
+
+const menu = `<div class="menuPop" style="left:110px;top:200px"><div><b>Discord</b></div><div>Renombrar</div><div>Agregar al Inicio</div><div style="color:#a02020">Quitar</div></div>`;
+pair("C", "Menú de toque largo", "Renombrar abre una hoja igual a la de B2 (32 caracteres). \"Agregar al Inicio\" dice \"Ya está en el Inicio\" si corresponde. Quitar pide confirmación (06, B).",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}<div class="deck">${keys.join("")}</div>`, over: menu }),
+  L({ title: "Apps", body: `${tabs}<div class="deckL">${keys.join("")}</div>`, over: menu.replace("left:110px;top:200px", "left:300px;top:100px") }));
+
+const empty = `<div class="box" style="text-align:center;padding:22px 12px"><b>Sin lanzadores</b><div class="sub" style="white-space:normal;margin-top:4px">Elegí apps de tu PC o guardá links para abrirlos con un toque.</div><div style="margin-top:10px"><span class="btn p">+ Agregar</span></div></div>`;
+pair("D", "Vacío", "La primera vez.",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}${empty}` }), L({ title: "Apps", body: `${tabs}${empty}` }));
+</script>
+</body>
+</html>

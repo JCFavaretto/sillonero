@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pantallas · 01 pantalla principal</title>
+<link rel="stylesheet" href="../_base.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Pantallas · 01 · Pantalla principal</h1>
+  <p>Fase B2, rebanada R1. Versión del 07/11/2026. Reemplaza la pantalla 9 de v4 (que queda como historia). <b>Novedades:</b> franja "Ventana activa" con botones "Mover a N", interruptor con estado "cambiando…", leyendas de frenos y el apodo de la tele. Se quitó el "toque largo: marcar como principal / mover en el mapa" (cambia la topología de Windows; ver PLAN 8.2.1). Toque largo = solo renombrar (ver <a href="02-renombrar-2026-11-07.html">02 · Renombrar</a>).</p>
+  <p class="nav-links">Tocá los interruptores para ver cómo cambian. · <a href="../README.md">Índice de bocetos</a></p>
+</div>
+
+<section class="pair"><h2>A · Conectada, todo normal</h2>
+<p class="why">Mapa a escala (las apagadas en gris punteado), franja de la ventana activa y la lista. La principal no se apaga.</p>
+<div class="both">
+<div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+ <div class="body">
+  <div class="map" style="height:126px">
+   <div class="mon" style="left:8px;top:26px;width:78px;height:50px">1<div class="w" style="left:6px;top:14px;width:40px;height:26px"></div><span class="lbl2">Izquierdo</span></div>
+   <div class="mon sel" style="left:92px;top:26px;width:78px;height:50px">2 ★<div class="w" style="left:4px;top:12px;width:68px;height:32px"></div><span class="lbl2">Principal</span></div>
+   <div class="mon off" style="left:176px;top:14px;width:90px;height:62px">3<span class="lbl2">Tele living</span></div>
+  </div>
+  <div class="sec">Ventana activa en la PC</div>
+  <div class="winbar"><div class="t">VS Code — PLAN.md</div><div class="sub">Code.exe · pantalla 2</div>
+   <div class="btns"><span class="btn">Mover a 1</span><span class="btn dis">Mover a 2</span></div></div>
+  <div class="sec">Pantallas detectadas</div>
+  <div class="box">
+   <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo<div class="sub">1920×1080 · DisplayPort</div></div><button class="tg on"></button></div>
+   <div class="row"><div class="ico">2</div><div class="grow">Principal ★<div class="sub">2560×1440 · es la principal, no se apaga</div></div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">–</div><div class="grow">Tele living<div class="sub">3840×2160 · HDMI · apagada</div></div><button class="tg"></button></div>
+  </div>
+  <div class="note">Mantené apretada una pantalla para ponerle apodo.</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+
+<div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><button class="hamb" aria-label="Menú">☰</button><div class="mainL"><div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+<div class="bodyL c2">
+ <div>
+  <div class="map" style="height:118px">
+   <div class="mon" style="left:8px;top:22px;width:78px;height:50px">1<div class="w" style="left:6px;top:14px;width:40px;height:26px"></div><span class="lbl2">Izquierdo</span></div>
+   <div class="mon sel" style="left:92px;top:22px;width:78px;height:50px">2 ★<div class="w" style="left:4px;top:12px;width:68px;height:32px"></div><span class="lbl2">Principal</span></div>
+   <div class="mon off" style="left:176px;top:10px;width:90px;height:62px">3<span class="lbl2">Tele living</span></div>
+  </div>
+  <div class="winbar" style="margin-top:8px"><div class="t">VS Code — PLAN.md <span class="sub">· Code.exe · pantalla 2</span></div>
+   <div class="btns" style="margin-top:6px"><span class="btn">Mover a 1</span><span class="btn dis">Mover a 2</span></div></div>
+ </div>
+ <div class="box">
+  <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo<div class="sub">1920×1080 · DisplayPort</div></div><button class="tg on"></button></div>
+  <div class="row"><div class="ico">2</div><div class="grow">Principal ★<div class="sub">2560×1440 · no se apaga</div></div><button class="tg on" disabled></button></div>
+  <div class="row"><div class="ico">–</div><div class="grow">Tele living<div class="sub">3840×2160 · HDMI · apagada</div></div><button class="tg"></button></div>
+ </div>
+</div></div></div></div>
+</div></section>
+
+<section class="pair"><h2>B · Cambiando una pantalla</h2>
+<p class="why">Sin optimismo: el interruptor queda "cambiando…" hasta que la PC confirma (Windows tarda ~1–2 s). Mientras tanto no se puede tocar otra pantalla.</p>
+<div class="both">
+<div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn dis" style="opacity:.5">Identificar</span></div>
+ <div class="body">
+  <div class="map" style="height:126px">
+   <div class="mon" style="left:8px;top:26px;width:78px;height:50px">1<span class="lbl2">Izquierdo</span></div>
+   <div class="mon sel" style="left:92px;top:26px;width:78px;height:50px">2 ★<span class="lbl2">Principal</span></div>
+   <div class="mon off" style="left:176px;top:14px;width:90px;height:62px;border-color:#e0a020;color:#a05a00">3<span class="lbl2">Tele living</span></div>
+  </div>
+  <div class="sec">Pantallas detectadas</div>
+  <div class="box">
+   <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo<div class="sub">1920×1080 · DisplayPort</div></div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">2</div><div class="grow">Principal ★<div class="sub">2560×1440 · no se apaga</div></div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">–</div><div class="grow">Tele living<div class="sub"><span class="spin"></span>Prendiendo… puede tardar unos segundos</div></div><button class="tg busy" disabled style="opacity:1"></button></div>
+  </div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+<div><p class="lbl">Con error (la PC no pudo)</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+ <div class="body">
+  <div class="err">No se pudo prender “Tele living”. Revisá que esté encendida y conectada por HDMI.</div>
+  <div class="sec">Pantallas detectadas</div>
+  <div class="box">
+   <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo<div class="sub">1920×1080</div></div><button class="tg on"></button></div>
+   <div class="row"><div class="ico">2</div><div class="grow">Principal ★<div class="sub">2560×1440 · no se apaga</div></div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">–</div><div class="grow">Tele living<div class="sub">3840×2160 · HDMI · apagada</div></div><button class="tg"></button></div>
+  </div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+</div></section>
+
+<section class="pair"><h2>C · Casos límite</h2>
+<p class="why">Sin ventana activa (escritorio) y una sola pantalla prendida; y sin conexión (último estado en gris, nada se toca).</p>
+<div class="both">
+<div><p class="lbl">Una sola prendida · sin ventana</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+ <div class="body">
+  <div class="map" style="height:110px"><div class="mon sel" style="left:20px;top:20px;width:110px;height:66px">1 ★<span class="lbl2">Principal</span></div>
+   <div class="mon off" style="left:150px;top:20px;width:90px;height:58px">2<span class="lbl2">Tele living</span></div></div>
+  <div class="sec">Ventana activa en la PC</div>
+  <div class="winbar" style="border-color:var(--line);background:#fafafa"><div class="t" style="color:var(--mut)">No hay ventana activa</div><div class="sub">Tocá una ventana en la PC y aparece acá</div></div>
+  <div class="sec">Pantallas detectadas</div>
+  <div class="box">
+   <div class="row"><div class="ico">1</div><div class="grow">Principal ★<div class="sub">2560×1440 · es la única prendida</div></div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">–</div><div class="grow">Tele living<div class="sub">3840×2160 · HDMI · apagada</div></div><button class="tg"></button></div>
+  </div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+<div><p class="lbl">Sin conexión</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="pc"><span class="dot g"></span>Sin conexión</span></div>
+ <div class="body stale">
+  <div class="map" style="height:126px"><div class="mon" style="left:8px;top:26px;width:78px;height:50px">1</div><div class="mon" style="left:92px;top:26px;width:78px;height:50px">2 ★</div><div class="mon off" style="left:176px;top:14px;width:90px;height:62px">3</div></div>
+  <div class="sec">Pantallas (último estado)</div>
+  <div class="box">
+   <div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo</div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">2</div><div class="grow">Principal ★</div><button class="tg on" disabled></button></div>
+   <div class="row"><div class="ico">–</div><div class="grow">Tele living</div><button class="tg" disabled></button></div>
+  </div>
+ </div>
+ <div style="padding:0 4px 10px"><span class="btn p" style="display:block;text-align:center">Reintentar</span></div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+</div></section>
+
+<script>
+document.querySelectorAll('.tg:not([disabled])').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('on')));
+</script>
+</body>
+</html>

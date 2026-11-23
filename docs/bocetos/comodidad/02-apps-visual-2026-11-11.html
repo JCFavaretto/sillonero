@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Comodidad · 02 Apps visual</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("02 · Apps visual", "Fase C1, pedido de Jay el 11/11/2026: la pantalla Apps \"está rara\"; la quiere <b>más visual y rápida, con la información en íconos</b> (\"una tele y el número\"). La lista de renglones con texto pasa a una <b>grilla de fichas por app</b>: ícono grande, nombre y, abajo, íconos chicos: en qué pantalla está (📺 2), si suena (🔊) y cuántas ventanas o pestañas tiene. Las dos pestañas \"Abiertas / Lanzadores\" se unen en una sola pantalla: arriba lo abierto, abajo lo fijado para abrir. Reemplaza a los bocetos 04 y 07 de Apps y Escenas.", ["01-inicio-compacto-2026-11-11.html", "01 · Inicio compacto"], ["03-navegador-2026-11-11.html", "03 · Navegador"]);
+
+const tile = (a, n, scr, o = {}) => `<div class="tile ${o.front ? "front" : ""} ${o.min ? "min" : ""}">${o.cnt ? `<span class="cnt">${o.cnt}</span>` : ""}${ic(a, 44)}<span class="nm">${n}</span><span class="meta">${o.min ? "▁ minimizada" : `📺 ${scr}`}${o.snd ? " · 🔊" : ""}${o.full ? " · ⛶" : ""}</span></div>`;
+const TILES = [tile("game", "Elden Ring", 1, { front: true, full: true }), tile("chrome", "Chrome", 2, { cnt: 4, snd: true }), tile("discord", "Discord", 3), tile("spotify", "Spotify", 1, { min: true }), tile("code", "VS Code", 3, { cnt: 2 }), tile("files", "Explorador", 2)];
+const pin = (a, n) => `<div class="pin">${ic(a, 40)}${n}</div>`;
+const PINS = `<div class="pins">${pin("yt", "YouTube")}${pin("ytm", "YT Music")}${pin("tw", "Twitch")}${pin("spotify", "Spotify")}<div class="pin"><span class="app" style="width:40px;height:40px;border-radius:11px;background:transparent;border:1.5px dashed #6a6577;color:#A29DAE;margin:0 auto 3px">+</span>Fijar</div></div>`;
+const RIGHT = `<span class="btn">Traer todo</span>`;
+const bodyV = `<div class="sec" style="margin-top:0">Abiertas · 6</div><div class="tiles">${TILES.join("")}</div><div class="sec">Abrir</div>${PINS}`;
+const bodyL = `<div style="display:flex;gap:12px"><div style="flex:1.7"><div class="sec" style="margin-top:0">Abiertas · 6</div><div class="tiles" style="grid-template-columns:repeat(4,1fr)">${TILES.join("")}</div></div><div style="flex:1"><div class="sec" style="margin-top:0">Abrir</div><div class="pins" style="flex-wrap:wrap">${pin("yt", "YouTube")}${pin("ytm", "YT Music")}${pin("tw", "Twitch")}${pin("spotify", "Spotify")}</div></div></div>`;
+
+pair("A", "Apps abiertas y para abrir, en una sola pantalla", "Una ficha por app (no por ventana): la que está al frente lleva el borde ámbar; la minimizada queda apagada. El número ámbar es la cantidad de ventanas o pestañas. <b>Un toque</b> abre la app en el celu (sus acciones y utilidades); <b>mantener</b> la trae al frente en la PC. Abajo, \"Abrir\": los lanzadores de siempre, en una tira.",
+  V({ title: "Apps", right: RIGHT, tab: "Apps", body: bodyV }),
+  L({ title: "Apps", right: RIGHT, body: bodyL }));
+
+const scr = (n, on) => `<span class="act ${on ? "on" : ""}" style="height:52px"><i>📺</i>${n}</span>`;
+const quick = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">${ic("discord", 40)}<div class="grow"><b>Discord</b><div class="sub">📺 3 · ventana normal</div></div><span class="btn p">Traer</span></div>
+<div class="sec" style="margin:0 0 6px">Mandar a</div><div class="acts2" style="margin:0">${scr("1 Monitor", false)}${scr("2 Tele", false)}${scr("3 Lateral", true)}</div>
+<div class="acts2">${act("▁", "Minimizar")}${act("▢", "Maximizar")}${act("⛶", "Completa")}${act("✕", "Cerrar")}</div>
+<div class="sec">En Discord</div><div class="acts2" style="margin:0">${act("🎙", "Silenciarme")}${act("🎧", "Ensordecer")}${act("⤓", "Salir de voz", { dim: true })}</div>`;
+pair("B", "Tocar una app: acciones a un toque", "Antes: tocar la ventana, abrir una hoja y elegir \"Mover a…\" en una segunda hoja (3 toques). Ahora las pantallas son <b>botones directos</b> con su número y apodo (la actual, marcada), y debajo las acciones de ventana. Si la app tiene utilidades propias (acá Discord, por atajos), salen en el último grupo. Los navegadores abren una pantalla entera (boceto 03) en vez de esta hoja.",
+  V({ title: "Apps", right: RIGHT, tab: "Apps", body: `<div style="opacity:.4">${bodyV}</div>`, over: sheet(quick) }),
+  L({ title: "Apps", right: RIGHT, body: `<div style="opacity:.4">${bodyL}</div>`, over: `<div class="sheetwrap" style="align-items:stretch;justify-content:flex-end"><div class="sheet" style="width:56%;border-radius:18px 0 0 18px;overflow:auto;padding:10px 12px">${quick}</div></div>` }));
+
+pair("C", "Vacía, cargando y sin conexión", "Sin ventanas: queda solo \"Abrir\", más grande. Sin conexión: las fichas quedan apagadas con el aviso arriba, como hoy.",
+  V({ title: "Apps", tab: "Apps", body: `<div class="sec" style="margin-top:0">Abiertas · 0</div><div class="box" style="text-align:center;padding:18px"><b>No hay ventanas abiertas</b><div class="sub" style="white-space:normal">Abrí algo desde acá abajo</div></div><div class="sec">Abrir</div>${PINS}` }),
+  L({ title: "Apps", right: `<span class="sub">● Sin conexión</span>`, body: `<div class="err">Sin conexión con la PC. Se muestra lo último que llegó.</div><div style="opacity:.45">${bodyL}</div>` }));
+</script>
+</body>
+</html>

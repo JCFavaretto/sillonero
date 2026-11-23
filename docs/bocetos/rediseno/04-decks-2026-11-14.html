@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Rediseño · 04 Decks</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("04 · Escenas como decks", "Fase F3 (D103, D104). La pestaña Escenas pasa a ser un <b>deck</b>: una grilla de teclas con imagen. Hay <b>hasta 32 decks</b>, cada uno con su nombre y su grilla; se cambia deslizando al costado o tocando el nombre arriba. Una tecla corre una escena, abre un link o una app, o hace una acción de las de hoy (pantalla, Traer todo, audio). <b>Los decks, sus imágenes y sus links viven en el celu</b>; las escenas siguen en la PC. Los colores de las teclas simulan imágenes. Editar está en el boceto 05; imágenes y respaldo, en el 06.", ["03-reproductor-web-2026-11-14.html", "03 · Reproductor web (F2)"], ["05-editar-deck-2026-11-14.html", "05 · Editar un deck"]);
+
+const NAMES = ["Principal", "Stream", "Trabajo", "Juego"];
+const EDIT = `<span class="btn">Editar</span>`;
+const stream = (o = {}) => [
+  dk("Modo stream", { bg: IMG.grape, tag: o.run ? "2/5" : "", cls: o.run ? "run" : "" }),
+  dk("OBS", { bg: IMG.night }),
+  dk("Twitch", { bg: IMG.grape, tag: "GIF" }),
+  dk("Chat", { bg: IMG.sea }),
+  dk("Tele", { g: "📺", cls: o.gone ? "gone" : "" }),
+  dk("Auriculares", { g: "🎧" }),
+  dk("Alertas", { bg: IMG.fire, tag: "GIF", cls: o.bad ? "bad" : "" }),
+  dk("Música", { bg: IMG.moss }),
+  dk("Silenciar", { g: "🔇" }),
+  dk("Cortar todo", { bg: IMG.red, cls: o.gone ? "gone" : "" }),
+  dkEmpty, dkEmpty,
+];
+
+pair("A", "Un deck con imágenes", "Arriba, la tira con los nombres de los decks (el elegido en ámbar; se desliza si no entran) y debajo la grilla. <b>Un toque</b> ejecuta la tecla; <b>deslizar al costado</b> pasa al deck vecino y los puntos de abajo dicen cuál es. Las teclas con \"GIF\" tienen imagen animada, que se mueve solo en el deck que se está viendo. Las teclas sin imagen muestran el dibujo de su acción. Los lugares vacíos (+) invitan a sumar una tecla. <b>Apaisado:</b> la grilla se da vuelta (3×4 pasa a 4×3), en el mismo orden, y las teclas se estiran para llenar la pantalla sin bajar. Para ganar altura la tira de nombres se esconde: <b>el nombre del deck pasa al título</b> (tocarlo abre la lista, E) y se sigue deslizando al costado.",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: dbar(NAMES, "Stream") + dgrid(3, stream()) + dots(4, 1) }),
+  L({ title: "Stream ▾", right: EDIT, body: dgrid(4, stream(), "2.1/1") + dots(4, 1) }));
+
+const big = [dk("Elden Ring", { bg: IMG.fire }), dk("Discord", { bg: IMG.sea }), dk("Modo sillón", { bg: IMG.moss, tag: "GIF" }), dk("Tele", { g: "📺" }), dk("Vol −", { g: "🔉" }), dk("Vol +", { g: "🔊" })];
+const small = Array.from({ length: 30 }, (_, i) => (i < 22 ? dk(["YT", "Mail", "Git", "Docs", "Fig", "Maps", "Drive", "Cal"][i % 8], { bg: Object.values(IMG)[i % 7] }) : dkEmpty));
+pair("B", "Cada deck con su grilla", "<b>Vertical:</b> el deck \"Juego\" con 2 columnas y 3 filas: teclas grandes para acertar sin mirar. <b>Apaisado:</b> el deck \"Trabajo\" con la grilla más densa (5×6, dada vuelta a 6×5): 30 teclas chicas que siguen midiendo 48 dp, el mínimo cómodo para el dedo; por eso el tope es 5 columnas por 6 filas.",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: dbar(NAMES, "Juego") + dgrid(2, big) + dots(4, 3) }),
+  L({ title: "Trabajo ▾", right: EDIT, body: dgrid(6, small, "1.9/1") }));
+
+pair("C", "Al tocar: corriendo, falla y tecla gris", "<b>Vertical:</b> la tecla de una escena muestra el paso (2/5) con borde ámbar mientras corre; el celu vibra apenas al tocar. <b>Apaisado:</b> si la acción falla, la tecla queda con borde rojo unos segundos y el motivo aparece arriba. Una tecla queda <b>gris</b> cuando no se puede usar: la pantalla está desconectada, o la escena ya no existe en esta PC (pasa al importar decks de otro celu). Tocar una tecla gris dice por qué.",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: dbar(NAMES, "Stream") + dgrid(3, stream({ run: true })) + dots(4, 1) }),
+  L({ title: "Stream ▾", right: EDIT, body: `<div class="err" style="margin-bottom:6px">Alertas: la PC no pudo abrir el link.</div>` + dgrid(4, stream({ bad: true, gone: true }), "2.4/1") }));
+
+const empty12 = Array.from({ length: 12 }, () => dkEmpty);
+pair("D", "Deck vacío y sin conexión", "<b>Vacío</b> (un deck recién creado): los lugares con + y un texto que explica qué va ahí; tocar un + abre la hoja de tecla (boceto 05 B). <b>Sin conexión:</b> el deck se ve entero porque vive en el celu, pero las teclas están apagadas y hay un aviso; se puede seguir editando.",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: dbar([...NAMES, "Nuevo"], "Nuevo") + `<div class="sub" style="white-space:normal;margin:0 0 8px">Tocá un lugar para poner una escena, un link, una app o una acción.</div>` + dgrid(3, empty12) + dots(5, 4) }),
+  L({ title: "Stream ▾", right: EDIT, body: `<div class="err" style="margin-bottom:6px">Sin conexión con la PC. Las teclas no se pueden usar.</div>` + `<div style="opacity:.45">${dgrid(4, stream(), "2.4/1")}</div>` }));
+
+const many = ["Principal", "Stream", "Trabajo", "Juego", "Música", "Series", "Fútbol"];
+const lrow = (n, s, on) => `<div class="lrow"><div class="grow"><b style="${on ? "color:#F5A524" : ""}">${n}</b><div class="sub">${s}</div></div><span style="color:#A29DAE">›</span></div>`;
+const list = `<div class="grab"></div><h3>Decks · 7 de 32</h3>${lrow("Principal", "3×4 · 9 teclas")}${lrow("Stream", "3×4 · 10 teclas", true)}${lrow("Trabajo", "5×6 · 22 teclas")}${lrow("Juego", "2×3 · 6 teclas")}${lrow("Música", "3×3 · 4 teclas")}`;
+pair("E", "Muchos decks: la lista", "Con más decks que los que entran en la tira, el último botón de la tira (☰) abre la lista completa: nombre, grilla y cantidad de teclas; un toque salta a ese deck. Es la misma lista que en Editar permite ordenar, renombrar y borrar (boceto 05 D).",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: `<div style="opacity:.35">${dbar(many, "Stream") + dgrid(3, stream())}</div>`, over: sheet(list) }),
+  L({ title: "Stream ▾", right: EDIT, body: `<div style="opacity:.35">${dgrid(4, stream(), "2.4/1")}</div>`, over: `<div class="sidedim"></div><div class="side" style="overflow:auto">${list.replace('<div class="grab"></div>', "")}</div>` }));
+</script>
+</body>
+</html>

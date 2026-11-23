@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 04 Apps abiertas</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("04 · Apps · Abiertas", "Fase B3, R1 (demo) y R2 (real). La pestaña Apps tiene arriba un selector <b>Abiertas | Lanzadores</b> (07). Abiertas es la lista de ventanas de la PC, en vivo (se actualiza sola cada 2 s si algo cambió), de arriba hacia abajo como están apiladas en Windows. Cada fila: ícono de la app, título, app y pantalla. La que tiene el foco en la PC va marcada. Tocar una fila abre sus acciones (05). En apaisado, dos columnas.", ["03-agregar-al-inicio-2026-11-07.html", "03 · Agregar al Inicio"], ["05-acciones-ventana-2026-11-07.html", "05 · Acciones de una ventana"]);
+
+const tabs = `<div class="tabs"><span class="on">Abiertas</span><span>Lanzadores</span></div>`;
+const W = (k, title, sub, focus) => `<div class="row ${focus ? "focus" : ""}">${ic(k)}<div class="grow"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${title}</div><div class="sub">${sub}</div></div><span class="sub">›</span></div>`;
+const rows = [W("code", "proyecto-e — PLAN.md", "Code · pantalla 2 · en primer plano", true), W("chrome", "YouTube — Age of Empires", "Chrome · pantalla 1"), W("discord", "#general | Amigos", "Discord · pantalla 1 · maximizada"), W("spotify", "Spotify Premium", "Spotify · minimizada"), W("stremio", "Stremio", "Stremio · tele (3) · pantalla completa")];
+const R = `<span class="btn">Traer todo</span>`;
+const count = `<div class="sec">5 ventanas</div>`;
+
+pair("A", "Lista en vivo", "\"Traer todo\" junta en la principal todas las ventanas que están en otra pantalla (útil con la tele apagada), como en el .ahk. Las minimizadas no dicen pantalla.",
+  V({ title: "Apps", right: R, tab: "Apps", body: `${tabs}${count}<div class="box">${rows.join("")}</div>` }),
+  L({ title: "Apps", right: R, body: `${tabs}<div class="c2"><div class="box">${rows.slice(0, 3).join("")}</div><div class="box">${rows.slice(3).join("")}</div></div>` }));
+
+const empty = `<div class="box" style="text-align:center;padding:22px 12px"><b>No hay ventanas abiertas</b><div class="sub" style="white-space:normal;margin-top:4px">Abrí algo desde Lanzadores o en la PC y va a aparecer acá.</div><div style="margin-top:10px"><span class="btn">Ir a Lanzadores</span></div></div>`;
+pair("B", "Vacía", "Solo el escritorio y la barra (que no se listan).",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}${empty}` }),
+  L({ title: "Apps", body: `${tabs}${empty}` }));
+
+const offline = `<div class="err">Sin conexión con la PC. Mostramos la última lista; las acciones vuelven cuando se reconecte.</div>`;
+pair("C", "Sin conexión", "La última lista, apagada y sin respuesta al toque.",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}${offline}<div class="box stale">${rows.slice(0, 4).join("")}</div>` }),
+  L({ title: "Apps", body: `${tabs}${offline}<div class="box stale">${rows.slice(0, 2).join("")}</div>` }));
+
+const loading = `<div class="box">${[1, 2, 3].map(() => `<div class="row"><span class="ico"></span><div class="grow"><div style="height:10px;width:70%;background:#eee;border-radius:4px"></div><div style="height:8px;width:40%;background:#f2f2f2;border-radius:4px;margin-top:6px"></div></div></div>`).join("")}</div>`;
+pair("D", "Cargando", "Recién conectado, hasta que llega la primera lista (normalmente menos de 1 s). Los íconos que todavía no llegaron muestran la inicial de la app.",
+  V({ title: "Apps", tab: "Apps", body: `${tabs}${loading}` }),
+  L({ title: "Apps", body: `${tabs}${loading}` }));
+</script>
+</body>
+</html>

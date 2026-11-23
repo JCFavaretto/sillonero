@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 02 Acciones de una salida</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("02 · Acciones de una salida", "Fase B4, R3 a R5. Hoja que se abre con ⋯ en una salida. En apaisado es un cuadro centrado. Renombrar reusa la hoja de B2.", ["01-audio-2026-11-07.html", "01 · Audio"], ["03-app-a-salida-2026-11-07.html", "03 · Mandar una app a una salida"]);
+
+const BG = `<div class="box">${outRow({ k: "hp", n: "Auriculares", def: true, v: 46 })}${outRow({ k: "sp", n: "Parlantes", v: 40 })}</div>`;
+const it = (t, sub = "", dis = false) => `<div class="row" style="${dis ? "opacity:.45" : ""}"><div class="grow">${t}${sub ? `<div class="sub" style="white-space:normal">${sub}</div>` : ""}</div></div>`;
+const acts = (busy) => `<h3>Parlantes <span class="sub">· Altavoces (Realtek High Definition Audio)</span></h3>
+  ${busy ? `<div class="row"><span class="spin"></span><div class="grow">Haciendo predeterminada…</div></div>` : it("Hacer predeterminada", "Lo que suena se pasa a los parlantes")}
+  ${it("Silenciar")}${it("Renombrar")}${it("Ocultar en el celu", "Se puede volver a mostrar con \"Mostrar ocultas\"")}
+  <div class="acts"><span class="btn">Cerrar</span></div>`;
+
+pair("A", "Acciones", "Arriba el apodo y, chico, el nombre de Windows (para saber cuál es cuál entre las 3 HyperX y las 4 LG TV).",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(acts(false)) }),
+  L({ title: "Audio", body: BG, dim: true, over: sheet(acts(false), true) }));
+
+pair("B", "Cambiando", "La hoja queda abierta hasta que Windows confirma (≤ 2 s) y se cierra sola.",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(acts(true)) }),
+  L({ title: "Audio", body: BG, dim: true, over: sheet(acts(true), true) }));
+
+const err = `<h3>Parlantes</h3><div class="err">Windows no dejó cambiar la salida predeterminada. Probá de nuevo; si sigue, se puede apagar esta función en el panel de la PC.</div>${it("Hacer predeterminada")}${it("Silenciar")}<div class="acts"><span class="btn">Cerrar</span></div>`;
+pair("C", "Error", "Error de la función no documentada (D29). El resto de la hoja sigue andando.",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(err) }),
+  L({ title: "Audio", body: BG, dim: true, over: sheet(err, true) }));
+
+const ren = `<h3>Renombrar salida</h3><div class="sub">Altavoces (Realtek High Definition Audio)</div><div class="field" style="margin-top:8px">Parlantes<small>9/32</small></div><div class="sub" style="margin-top:6px">Dejalo vacío para usar el nombre de Windows.</div><div class="acts"><span class="btn">Cancelar</span><span class="btn p">Guardar</span></div>`;
+pair("D", "Renombrar", "La hoja de Renombrar de B2, con el nombre de Windows como referencia.",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(ren) }),
+  L({ title: "Audio", body: BG, dim: true, over: sheet(ren, true) }));
+
+const hidden = `<div class="box">${outRow({ k: "hp", n: "Auriculares", def: true, v: 46 })}${outRow({ k: "sp", n: "Parlantes", v: 40 })}</div><div class="sec">Ocultas</div><div class="box"><div class="row" style="opacity:.6"><div class="ico">${KIND.dg}</div><div class="grow">Realtek Digital Output<div class="sub">oculta</div></div><span class="btn">Mostrar</span></div></div><div class="sub" style="margin-top:4px">Ocultar ocultas</div>`;
+pair("E", "Mostrar ocultas", "Al tocar \"Mostrar ocultas (1)\" al pie de las salidas. Se recuerda solo mientras la app está abierta.",
+  V({ title: "Audio", tab: "Audio", body: hidden }), L({ title: "Audio", body: hidden }));
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+/* Fase C: bocetos en color (grafito + ámbar que vira a coral, como theme.ts). Va después de ../_base.css. */
+body.neo .phone,body.neo .phoneL{background:#17161D;border-color:#000;color:#F1EEE8}
+body.neo .top b,body.neo .nav div,body.neo .sec{color:#F1EEE8}
+body.neo .sec{color:#A29DAE}
+body.neo .nav{background:#1B1A22;border-color:#3B3746}
+body.neo .nav i{border-color:#6a6577}
+body.neo .nav .on{color:#F5A524}body.neo .nav .on i{border-color:#F5A524;background:rgba(245,165,36,.18)}
+body.neo .hamb{background:#2C2935;border-color:#3B3746;color:#F1EEE8}
+body.neo .sub,body.neo .lbl{color:#A29DAE}
+body.neo .strip{border:0;padding:2px 2px 6px;color:#A29DAE}body.neo .strip b{color:#F1EEE8}
+body.neo .btn{background:#2C2935;border-color:#3B3746;color:#F1EEE8}
+body.neo .btn.p{background:#F5A524;border-color:#F5A524;color:#1B1405}
+body.neo .key{background:#211F29;border-color:#3B3746;color:#F1EEE8}
+body.neo .box{background:#211F29;border-color:#3B3746;border-style:solid}
+body.neo .row{border-color:#2f2c39}
+body.neo .err{background:#3A1E22;color:#FF8A8A}
+body.neo .note{background:#33290f;color:#F5C469}
+body.neo .chip{border-color:#3B3746;color:#F1EEE8;background:#2C2935}
+body.neo .chip.on{border-color:#F5A524;color:#F5A524;background:rgba(245,165,36,.14)}
+body.neo .sheet{background:#211F29;color:#F1EEE8}
+body.neo .search{background:#211F29;border-color:#3B3746;color:#A29DAE}
+body.neo .tabs span{background:#2C2935;color:#F1EEE8}body.neo .tabs .on{background:#F5A524;color:#1B1405}
+body.neo .deck{gap:6px}body.neo .deck .key{aspect-ratio:auto;height:62px}
+
+/* Tarjeta "Ahora" compacta */
+.now{border-radius:18px;padding:10px;background:linear-gradient(160deg,var(--glow,rgba(255,107,74,.20)),#211F29 55%);border:1px solid #3B3746}
+.nrow{display:flex;gap:10px;align-items:center}
+.cv{width:64px;height:64px;border-radius:12px;flex:none;background:radial-gradient(circle at 30% 30%,#ffb347,#c2410c 55%,#3a1204);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,.45)}
+.cv.yt{background:linear-gradient(135deg,#d11,#511)}.cv.none{background:#2C2935;color:#6a6577}
+.ninfo{flex:1;min-width:0;max-width:70%}
+.t1{font-weight:700;font-size:14px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.t2{font-size:11px;color:#c9c4d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.src{font-size:10px;color:#A29DAE;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{height:3px;border-radius:2px;background:#3B3746;margin:8px 0 0}.prog b{display:block;height:100%;border-radius:2px;background:#F1EEE8}
+.mc{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:8px}
+.nrow .mc{margin:0;gap:6px;flex:none}
+.mc span{width:44px;height:44px;border-radius:50%;background:#2C2935;display:flex;align-items:center;justify-content:center;font-size:15px}
+.mc .big{background:linear-gradient(135deg,#F5A524,#FF6B4A);color:#1B1405;font-size:18px}
+.dim{opacity:.3}
+.vol{display:flex;align-items:center;gap:10px;margin-top:10px;padding:4px 2px}
+.vol .pw{width:32px;height:32px;border-radius:50%;border:2px solid #F5A524;color:#F5A524;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.vol.off .pw{border-color:#FF5C5C;color:#FF5C5C}.vol.off .grad b{background:#6a6577}
+.vol .num{font:600 12px monospace;color:#F5A524;min-width:20px;text-align:right}
+.vol .outc{font-size:12px;padding:5px 9px;border-radius:14px;background:#2C2935;border:1px solid #3B3746;flex:none}
+.grad{height:8px;border-radius:5px;background:#3B3746;position:relative;flex:1}
+.grad b{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:linear-gradient(90deg,#F5A524,#FF6B4A)}
+.grad em{position:absolute;top:-6px;width:20px;height:20px;border-radius:50%;background:#fff;margin-left:-10px;box-shadow:0 0 8px rgba(255,107,74,.8)}
+.acts2{display:flex;gap:6px;margin-top:10px;overflow:hidden}
+.act{flex:1;min-width:0;height:48px;border-radius:12px;background:#2C2935;border:1px solid #3B3746;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;gap:1px;color:#F1EEE8;white-space:nowrap}
+.act i{font-style:normal;font-size:15px;line-height:1}
+.act.on{border-color:#F5A524;color:#F5A524;background:rgba(245,165,36,.12)}
+.bg{font-size:10px;padding:2px 6px;border-radius:8px;background:#2C2935;color:#c9c4d4;white-space:nowrap}
+.bg.amb{background:rgba(245,165,36,.16);color:#F5A524}.bg.grn{background:rgba(61,214,163,.16);color:#3DD6A3}
+
+/* Apps visual */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{position:relative;border-radius:16px;background:#211F29;border:1px solid #3B3746;padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.tile.front{border-color:#F5A524;box-shadow:0 0 0 1px #F5A524 inset}
+.tile.min{opacity:.55}
+.tile .nm{font-size:11px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .meta{display:flex;gap:4px;align-items:center;font-size:10px;color:#A29DAE}
+.tile .cnt{position:absolute;top:5px;right:6px;font-size:9px;background:#F5A524;color:#1B1405;border-radius:8px;padding:0 5px;font-weight:700}
+.pins{display:flex;gap:8px;overflow:hidden}
+.pin{flex:none;width:52px;text-align:center;font-size:9px;color:#A29DAE}
+.pin .app{margin:0 auto 3px}
+
+/* Filas de pestaña / cola */
+.trow{display:flex;align-items:center;gap:8px;padding:7px 6px;border-radius:10px;min-height:44px}
+.trow.on{background:rgba(245,165,36,.10);box-shadow:inset 3px 0 #F5A524}
+.trow .fav{width:22px;height:22px;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
+.trow .tt{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow .x{color:#6a6577;font-size:14px;padding:0 4px}
+.th{width:54px;height:32px;border-radius:6px;flex:none;background:linear-gradient(135deg,#4a3a6a,#2a2438)}
+/* Tarjeta en apaisado: más baja */
+.now.cmp{padding:8px 10px}.now.cmp .cv{width:50px;height:50px}
+.now.cmp .mc{margin-top:6px}.now.cmp .mc span{width:38px;height:38px}
+.now.cmp .vol{margin-top:4px}.now.cmp .acts2{margin-top:6px}.now.cmp .act{height:44px}
+.now.cmp .prog{margin-top:6px}
+.nrow .mc span{width:36px;height:36px}.nrow .mc .big{font-size:15px}
+
+/* Tarjetas de app desplegables (boceto 05) y hojas del Inicio (boceto 06) */
+.card{border-radius:16px;background:#211F29;border:1px solid #3B3746;padding:6px 10px;margin-bottom:6px}
+.card.front{border-color:#F5A524}.card.min .chead{opacity:.55}
+.chead{display:flex;align-items:center;gap:10px;min-height:48px}
+.chead b{font-size:13px}
+.chead .meta{display:flex;gap:6px;align-items:center;font-size:11px;color:#A29DAE;margin-top:1px}
+.chev{width:36px;height:36px;border-radius:10px;background:#2C2935;display:flex;align-items:center;justify-content:center;flex:none;font-size:12px;color:#c9c4d4}
+.card .acts2{margin:6px 0 4px}
+.grab{width:36px;height:4px;border-radius:2px;background:#6a6577;margin:0 auto 10px}
+.keys{height:112px;border-radius:10px;border:1.5px dashed #6a6577;color:#A29DAE;font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:8px}
+.toast{position:absolute;left:50%;transform:translateX(-50%);bottom:74px;background:#F1EEE8;color:#17161D;font-size:11px;font-weight:600;padding:7px 12px;border-radius:16px;white-space:nowrap;z-index:9}
+.appvol{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px;border-radius:12px;background:rgba(245,165,36,.10);border:1px solid #F5A524}
+.side{position:absolute;top:0;right:0;bottom:0;width:54%;background:#211F29;border-left:1px solid #3B3746;border-radius:18px 0 0 18px;padding:10px 12px;overflow:hidden;z-index:8}
+.sidedim{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:7}

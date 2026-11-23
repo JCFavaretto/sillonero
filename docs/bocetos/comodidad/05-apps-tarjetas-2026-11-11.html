@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Comodidad · 05 Apps en tarjetas</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("05 · Apps en tarjetas desplegables", "Fase C1, corrección de Jay el 11/11/2026 sobre el boceto 02: \"una lista de cards, cada card es una app; que se puedan desplegar para acciones rápidas y que tengan un botón para abrir el menú con todas las opciones\". <b>Reemplaza al 02</b> (la grilla de fichas). Cada tarjeta muestra el ícono, el nombre y los datos en íconos (pantalla, si suena, cantidad de ventanas o pestañas). Un toque la despliega; solo hay una desplegada a la vez.", ["04-youtube-cola-buscar-2026-11-11.html", "04 · YouTube: cola y buscador"], ["06-inicio-botones-2026-11-11.html", "06 · Inicio: qué hace cada botón"]);
+
+const meta = (o) => `<span class="meta">${o.min ? "▁ minimizada" : `📺 ${o.scr}`}${o.full ? "<span>⛶</span>" : ""}${o.snd ? '<span class="bg grn">🔊</span>' : ""}${o.cnt ? `<span>▭ ${o.cnt}</span>` : ""}${o.front ? '<span class="bg amb">al frente</span>' : ""}</span>`;
+const card = (a, n, o = {}) => `<div class="card ${o.front ? "front" : ""} ${o.min ? "min" : ""}"><div class="chead">${ic(a, 36)}<div class="grow"><b>${n}</b>${meta(o)}</div><span class="chev">${o.open ? "▴" : "▾"}</span></div>${o.open || ""}</div>`;
+const scr = (n, on) => act("📺", n, { on });
+const rows = (r1, r2) => `<div class="acts2">${r1}</div><div class="acts2">${r2}</div>`;
+const MORE = act("⋯", "Todo");
+const openChrome = rows(act("◫", "Traer") + scr("1", false) + scr("2", true) + scr("3", false), act("▭", "Pestañas") + act("🔉", "Vol app") + act("✕", "Cerrar") + MORE);
+const openDiscord = rows(act("◫", "Traer") + scr("1", false) + scr("2", false) + scr("3", true), act("🎙", "Silenciarme") + act("🎧", "Ensordecer") + act("✕", "Cerrar") + MORE);
+const list = (open) => [
+  card("game", "Elden Ring", { scr: 1, full: true, front: true }),
+  card("chrome", "Chrome", { scr: 2, snd: true, cnt: 4, open: open === "chrome" ? openChrome : "" }),
+  card("discord", "Discord", { scr: 3, open: open === "discord" ? openDiscord : "" }),
+  card("spotify", "Spotify", { min: true }),
+  card("code", "VS Code", { scr: 3, cnt: 2 }),
+];
+const pin = (a, n) => `<div class="pin">${ic(a, 40)}${n}</div>`;
+const PINS = `<div class="pins">${pin("yt", "YouTube")}${pin("ytm", "YT Music")}${pin("tw", "Twitch")}${pin("spotify", "Spotify")}<div class="pin"><span class="app" style="width:40px;height:40px;border-radius:11px;background:transparent;border:1.5px dashed #6a6577;color:#A29DAE;margin:0 auto 3px">+</span>Fijar</div></div>`;
+const RIGHT = `<span class="btn">Traer todo</span>`;
+const bodyV = (open) => `<div class="sec" style="margin-top:0">Abiertas · 5</div>${list(open).join("")}<div class="sec">Abrir</div>${PINS}`;
+const bodyL = (open) => { const c = list(open); return `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1">${c[0]}${c[2]}${c[4]}</div><div style="flex:1">${c[1]}${c[3]}</div></div>`; };
+
+pair("A", "Lista de apps, todas plegadas", "Una tarjeta por app, de 60 px de alto: entran cinco y la tira \"Abrir\" (los lanzadores) sin bajar. Los datos van en íconos: <b>📺 2</b> = está en la pantalla 2; <b>🔊</b> = está sonando; <b>▭ 4</b> = tiene 4 pestañas o ventanas; ⛶ = pantalla completa. La que está al frente lleva el borde ámbar. Apaisado: dos columnas.",
+  V({ title: "Apps", right: RIGHT, tab: "Apps", body: bodyV() }),
+  L({ title: "Apps", right: RIGHT, body: bodyL() }));
+
+pair("B", "Una tarjeta desplegada: acciones rápidas", "Tocar la tarjeta la despliega (y pliega la que estaba abierta). <b>Fila 1, igual en todas:</b> Traer al frente y un botón por pantalla (la actual, marcada): mover la app es un toque. <b>Fila 2:</b> lo más útil de esa app, Cerrar, y <b>⋯ Todo</b>, que abre el menú completo. En Chrome: Pestañas y Vol app. \"Vol app\" muestra ahí mismo la barra de volumen de la app (boceto 06 C).",
+  V({ title: "Apps", right: RIGHT, tab: "Apps", body: bodyV("chrome") }),
+  L({ title: "Apps", right: RIGHT, body: bodyL("chrome") }));
+
+pair("C", "Otra app desplegada (Discord)", "Misma forma, otros botones en la fila 2: Silenciarme y Ensordecer (por los atajos de Discord; a verificar). Las apps sin utilidades propias muestran Minimizar y Maximizar en ese lugar.",
+  V({ title: "Apps", right: RIGHT, tab: "Apps", body: bodyV("discord") }),
+  L({ title: "Apps", right: RIGHT, body: bodyL("discord") }));
+
+const grp = (t, a) => `<div class="sec" style="margin:8px 0 4px">${t}</div><div class="acts2" style="margin:0">${a}</div>`;
+const full = `<div class="grab"></div><div style="display:flex;align-items:center;gap:10px">${ic("discord", 36)}<div class="grow"><b>Discord</b><div class="sub">📺 3 · ventana normal</div></div><span class="btn">✕</span></div>
+${grp("Ventana", act("◫", "Traer") + act("▁", "Minimizar") + act("▢", "Maximizar") + act("⛶", "Completa"))}
+${grp("Mandar a", scr("1 Monitor", false) + scr("2 Tele", false) + scr("3 Lateral", true))}
+${grp("Audio", act("🔉", "Vol app") + act("⇄", "Salida") + act("🔇", "Silenciar"))}
+${grp("En Discord", act("🎙", "Silenciarme") + act("🎧", "Ensordecer") + act("⤓", "Salir de voz", { dim: true }))}
+<div class="acts2"><span class="act" style="color:#FF8A8A;border-color:#5a2a30"><i>✕</i>Cerrar Discord</span></div>`;
+pair("D", "⋯ Todo: el menú completo de la app", "Una hoja con todo lo que se puede hacer con esa app, en grupos con título: Ventana, Mandar a (con el apodo de cada pantalla), Audio y lo propio de la app. Cerrar va al final, separado y en rojo, y pide confirmar como hoy. En los navegadores, \"⋯ Todo\" abre la pantalla del boceto 03 en vez de esta hoja.",
+  V({ title: "Apps", right: RIGHT, tab: "Apps", body: `<div style="opacity:.35">${bodyV("discord")}</div>`, over: sheet(full) }),
+  L({ title: "Apps", right: RIGHT, body: `<div style="opacity:.35">${bodyL("discord")}</div>`, over: `<div class="sidedim"></div><div class="side" style="overflow:auto;width:60%">${full.replace('<div class="grab"></div>', "")}</div>` }));
+
+pair("E", "Vacía y sin conexión", "Sin ventanas: una tarjeta con el texto y la tira \"Abrir\". Sin conexión: aviso arriba y las tarjetas apagadas, sin poder desplegarse.",
+  V({ title: "Apps", tab: "Apps", body: `<div class="sec" style="margin-top:0">Abiertas · 0</div><div class="card" style="text-align:center;padding:18px"><b>No hay ventanas abiertas</b><div class="sub" style="white-space:normal">Abrí algo desde acá abajo</div></div><div class="sec">Abrir</div>${PINS}` }),
+  L({ title: "Apps", right: `<span class="sub">● Sin conexión</span>`, body: `<div class="err">Sin conexión con la PC. Se muestra lo último que llegó.</div><div style="opacity:.45">${bodyL()}</div>` }));
+</script>
+</body>
+</html>

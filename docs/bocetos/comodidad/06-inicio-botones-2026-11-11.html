@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Comodidad · 06 Inicio: qué hace cada botón</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("06 · Inicio: qué hace cada botón", "Fase C, pedido de Jay el 11/11/2026: \"a los bocetos les falta qué hace cada botón: la cola, ¿cómo se ve? Cuando pongo buscar, ¿qué pasa?\". Acá está cada botón de la fila de la tarjeta, <b>antes y después del toque</b>. Cambia la fila del boceto 01 A: <b>sale \"Pestañas\"</b> (no se entendía y no es de YouTube: queda en la tarjeta de Chrome, en Apps) y <b>entra \"Vol app\"</b>, que Jay pidió para bajarle rápido a la app que suena. Regla: ningún botón te saca del Inicio; todo se abre encima y se cierra bajando la hoja.", ["05-apps-tarjetas-2026-11-11.html", "05 · Apps en tarjetas"], null);
+
+const RIGHT = `<span class="btn">Escenas</span>`;
+const row = (on) => act("☰", "Cola · 24", { on: on === "cola" }) + act("⌕", "Buscar", { on: on === "buscar" }) + act("🔉", "Vol app", { on: on === "vol" }) + act("⛶", "Completa", { on: on === "full" });
+const yt = (o = {}) => now({ cls: "yt", inner: "▶", t1: "Tema que suena ahora", t2: "Artista", src: "YouTube · Chrome · 📺 2", prog: 38, acts: row(o.on), glow: "rgba(209,17,17,.22)", ...o });
+const deckV = `<div class="sec" style="margin:10px 0 6px">Escenas y acciones</div><div class="deck">${DECK.join("")}</div>`;
+const deckL = `<div class="deckL" style="grid-template-columns:repeat(3,1fr);margin-top:6px">${DECK.join("")}</div>`;
+const split = (card, right) => `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1.1;min-width:0">${card}</div><div style="flex:1;min-width:0">${right}</div></div>`;
+const homeV = (o) => `${STRIP}${yt(o)}${deckV}`;
+const homeL = (o) => split(yt({ cmp: true, ...o }), `${STRIP}${deckL}`);
+const dimV = (o) => `<div style="opacity:.35">${homeV(o)}</div>`;
+const side = (html) => `<div class="sidedim"></div><div class="side">${html}</div>`;
+
+const item = (t, s, o = {}) => `<div class="trow ${o.on ? "on" : ""}"><div class="th" style="${o.on ? "background:linear-gradient(135deg,#d11,#511)" : ""}"></div><div class="grow"><div class="tt">${t}</div><div class="sub">${s}</div></div>${o.on ? '<span class="bg amb">▮▮▮</span>' : `<span class="sub">${o.d || "3:42"}</span>`}</div>`;
+const hd = (t, s) => `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="grow"><b>${t}</b><div class="sub">${s}</div></div><span class="btn">✕</span></div>`;
+const Q = (n = 5) => [item("Tema que suena ahora", "Artista · 2:10 de 3:42", { on: true }), item("Siguiente tema", "Artista", { d: "4:05" }), item("Otro tema de la lista", "Otro artista", { d: "2:58" }), item("Uno más", "Artista", { d: "5:12" }), item("Y otro", "Artista", { d: "3:30" })].slice(0, n).join("");
+const cola = (n) => `${hd("Cola", "Mix para jugar · 7 de 24")}${Q(n)}<div class="acts2">${act("⇄", "Aleatorio")}${act("↻", "Repetir")}${act("▤", "Mis listas")}</div>`;
+
+pair("A", "Cola: se abre una hoja con la lista", "<b>Toque en \"Cola · 24\"</b> (el 24 es cuántos temas tiene la lista): sube una hoja con la lista, el tema que suena marcado y a la vista. <b>Toque en un tema: suena ese</b>, la marca se mueve y la hoja queda abierta para seguir eligiendo. Abajo: Aleatorio, Repetir y \"Mis listas\" (cambia la hoja a tus listas; tocar una la pone a sonar). Se cierra bajándola o con ✕. Nada de esto trae YouTube al frente. Sin lista (un video suelto), el botón dice \"Cola\" y la hoja muestra los sugeridos.",
+  V({ title: "Inicio", right: RIGHT, body: dimV({ on: "cola" }), over: sheet(`<div class="grab"></div>${cola(5)}`) }),
+  L({ title: "Inicio", right: RIGHT, body: homeL({ on: "cola" }), over: side(cola(3)) }));
+
+const field = (t) => `<div class="search" style="border-color:#F5A524;color:#F1EEE8;display:flex;justify-content:space-between"><span>${t}▏</span><span>✕</span></div>`;
+const KEYS = `<div class="keys">teclado del celu · Enter = buscar</div>`;
+pair("B", "Buscar, paso 1: escribir", "<b>Toque en \"Buscar\"</b>: sube la hoja con el campo ya activo y el teclado del celu abierto. Debajo, las últimas búsquedas para repetirlas con un toque. Enter (o la lupa) busca.",
+  V({ title: "Inicio", right: RIGHT, body: dimV({ on: "buscar" }), over: sheet(`<div class="grab"></div>${hd("Buscar en YouTube", "Suena en la pestaña de Chrome, sin traerla al frente")}${field("lofi para jug")}<div style="margin-top:6px"><span class="chip">↺ rock nacional</span><span class="chip">↺ jazz</span><span class="chip">↺ soda stereo</span></div>${KEYS}`) }),
+  L({ title: "Inicio", right: RIGHT, body: homeL({ on: "buscar" }), over: side(`${hd("Buscar en YouTube", "Sin traer la pestaña al frente")}${field("lofi para jug")}${KEYS}`) }));
+
+const R = (n = 4) => [item("lofi hip hop radio: beats to relax", "Lofi Girl · en vivo", { d: "VIVO" }), item("Resultado de la búsqueda", "Canal · 1,2 M vistas", { d: "12:40" }), item("Lista: Mix lofi", "Lista · 50 videos", { d: "LISTA" }), item("Otro resultado", "Canal · 300 k vistas", { d: "8:15" })].slice(0, n).join("");
+pair("C", "Buscar, paso 2: elegir", "El teclado se cierra y aparecen los resultados (mientras llegan: tres filas grises). <b>Toque en un resultado: empieza a sonar</b> y la hoja se cierra sola; la tarjeta del Inicio ya muestra el tema nuevo. <b>Mantener</b>: \"Agregar a la cola\" en vez de cortar lo que suena. Las listas se distinguen con la etiqueta LISTA.",
+  V({ title: "Inicio", right: RIGHT, body: dimV({ on: "buscar" }), over: sheet(`<div class="grab"></div>${hd("Buscar en YouTube", "4 resultados")}${field("lofi para jugar")}<div style="margin-top:6px">${R(4)}</div>`) }),
+  L({ title: "Inicio", right: RIGHT, body: homeL({ on: "buscar" }), over: side(`${field("lofi para jugar")}<div style="margin-top:6px">${R(4)}</div>`) }));
+
+const appvol = `<div class="appvol">${ic("chrome", 24)}<span style="font-size:11px;flex:none">Chrome</span><div class="grad"><b style="width:70%"></b><em style="left:70%"></em></div><span class="num" style="font:600 12px monospace;color:#F5A524">70</span><span style="font-size:11px;padding:4px 8px;border-radius:12px;background:#2C2935;flex:none">🎧 ▾</span></div>`;
+pair("D", "Vol app: aparece la barra de la app", "<b>Toque en \"Vol app\"</b>: debajo de la fila aparece la barra de volumen <b>de esa app sola</b> (acá Chrome), con su número y su salida. La barra grande de arriba sigue siendo la de la PC. Así se le baja a YouTube sin tocar el volumen del juego. Otro toque en \"Vol app\" la esconde; también se esconde sola a los 5 s sin tocarla. Límite de Windows: todo Chrome comparte un volumen.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${yt({ on: "vol", foot: appvol })}${deckV}` }),
+  L({ title: "Inicio", right: RIGHT, body: split(yt({ cmp: true, on: "vol", prog: null, foot: appvol }), `${STRIP}${deckL}`) }));
+
+pair("E", "Completa: actúa al toque y avisa", "<b>Toque en \"Completa\"</b>: el video pasa a pantalla completa en su pantalla, el botón queda prendido y sale un aviso de 2 s. Otro toque la saca. Es el único botón que puede cambiar la ventana activa de la PC (Chrome necesita estar al frente para entrar a pantalla completa: a verificar), así que el aviso lo dice.",
+  V({ title: "Inicio", right: RIGHT, body: homeV({ on: "full" }), over: `<div class="toast">YouTube a pantalla completa en 📺 2</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: homeL({ on: "full" }), over: `<div class="toast" style="bottom:14px">YouTube a pantalla completa en 📺 2</div>` }));
+
+pair("F", "Cuando algo falla o falta", "Sin la extensión, Cola y Buscar salen apagados; al tocarlos, una hoja corta explica qué falta y cómo sumarlo. Si YouTube no deja leer la cola, la hoja lo dice y ofrece Siguiente y Anterior, que siguen andando.",
+  V({ title: "Inicio", right: RIGHT, body: dimV({}), over: sheet(`<div class="grab"></div><b>La cola y el buscador necesitan la extensión</b><div class="sub" style="white-space:normal;margin:4px 0 10px">Es opcional. Se instala una vez en Chrome y todo queda en tu PC. Sin ella siguen andando play, pausa y el volumen.</div><span class="btn p">Cómo instalarla</span> <span class="btn">Ahora no</span>`) }),
+  L({ title: "Inicio", right: RIGHT, body: homeL({ on: "cola" }), over: side(`${hd("Cola", "No se pudo leer")}<div class="err">YouTube cambió algo y la lista no se puede leer por ahora.</div><div class="acts2">${act("⏮", "Anterior")}${act("⏭", "Siguiente")}</div>`) }));
+</script>
+</body>
+</html>

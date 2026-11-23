@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pad · 01 Touchpad</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+<style>.lcol{width:118px;flex:none;display:flex;flex-direction:column;gap:6px}.lcol .seg{flex-direction:column}.lcol .seg span{padding:6px 0}</style>
+</head>
+<body>
+<script>
+head("01 · Touchpad", "Fase B5. La superficie es la protagonista: una plancha con grilla de puntos y una <b>luz ámbar que aparece debajo del dedo</b> (el dedo enciende la superficie). Arriba a la izquierda, en mono, a qué pantalla va el cursor y su escala; arriba a la derecha, la latencia medida. Abajo, pegada al borde, una <b>barra de clic partida</b> como la de una notebook (zona del pulgar). El pad deja 16 dp a cada costado para no pisar el gesto Atrás de Android. En apaisado la superficie ocupa casi todo y los controles van en una columna angosta. Color de <code>theme.ts</code>.", null, ["02-permiso-2026-11-08.html", "02 · Permiso y control"]);
+
+const R = `${chip("on")}`;
+const vbody = (s, cb = clickbar()) => `${seg(0)}${s}${cb}<div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">Sensibilidad · Ajustes del pad ⚙</span>${stopBtn}</div>`;
+const lbody = (s, cb = clickbar()) => `<div style="display:flex;gap:10px;height:100%"><div style="flex:1;display:flex;flex-direction:column">${s}${cb}</div><div class="lcol">${R}${seg(0, true)}<span class="sub" style="text-align:center">⚙ Ajustes</span><div style="flex:1"></div>${stopBtn}</div></div>`;
+
+pair("A", "En reposo (control activo)", "Sin dedo: la grilla y tres líneas de ayuda que se van después de los primeros usos. El chip \"Control activo\" es un punto ámbar quieto (no late: distrae mientras se usa). \"■ Cortar\" está siempre a la vista mientras hay control.",
+  V({ right: R, body: vbody(surface()) }),
+  L({ right: "", body: lbody(surface({ h: 205 })) }));
+
+pair("B", "Moviendo el cursor", "La luz y el anillo siguen al dedo 1:1, sin curva (cualquier suavizado se siente como lag). La etiqueta cambia cuando el cursor pasa a otra pantalla: \"→ PANTALLA 2 · 150 %\". Al soltar, la luz se funde en 120 ms.",
+  V({ right: R, body: vbody(surface({ finger: [58, 46], label: "→ PANTALLA 2 · 150 %" })) }),
+  L({ body: lbody(surface({ h: 205, finger: [40, 50], label: "→ PANTALLA 2 · 150 %" })) }));
+
+pair("C", "Toque = clic", "Un toque corto hace clic izquierdo donde está el cursor (no donde está el dedo: es un touchpad, no una pantalla táctil). Respuesta: un anillo que se agranda un poco y se apaga en 160 ms. Sin vibración en cada clic (se puede prender en Ajustes). Dos toques seguidos = doble clic.",
+  V({ right: R, body: vbody(surface({ finger: [40, 60], ring: true })) }),
+  L({ body: lbody(surface({ h: 205, finger: [60, 45], ring: true })) }));
+
+pair("D", "Mantener = arrastrar", "Dedo quieto 400 ms → vibra una vez, el borde de la superficie se pone ámbar y el botón izquierdo queda apretado mientras movés. Al levantar el dedo se suelta. Para arrastres largos, el candado del medio de la barra deja el clic apretado hasta tocarlo otra vez. Si se corta la conexión, la PC suelta el botón sola a los 3 s.",
+  V({ right: R, body: vbody(surface({ finger: [50, 40], drag: true }), clickbar({ left: true, lock: true })) }),
+  L({ body: lbody(surface({ h: 205, finger: [52, 52], drag: true }), clickbar({ left: true, lock: true })) }));
+
+pair("E", "Dos dedos: scroll y clic derecho", "Dos dedos que se mueven = rueda (vertical y horizontal), con \"scroll natural\" como en el celu (se puede invertir en Ajustes). Un toque con dos dedos = clic derecho. Sin pellizcar para zoom en esta fase.",
+  V({ right: R, body: vbody(surface({ finger: [42, 50], two: true, lat: "21 ms", note: `<span class="tag" style="top:auto;bottom:8px;left:auto;right:10px;color:#F5A524">↕ SCROLL</span>` })) }),
+  L({ body: lbody(surface({ h: 205, finger: [40, 45], two: true, note: `<span class="tag" style="top:auto;bottom:8px;left:auto;right:10px;color:#F5A524">↕ SCROLL</span>` })) }));
+
+pair("F", "Latencia alta", "Si la latencia medida pasa de 80 ms durante unos segundos, la etiqueta de la derecha se pone ámbar con \"Wi-Fi lento\". No bloquea nada: solo explica por qué se siente pesado.",
+  V({ right: R, body: vbody(surface({ lat: "<span style='color:#F5A524'>140 ms · Wi-Fi lento</span>" })) }),
+  L({ body: lbody(surface({ h: 205, lat: "<span style='color:#F5A524'>140 ms · Wi-Fi lento</span>" })) }));
+</script>
+</body>
+</html>

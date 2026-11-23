@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# pnpm 12 pide aprobar los scripts de instalación de cada dependencia.
+# esbuild lo usan vitest y tsx. Agregar acá solo lo que se revise.
+allowBuilds:
+  esbuild: true
+  "@parcel/watcher": true

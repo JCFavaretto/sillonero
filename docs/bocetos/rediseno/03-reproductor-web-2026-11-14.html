@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Rediseño · 03 Reproductor web</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("03 · Reproductor web para cualquier sitio", "Fase F2 (D99 a D102). Con la extensión conectada, la tarjeta de una ventana del navegador que tiene un video o un audio muestra <b>los mismos controles en cualquier sitio</b>: reproducir/pausar, 10 s atrás y adelante, velocidad, silencio y la barra de reproducción, <b>sin traer la ventana al frente</b>. Solo aparecen los botones que esa pestaña admite. Sin extensión quedan los atajos de teclado, que sí traen la ventana. No hay botones a medida por sitio; la cola, el buscador y las listas de YouTube siguen como hoy.", ["02-escenas-provisoria-2026-11-14.html", "02 · Escenas (F1)"], ["04-decks-2026-11-14.html", "04 · Decks (F3)"]);
+
+const sec = (t, first) => `<div class="sec" style="${first ? "margin-top:0" : ""}">${t}</div>`;
+const RIGHT = `<span class="btn">Traer todo</span>`;
+const colsL = (a, b) => `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1;min-width:0">${a}</div><div style="flex:1;min-width:0">${b}</div></div>`;
+const rest = wcard("game", "Elden Ring", { scr: 1, full: true, front: true, vol: slim(80) }) + wcard("discord", "Discord", { scr: 3, vol: slim(55) });
+const speed = (v) => act(`<span class="sp">${v}×</span>`, "Velocidad", { on: v !== "1" });
+const row1 = (v = "1") => `<div class="acts2">${act("↺", "−10 s") + act("↻", "+10 s") + speed(v) + act("⛶", "Completa")}</div>`;
+const row2 = `<div class="acts2">${act("◫", "Traer") + act("▭", "Pestañas") + act("⇄", "Salida") + act("⋯", "Todo")}</div>`;
+const tw = (o = {}) => pcard({ t1: "Final del torneo · partida 3", t2: "twitch.tv", src: "Chrome · 📺 2 · con extensión", cls: "none", inner: "▶", glow: "rgba(145,70,255,.20)", prog: pt(41, "38:02", "54:10"), vol: slim(64, { hint: "este video" }), ...o });
+
+pair("A", "Un video de cualquier sitio, plegado y desplegado", "<b>Plegada</b> (apaisado): igual que cualquier reproducción, pero la barra de reproducción la da la extensión y la barra de volumen dice <b>\"este video\"</b>: mueve el volumen del reproductor de la página, no el de todo Chrome. <b>Desplegada</b> (vertical), fila 1: <b>−10 s</b> y <b>+10 s</b> saltan en el video; <b>Velocidad</b> abre el selector (B); <b>Completa</b> manda la tecla F y por eso trae la ventana al frente (el navegador no deja hacerlo de otro modo). Fila 2: Traer, <b>Pestañas</b> (la pantalla del navegador de hoy), Salida y ⋯ Todo.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 1", true) + tw({ open: row1() + row2 }) + sec("Abiertas · 2") + rest }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 1", true) + tw(), sec("Abiertas · 2", true) + rest) }));
+
+const chips = ["0,5", "0,75", "1", "1,25", "1,5", "1,75", "2"].map((v) => `<span class="chip ${v === "1,5" ? "on" : ""}" style="flex:1;text-align:center;padding:12px 0;min-width:0;font-size:11px">${v}×</span>`).join("");
+const speedRow = `<div class="appvol" style="gap:4px;padding:6px">${chips}</div>`;
+pair("B", "Velocidad", "Tocar Velocidad abre una fila con siete valores ahí mismo, sin hoja: un toque elige y la fila se cierra sola a los 4 s o al tocar otra vez el botón. El botón muestra el valor actual y queda en ámbar si no es 1×. Si el sitio rechaza el cambio, la fila vuelve a 1× y aparece el motivo arriba.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 1", true) + tw({ open: row1("1,5") + speedRow + row2 }) + sec("Abiertas · 2") + rest }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 1", true) + tw({ open: row1("1,5") + speedRow }), sec("Abiertas · 2", true) + rest) }));
+
+const live = pcard({ t1: "lofi hip hop radio para estudiar", t2: "youtube.com", src: "Chrome · 📺 2 · con extensión", cls: "yt", inner: "▶", glow: "rgba(220,40,40,.18)", prog: pt(0, "", "", { live: true }), vol: slim(72, { hint: "este video" }), open: `<div class="acts2">${act("☰", "Cola") + act("⌕", "Buscar") + act("⛶", "Completa") + act("⋯", "Todo")}</div>` });
+const wa = pcard({ t1: "Mensaje de voz", t2: "web.whatsapp.com", src: "Chrome · 📺 3 · con extensión", cls: "none", inner: "♪", glow: "rgba(37,211,102,.16)", prog: pt(20, "0:12", "0:48"), vol: slim(90, { hint: "este audio" }), open: `<div class="acts2">${speed("1,5") + act("◫", "Traer") + act("▭", "Pestañas") + act("⋯", "Todo")}</div>` });
+pair("C", "Solo lo que la pestaña admite: un vivo y un audio", "<b>Vivo</b> (vertical): no hay ±10 s ni velocidad, y la barra dice VIVO. En YouTube siguen Cola y Buscar, como hoy. <b>Audio de WhatsApp o Telegram</b> (apaisado): mientras suena un mensaje de voz hay reproducir/pausar, la barra y velocidad; cuando termina, la tarjeta vuelve a ser una ventana común. No hay botones propios de esos sitios.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 1", true) + live + sec("Abiertas · 2") + rest }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 1", true) + wa, sec("Abiertas · 2", true) + rest) }));
+
+const noExt = pcard({ t1: "Final del torneo · partida 3 - Twitch", t2: "Chrome", src: "Chrome · 📺 2 · sin extensión", cls: "none", inner: "▶", vol: slim(72, { hint: "todo Chrome" }), open: `<div class="note" style="margin-top:8px">Sin la extensión, estos botones mandan teclas: la ventana pasa al frente.</div><div class="acts2">${act("↺", "−10 s") + act("↻", "+10 s") + act("🔇", "Silencio") + act("⛶", "Completa")}</div>${row2}` });
+pair("D", "Sin extensión: por teclado", "La tarjeta sale del título de la ventana, no hay barra de reproducción ni velocidad, y el volumen es el de todo Chrome. Los botones mandan las teclas que comparten casi todos los reproductores (Espacio, ← →, M, F) y <b>traen la ventana al frente</b>: el aviso lo dice antes de tocar. Si un juego está a pantalla completa, lo saca del frente; por eso conviene la extensión.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 1", true) + noExt + sec("Abiertas · 2") + rest }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 1", true) + noExt, sec("Abiertas · 2", true) + rest) }));
+
+const prot = pcard({ t1: "Serie · T2 E4", t2: "netflix.com", src: "Chrome · 📺 2 · con extensión", cls: "none", inner: "▶", prog: pt(62, "31:10", "19:05"), vol: slim(70, { hint: "este video" }), open: `<div class="note" style="margin-top:8px">Este sitio no deja saltar ni cambiar la velocidad desde afuera.</div><div class="acts2">${act("↺", "−10 s", { dim: true }) + act("↻", "+10 s", { dim: true }) + speed("1").replace('class="act', 'class="act dim') + act("⛶", "Completa")}</div>` });
+const stale = pcard({ t1: "Final del torneo · partida 3", t2: "twitch.tv", src: "Chrome · 📺 2 · la extensión no responde", cls: "none", inner: "▶", prog: `<div class="pt" style="opacity:.4"><span>38:02</span><div class="prog"><b style="width:41%"></b></div><span>−54:10</span></div>`, vol: slim(72, { hint: "todo Chrome" }) });
+pair("E", "Cuando no se puede", "<b>Sitio protegido</b> (vertical): saltar rompe la reproducción en algunos servicios, así que ahí solo quedan reproducir/pausar y pantalla completa, con el motivo a la vista y los otros botones en gris. <b>La extensión dejó de responder</b> (apaisado): la barra de reproducción queda gris con el último dato, el volumen vuelve a ser el de todo Chrome y los botones pasan al modo por teclado (D); cuando la extensión vuelve, se actualiza sola.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 1", true) + prot + sec("Abiertas · 2") + rest }),
+  L({ title: "Apps", right: RIGHT, body: colsL(`<div class="err" style="margin-bottom:6px">La extensión del navegador no responde.</div>` + sec("Reproduciendo · 1", true) + stale, sec("Abiertas · 2", true) + rest) }));
+</script>
+</body>
+</html>

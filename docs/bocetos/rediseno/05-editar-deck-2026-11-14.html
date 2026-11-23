@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Rediseño · 05 Editar un deck</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("05 · Editar un deck", "Fase F3 (D103, D104). El botón <b>Editar</b> pone el deck en modo edición: tocar una tecla abre su hoja (qué hace, nombre, imagen, mover, quitar), tocar un lugar vacío crea una. Desde ahí también se cambia la grilla y se administran los decks. Todo se guarda en el celu al instante: no hay \"guardando\" ni depende de la conexión, salvo para elegir una escena o una app, que se le piden a la PC. Editar y borrar <b>escenas</b> sigue en el editor de hoy (se llega desde la hoja de tecla).", ["04-decks-2026-11-14.html", "04 · Decks"], ["06-imagen-y-respaldo-2026-11-14.html", "06 · Imagen y respaldo"]);
+
+const NAMES = ["Principal", "Stream", "Trabajo", "Juego"];
+const DONE = `<span class="btn p">Listo</span>`;
+const keys = (o = {}) => [
+  dk("Modo stream", { bg: IMG.grape, rm: 1 }), dk("OBS", { bg: IMG.night, rm: 1, cls: o.pick ? "run" : "" }), dk("Twitch", { bg: IMG.grape, tag: "GIF", rm: 1 }),
+  dk("Chat", { bg: IMG.sea, rm: 1 }), dk("Tele", { g: "📺", rm: 1 }), dk("Auriculares", { g: "🎧", rm: 1 }),
+  dk("Alertas", { bg: IMG.fire, tag: "GIF", rm: 1 }), dk("Música", { bg: IMG.moss, rm: 1 }), dk("Silenciar", { g: "🔇", rm: 1 }),
+  dk("Cortar todo", { bg: IMG.red, rm: 1 }), dkEmpty, dkEmpty,
+];
+const tools = `<div class="acts2" style="margin:0 0 8px">${act("▦", "Grilla 3×4") + act("✎", "Nombre") + act("☰", "Decks")}</div>`;
+const sheetL = (html) => `<div class="sidedim"></div><div class="side" style="overflow:auto;width:58%">${html.replace('<div class="grab"></div>', "")}</div>`;
+const dim = (h) => `<div style="opacity:.35">${h}</div>`;
+const bodyV = (o) => dbar(NAMES, "Stream") + tools + dgrid(3, keys(o));
+const bodyL = (o) => tools + dgrid(4, keys(o), "2.4/1");
+
+pair("A", "Modo edición", "Arriba, <b>Listo</b> sale del modo. La fila nueva: <b>Grilla</b> (D), <b>Nombre</b> del deck y <b>Decks</b> (E). En la grilla: la <b>×</b> roja quita la tecla (pide confirmar, F); tocar la tecla abre su hoja (B); tocar un <b>+</b> crea una tecla en ese lugar. <b>Mover</b> (apaisado): desde la hoja se elige \"Mover\", la tecla queda marcada en ámbar y el siguiente toque en otro lugar la lleva ahí (si está ocupado, se intercambian). No se arrastra: así anda igual con \"reducir movimiento\" y no se confunde con deslizar entre decks. En modo edición no se desliza entre decks ni se ejecuta nada.",
+  V({ title: "Escenas", right: DONE, tab: "Escenas", body: bodyV() }),
+  L({ title: "Stream ▾", right: DONE, body: `<div class="note" style="margin-bottom:6px">Moviendo \"OBS\": tocá el lugar de destino. <b>Cancelar</b></div>` + dgrid(4, keys({ pick: true }), "2.4/1") }));
+
+const keySheet = `<div class="grab"></div><div style="display:flex;gap:12px;align-items:center"><div style="width:72px;flex:none">${dk("Twitch", { bg: IMG.grape, tag: "GIF" })}</div><div class="grow"><b>Tecla</b><div class="sub">Lugar 3 de 12 · deck Stream</div></div><span class="btn">✕</span></div>
+<div class="lab">Qué hace</div><div class="lrow"><div class="grow"><b>Abrir link</b><div class="sub">twitch.tv/directory · ventana nueva</div></div><span style="color:#A29DAE">›</span></div>
+<div class="lab">Nombre</div><div class="field2">Twitch</div>
+<div class="lab">Imagen</div><div class="acts2" style="margin-top:6px">${act("▣", "Elegir") + act("✂", "Recortar") + act("⌫", "Sin imagen")}</div>
+<div class="acts2">${act("⇄", "Mover") + `<span class="act" style="color:#FF8A8A;border-color:#5a2a30"><i>✕</i>Quitar tecla</span>`}</div>`;
+pair("B", "La hoja de una tecla", "Arriba, cómo se ve la tecla. <b>Qué hace</b> abre el selector de acción (C). <b>Nombre:</b> hasta 32 letras; vacío = la tecla muestra solo la imagen. <b>Imagen:</b> Elegir abre la galería, Recortar vuelve a encuadrar la que ya tiene y Sin imagen deja el dibujo de la acción (boceto 06). <b>Mover</b> cierra la hoja y espera el toque de destino. <b>Quitar tecla</b> pide confirmar. Cada cambio se guarda solo; la ✕ cierra la hoja. En apaisado la hoja entra por el costado y se desliza hacia abajo para llegar a Mover y Quitar.",
+  V({ title: "Escenas", right: DONE, tab: "Escenas", body: dim(bodyV()), over: sheet(keySheet) }),
+  L({ title: "Stream ▾", right: DONE, body: dim(bodyL()), over: sheetL(keySheet) }));
+
+const kind = (g, t, s) => `<div class="lrow"><span style="width:32px;text-align:center;font-size:16px">${g}</span><div class="grow"><b>${t}</b><div class="sub" style="white-space:normal">${s}</div></div><span style="color:#A29DAE">›</span></div>`;
+const kinds = `<div class="grab"></div><h3>Qué hace esta tecla</h3>${kind("▶", "Escena", "Corre una escena guardada en la PC")}${kind("🔗", "Link", "Abre una dirección: pestaña, ventana o incógnito")}${kind("▣", "App", "Abre o enfoca un programa de la PC")}${kind("📺", "Pantalla", "Prende o apaga una pantalla")}${kind("🔉", "Audio", "Volumen, silencio, cambiar de salida, ⏮ ⏯ ⏭")}${kind("◫", "Ventanas", "Traer todo · Identificar pantallas")}`;
+const linkForm = `<h3>‹ Link</h3><div class="lab" style="margin-top:0">Dirección</div><div class="field2">twitch.tv/directory</div><div class="sub" style="margin-top:4px;color:#F5A524">Pegar del portapapeles: youtube.com/watch…</div><div class="lab">Abrir en</div><div class="tabs" style="display:flex;gap:6px;margin-top:6px"><span style="flex:1;text-align:center;padding:10px 0;border-radius:10px;font-size:11px">Pestaña</span><span class="on" style="flex:1;text-align:center;padding:10px 0;border-radius:10px;font-size:11px">Ventana</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:10px;font-size:11px">Incógnito</span></div><div class="sub" style="white-space:normal;margin-top:8px">El link queda guardado en este celu, no en la PC.</div><div class="acts"><span class="btn p">Usar</span></div>`;
+pair("C", "Elegir qué hace", "<b>Vertical:</b> los seis tipos. <b>Escena</b> lista las escenas de la PC y ofrece \"Nueva escena\" (abre el editor de hoy); <b>App</b> usa el buscador de apps de la PC de hoy; <b>Pantalla</b>, <b>Audio</b> y <b>Ventanas</b> son las acciones que hoy tienen las teclas del Inicio. Escena y App necesitan conexión: sin ella aparecen grises con el motivo. En F4 se suma \"Sonido\". <b>Apaisado:</b> el formulario de <b>Link</b>, el mismo de hoy (no pide https://, ofrece lo del portapapeles, tres modos de abrir), con la diferencia de que se guarda en el celu.",
+  V({ title: "Escenas", right: DONE, tab: "Escenas", body: dim(bodyV()), over: sheet(kinds) }),
+  L({ title: "Stream ▾", right: DONE, body: dim(bodyL()), over: sheetL(linkForm) }));
+
+const stepper = (t, v) => `<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><b style="font-size:12px">${t}</b><div class="step"><span>−</span><b>${v}</b><span>+</span></div></div>`;
+const mini = (c, r, used) => `<div class="dgrid" style="grid-template-columns:repeat(${c},1fr);gap:3px;width:${c * 22}px;margin:10px auto 0">${Array.from({ length: c * r }, (_, i) => `<i style="display:block;aspect-ratio:1/1;border-radius:4px;background:${i < used ? "#F5A524" : "#3B3746"}"></i>`).join("")}</div>`;
+const gridSheet = `<div class="grab"></div><h3>Grilla de \"Stream\"</h3>${stepper("Columnas", 3)}${stepper("Filas", 4)}${mini(3, 4, 10)}<div class="sub" style="text-align:center;margin-top:6px">12 lugares · 10 ocupados</div>`;
+const gridWarn = `<h3>Grilla de \"Stream\"</h3>${stepper("Columnas", 3)}${stepper("Filas", 3)}<div class="note" style="margin-top:8px">Con 9 lugares queda 1 tecla afuera (Cortar todo). No se borra: vuelve si agrandás la grilla.</div><div class="acts"><span class="btn">Cancelar</span><span class="btn p">Achicar igual</span></div>`;
+pair("D", "Cambiar la grilla", "Columnas de 2 a 5 y filas de 2 a 6, con − y + (botones de 44 px) y una vista previa que marca los lugares ocupados. Agrandar se aplica al instante. <b>Achicar</b> (apaisado) cuando hay más teclas que lugares avisa cuáles quedan afuera y pide confirmar; las teclas que no entran no se borran, quedan guardadas y vuelven al agrandar.",
+  V({ title: "Escenas", right: DONE, tab: "Escenas", body: dim(bodyV()), over: sheet(gridSheet) }),
+  L({ title: "Stream ▾", right: DONE, body: dim(bodyL()), over: sheetL(gridWarn) }));
+
+const drow = (n, s, o = {}) => `<div class="lrow"><div class="grow"><b>${n}</b><div class="sub">${s}</div></div><span class="chev" style="${o.first ? "opacity:.3" : ""}">▲</span><span class="chev" style="${o.last ? "opacity:.3" : ""}">▼</span><span class="chev" style="color:#FF8A8A">✕</span></div>`;
+const decks = `<div class="grab"></div><h3>Decks · 4 de 32</h3>${drow("Principal", "3×4 · 9 teclas", { first: true })}${drow("Stream", "3×4 · 10 teclas")}${drow("Trabajo", "5×6 · 22 teclas")}${drow("Juego", "2×3 · 6 teclas", { last: true })}<div class="acts"><span class="btn p">Nuevo deck</span></div>`;
+const full = `<h3>Decks · 32 de 32</h3>${drow("Principal", "3×4 · 9 teclas", { first: true })}${drow("Stream", "3×4 · 10 teclas")}<div class="note" style="margin-top:8px">Llegaste a los 32 decks. Borrá uno para crear otro.</div><div class="acts"><span class="btn" style="opacity:.4">Nuevo deck</span></div>`;
+pair("E", "Administrar los decks", "<b>▲ ▼</b> cambian el orden (el de la tira y el de deslizar); <b>✕</b> borra el deck (pide confirmar, F); tocar el nombre lo abre para renombrarlo. <b>Nuevo deck</b> pide el nombre, lo crea con una grilla de 3×4 vacía y salta a él. Siempre queda al menos un deck: el último no se puede borrar. <b>Apaisado:</b> con 32 decks el botón queda gris y dice por qué.",
+  V({ title: "Escenas", right: DONE, tab: "Escenas", body: dim(bodyV()), over: sheet(decks) }),
+  L({ title: "Stream ▾", right: DONE, body: dim(bodyL()), over: sheetL(full) }));
+
+const confirm = (t, s, b) => `<div class="sheetwrap center"><div class="sheet"><h3>${t}</h3><div class="sub" style="white-space:normal">${s}</div><div class="acts"><span class="btn">Cancelar</span><span class="btn" style="background:#3A1E22;border-color:#5a2a30;color:#FF8A8A">${b}</span></div></div></div>`;
+pair("F", "Confirmar: quitar una tecla y borrar un deck", "Las dos acciones que pierden algo piden confirmar, con el nombre de lo que se borra. Quitar una tecla no borra la escena ni la app: solo la tecla (y su imagen). Borrar un deck borra sus teclas y sus imágenes del celu; el texto dice cuántas.",
+  V({ title: "Escenas", right: DONE, tab: "Escenas", body: dim(bodyV()), over: confirm("¿Quitar la tecla \"Twitch\"?", "Se borra la tecla y su imagen. El link no queda guardado en ningún lado.", "Quitar") }),
+  L({ title: "Stream ▾", right: DONE, body: dim(bodyL()), over: confirm("¿Borrar el deck \"Stream\"?", "Se borran sus 10 teclas y sus imágenes de este celu. Las escenas de la PC no se tocan.", "Borrar deck") }));
+</script>
+</body>
+</html>

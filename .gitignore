@@ -1,0 +1,27 @@
+node_modules/
+dist/
+build/
+.expo/
+*.log
+.env
+.env.*
+# Android / iOS
+android/app/build/
+ios/Pods/
+# Windows
+Thumbs.db
+desktop.ini
+# Config local del prototipo
+prototipo-ahk/monitores.ini
+prototipo-ahk/*.exe
+prototipo-ahk/*.cfg
+
+# Pruebas descartables
+scratch/
+
+# APK (R10): android/ se genera con expo prebuild; las claves nunca van al repo
+apps/mobile/android/
+apps/mobile/ios/
+dist/
+*.keystore
+*.jks

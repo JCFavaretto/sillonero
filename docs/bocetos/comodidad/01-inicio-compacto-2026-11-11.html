@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Comodidad · 01 Inicio compacto</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("01 · Inicio compacto", "Fase C1, pedido de Jay el 11/11/2026: <b>el Inicio ocupa mucho y ofrece poco</b>. La tarjeta pasa de ~330 px de alto a ~215: <b>carátula cuadrada con borde redondeado</b>, el título al lado (hasta el 70 % del ancho, dos líneas), los datos debajo del título, los controles, y la <b>barra de volumen abajo</b> (reemplaza al anillo; sigue siendo la de la salida predeterminada, con el ⏻ de silencio y el botón de salida). Lo nuevo: una <b>fila de botones propios de la app que suena</b>. Así entran la tarjeta y seis teclas sin bajar con el dedo. Reemplaza al boceto 09 de Audio.", null, ["02-apps-visual-2026-11-11.html", "02 · Apps visual"]);
+
+const RIGHT = `<span class="btn">Escenas</span>`;
+const deckV = (n = 6) => `<div class="sec" style="margin:10px 0 6px">Escenas y acciones</div><div class="deck">${DECK.slice(0, n).join("")}</div>`;
+const deckL = `<div class="deckL" style="grid-template-columns:repeat(3,1fr);margin-top:6px">${DECK.join("")}</div>`;
+const split = (card, right) => `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1.1;min-width:0">${card}</div><div style="flex:1;min-width:0">${right}</div></div>`;
+
+const ytActs = act("☰", "Cola · 24") + act("⌕", "Buscar") + act("▭", "Pestañas · 4") + act("⛶", "Completa");
+const yt = (o = {}) => now({ cls: "yt", inner: "▶", t1: "lofi hip hop radio: beats to relax/study to", t2: "Lofi Girl", src: "YouTube · Chrome · 📺 2", prog: 38, acts: ytActs, glow: "rgba(209,17,17,.22)", ...o });
+
+pair("A", "Suena YouTube (con la extensión del navegador)", "La fila de abajo cambia según la app: con YouTube aparecen <b>Cola</b> (la lista de reproducción, para elegir un tema), <b>Buscar</b>, <b>Pestañas</b> y <b>Completa</b>. Todo se manda a la pestaña <b>sin traerla al frente</b>: quien está jugando no pierde el foco. Tocar la carátula o el título abre la app (boceto 03). Apaisado: tarjeta a la izquierda (un poco más baja), teclas a la derecha.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${yt()}${deckV()}` }),
+  L({ title: "Inicio", right: RIGHT, body: split(yt({ cmp: true }), `${STRIP}${deckL}`) }));
+
+const basic = act("⛶", "Completa", { dim: false }) + act("⏪", "−10 s") + act("⏩", "+10 s") + act("◫", "Traer");
+pair("B", "Suena YouTube, sin la extensión", "La app anda igual sin instalar nada: título, carátula, ⏯ y volumen salen de Windows. Los botones de la fila son <b>atajos de teclado</b>, así que primero traen la ventana al frente (se avisa con el ícono ◫ la primera vez). Una línea discreta ofrece la extensión; se puede descartar y no vuelve.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${yt({ acts: basic, prog: null, src: "Chrome · 📺 2", noPrev: true, noNext: true, foot: `<div class="src" style="margin-top:8px;display:flex;justify-content:space-between"><span>Cola, buscador y pestañas: con la extensión</span><b style="color:#F5A524">Ver ›</b></div>` })}${deckV()}` }),
+  L({ title: "Inicio", right: RIGHT, body: split(yt({ cmp: true, acts: basic, prog: null, src: "Chrome · 📺 2", noPrev: true, noNext: true }), `${STRIP}${deckL}`) }));
+
+const spAct = act("◫", "Traer") + act("📺", "Mover") + act("🔉", "Vol app") + act("⇄", "Salida");
+const sp = (o = {}) => now({ t1: "Nombre del tema", t2: "Artista", src: "Spotify · 📺 1", acts: spAct, ...o });
+pair("C", "Otra app (Spotify): botones generales", "Cuando la app no tiene utilidades propias, la fila muestra lo que sirve para cualquier ventana: traerla, moverla de pantalla, su volumen y su salida. Siempre cuatro botones, del mismo tamaño, en el mismo lugar.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${sp()}${deckV()}` }),
+  L({ title: "Inicio", right: RIGHT, body: split(sp({ cmp: true }), `${STRIP}${deckL}`) }));
+
+const idle = (o = {}) => now({ cls: "none", inner: "♪", t1: "Nada sonando", t2: "Las apps aparecen cuando reproducen algo", src: "", idle: true, paused: true, noPrev: true, noNext: true, glow: "rgba(120,110,140,.18)", ...o });
+pair("D", "Nada sonando y silenciado", "Sin tema, la tarjeta se achica: no hay fila de app, y el volumen y el ⏻ siguen andando. Silenciado: el ⏻ pasa a rojo y la barra a gris; el número se conserva.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${idle()}${deckV()}` }),
+  L({ title: "Inicio", right: RIGHT, body: split(sp({ cmp: true, off: true }), `${STRIP}${deckL}`) }));
+
+pair("E", "Varias cosas sonando", "Si suenan dos apps, debajo del título aparece un selector chico (\"1 de 2\") y la tarjeta se desliza de costado para pasar de una a otra. La barra de volumen no cambia: es de la salida.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${yt({ src: "YouTube · Chrome · 📺 2 &nbsp; <b style='color:#F5A524'>● ○</b>" })}${deckV()}` }),
+  L({ title: "Inicio", right: RIGHT, body: split(yt({ cmp: true, src: "YouTube · Chrome &nbsp; <b style='color:#F5A524'>● ○</b>" }), `${STRIP}${deckL}`) }));
+</script>
+</body>
+</html>

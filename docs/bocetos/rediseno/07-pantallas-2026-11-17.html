@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Rediseño · 07 Pantallas</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("07 · Pantallas: un mapa que se toca", "Fase F4b (D109). Hoy son <b>tres bloques</b>: un mapa que es solo un dibujo, una barra de \"ventana activa\" con un botón por pantalla, y una lista con un interruptor por pantalla. Propuesta: <b>un solo mapa interactivo</b>. Cada pantalla es una ficha a escala; <b>tocarla la elige</b> y abajo aparece un panel con todo lo que se hace con esa pantalla (prender o apagar, mandarle la ventana activa, identificar, renombrar). La ventana activa se ve <b>dentro de la pantalla donde está</b>. Baja fidelidad.", ["06-imagen-y-respaldo-2026-11-14.html", "06 · Imagen y respaldo (F3)"], null);
+
+const RIGHT = `<span class="btn">Identificar</span>`;
+const tile = (id, n, name, res, pos, o = {}) => `<div class="tile ${o.sel ? "sel" : ""} ${o.off ? "off" : ""} ${o.pri ? "pri" : ""}" style="left:${pos[0]}%;top:${pos[1]}%;width:${pos[2]}%;height:${pos[3]}%"><span class="n">${n}</span><b>${name}</b><i>${res}</i>${o.win ? `<span class="win">${o.win}</span>` : ""}</div>`;
+const map = (h, tiles) => `<div class="smap" style="height:${h}px">${tiles.join("")}</div>`;
+const T = (sel, off3) => [
+  tile("a", 1, "Monitor", "2560×1440", [3, 8, 44, 62], { pri: true, sel: sel === 1, win: sel === 1 ? "" : "" }),
+  tile("b", 2, "Tele", "3840×2160", [50, 4, 47, 54], { sel: sel === 2, win: "▶" }),
+  tile("c", 3, "Lateral", "1920×1080", [50, 62, 47, 32], { sel: sel === 3, off: off3 }),
+];
+const win = `<div class="pill">${ic("chrome", 22)}<div class="grow"><b>Ventana activa</b> · Chrome — YouTube</div><span class="sub">en 📺 2</span></div>`;
+const dock = (name, sub, on, o = {}) => `<div class="dock"><div class="hd"><div class="grow"><b>${name}</b><div class="sub">${sub}</div></div><span class="sw ${on ? "" : "offsw"}"></span></div>
+<div class="btnrow"><span class="bigbtn p ${o.here ? "dis" : ""}">▭ Mandar la ventana activa acá</span></div>
+<div class="btnrow"><span class="bigbtn">◎ Identificar</span><span class="bigbtn">✎ Renombrar</span><span class="bigbtn">⇄ Ordenar</span></div>
+${o.note ? `<div class="hintx">${o.note}</div>` : ""}</div>`;
+const sec = (t) => `<div class="sec" style="margin-top:0">${t}</div>`;
+
+pair("A", "El mapa, con una pantalla elegida", "Arriba, una línea con la ventana activa. Después el mapa a escala (las posiciones reales de tus pantallas), con el número de Windows, el apodo y la resolución. <b>La pantalla elegida lleva el borde ámbar</b> y su panel aparece abajo. El recuadro verde chico es <b>la ventana activa</b>, dibujada donde está. En el panel: el interruptor de prender o apagar, <b>Mandar la ventana activa acá</b> (el botón grande, porque es lo que más se usa), Identificar, Renombrar y Ordenar. Apaisado: el mapa ocupa la izquierda y el panel va a la derecha, sin bajar.",
+  V({ title: "Pantallas", right: RIGHT, tab: "Pantallas", body: STRIP + win + map(190, T(2)) + dock("Tele", "3840×2160 · prendida · ventana activa acá", true, { here: true }) }),
+  L({ title: "Pantallas", right: RIGHT, body: `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1.2;min-width:0">${win}${map(190, T(1))}</div><div style="flex:1;min-width:0">${dock("Monitor", "2560×1440 · principal · prendida", true, { note: "Es la principal: no se puede apagar." })}</div></div>` }));
+
+pair("B", "Mandar la ventana activa a otra pantalla", "Elegís la pantalla de destino y tocás el botón grande: la ventana pasa ahí y el recuadro verde se mueve en el mapa (con movimiento suave; sin él con \"reducir movimiento\"). Si la ventana ya está en esa pantalla el botón queda gris y dice \"ya está acá\". Un toque largo en una ficha la renombra directo, como hoy.",
+  V({ title: "Pantallas", right: RIGHT, tab: "Pantallas", body: STRIP + win + map(190, T(1)) + dock("Monitor", "2560×1440 · principal · prendida", true) }),
+  L({ title: "Pantallas", right: RIGHT, body: `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1.2;min-width:0">${win.replace("en 📺 2", "pasó a 📺 1")}${map(190, [tile("a", 1, "Monitor", "2560×1440", [3, 8, 44, 62], { pri: true, sel: true, win: "▶" }), tile("b", 2, "Tele", "3840×2160", [50, 4, 47, 54]), tile("c", 3, "Lateral", "1920×1080", [50, 62, 47, 32])])}</div><div style="flex:1;min-width:0">${dock("Monitor", "2560×1440 · principal · ventana activa acá", true, { here: true, note: "✓ La ventana pasó a esta pantalla." })}</div></div>` }));
+
+pair("C", "Una pantalla apagada y los límites", "Una pantalla apagada se dibuja con borde de rayas y más tenue, y su panel ofrece <b>Prender</b>. Los límites de siempre se dicen en el panel en vez de dejar un interruptor muerto: <b>la principal no se apaga</b> y <b>la última prendida tampoco</b>. Mientras la PC cambia la configuración, el interruptor muestra una ruedita y el mapa se queda quieto.",
+  V({ title: "Pantallas", right: RIGHT, tab: "Pantallas", body: STRIP + win + map(190, T(3, true)) + dock("Lateral", "1920×1080 · apagada", false, { here: true, note: "Prendela y pasa a ser la pantalla 3. Los números de Windows pueden cambiar." }) }),
+  L({ title: "Pantallas", right: RIGHT, body: `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1.2;min-width:0">${win}${map(190, [tile("a", 1, "Monitor", "2560×1440", [3, 8, 44, 62], { pri: true }), tile("b", 2, "Tele", "3840×2160", [50, 4, 47, 54], { off: true, sel: true }), tile("c", 3, "Lateral", "1920×1080", [50, 62, 47, 32], { off: true })])}</div><div style="flex:1;min-width:0">${dock("Tele", "3840×2160 · prendida", true, { note: "Es la última prendida: no se puede apagar." })}</div></div>` }));
+
+const renameSheet = `<div class="grab"></div><h3>Apodo de la pantalla</h3><div class="field2">Tele</div><div class="sub" style="margin-top:6px">El nombre de Windows es "LG TV (NVIDIA)". Vacío = usar ese.</div><div class="acts"><span class="btn">Quitar apodo</span><span class="btn p">Guardar</span></div>`;
+const orderSheet = `<div class="grab"></div><h3>Orden de las pantallas</h3><div class="lrow"><span class="chev">1</span><div class="grow"><b>Monitor</b><div class="sub">izquierda</div></div><span class="chev" style="opacity:.3">◀</span><span class="chev">▶</span></div><div class="lrow"><span class="chev">2</span><div class="grow"><b>Tele</b><div class="sub">derecha</div></div><span class="chev">◀</span><span class="chev" style="opacity:.3">▶</span></div><div class="sub">Mismo orden que ves en el mapa, de izquierda a derecha.</div><div class="acts"><span class="btn p">Listo</span></div>`;
+const sideL = (html) => `<div class="sidedim"></div><div class="side" style="overflow:auto;width:58%">${html.replace('<div class="grab"></div>', "")}</div>`;
+const dimmed = `<div style="opacity:.35">${win}${map(190, T(2))}</div>`;
+pair("D", "Renombrar y ordenar", "<b>Renombrar</b> y <b>Ordenar</b> son las mismas hojas de hoy (aprobadas en B2): salen del panel o con toque largo sobre una ficha. Ordenar ahora se ve en el mismo mapa: lo que cambia de lugar en la lista cambia en el dibujo.",
+  V({ title: "Pantallas", right: RIGHT, tab: "Pantallas", body: STRIP + dimmed, over: sheet(renameSheet) }),
+  L({ title: "Pantallas", right: RIGHT, body: dimmed, over: sideL(orderSheet) }));
+
+const empty = `<div class="card" style="text-align:center;padding:18px"><b>Buscando pantallas…</b><div class="sub" style="white-space:normal">La PC las está leyendo</div></div>`;
+pair("E", "Cargando, sin conexión y una sola pantalla", "<b>Cargando:</b> el mapa es un esqueleto con una ficha. <b>Sin conexión:</b> se ve lo último que llegó, todo atenuado y sin panel; arriba, el aviso y Reintentar. <b>Una sola pantalla:</b> el mapa tiene una ficha, ya elegida; el panel no ofrece apagar ni mandar la ventana (no hay adónde).",
+  V({ title: "Pantallas", tab: "Pantallas", body: STRIP_OFF + `<div class="err">Sin conexión con la PC. Se muestra lo último que llegó.</div><div style="opacity:.45">${win}${map(190, T(2))}</div>` }),
+  L({ title: "Pantallas", right: RIGHT, body: `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1.2;min-width:0">${map(190, [tile("a", 1, "Monitor", "2560×1440", [20, 10, 60, 78], { pri: true, sel: true, win: "▶" })])}</div><div style="flex:1;min-width:0">${dock("Monitor", "2560×1440 · principal · única pantalla", true, { here: true, note: "Es la única: no se puede apagar y no hay otra a la que mandar la ventana." })}</div></div>` }));
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Conexión · 01 volver a emparejar</title>
+<link rel="stylesheet" href="../_base.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Conexión · 01 · Volver a emparejar (cifrado)</h1>
+  <p>Fase B2, rebanada R3. Versión del 07/11/2026. Al actualizar, el celu y el agente pasan a hablar cifrado y <b>los emparejamientos de B1 dejan de servir</b>. Hay que avisar en los dos lados: en el celu (pantalla Conectar, con el aviso ya existente de errores) y en el panel de la PC. Sale como aviso, no como pantalla nueva. También el error de "QR de una versión vieja" y de "no pude guardar la clave".</p>
+  <p class="nav-links"><a href="../README.md">Índice de bocetos</a></p>
+</div>
+
+<section class="pair"><h2>A · Celu: Conectar con el aviso de seguridad</h2>
+<p class="why">Aparece una sola vez, al abrir la app actualizada que todavía tenía el emparejamiento viejo. Es el mismo bloque de aviso de los otros errores de Conectar.</p>
+<div class="both">
+<div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body">
+  <div class="err" style="background:#fff4e0;color:#a05a00">Actualizamos la seguridad: ahora todo viaja cifrado. Volvé a escanear el QR de la PC.</div>
+  <p class="sub" style="white-space:normal">Abrí el agente en tu PC y tocá “Emparejar celu”.</p>
+  <div class="cam" style="height:200px">cámara</div>
+  <span class="btn p" style="display:block;text-align:center">Escanear QR</span>
+ </div>
+</div></div>
+<div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><div class="mainL" style="margin-left:0">
+ <div class="top"><b>Conectar</b></div>
+ <div class="bodyL c2">
+  <div><div class="err" style="background:#fff4e0;color:#a05a00">Actualizamos la seguridad: ahora todo viaja cifrado. Volvé a escanear el QR de la PC.</div>
+   <p class="sub" style="white-space:normal">Abrí el agente en tu PC y tocá “Emparejar celu”.</p>
+   <span class="btn p" style="display:block;text-align:center">Escanear QR</span></div>
+  <div class="camL">cámara</div>
+ </div>
+</div></div></div>
+</div></section>
+
+<section class="pair"><h2>B · Otros dos avisos de Conectar</h2>
+<p class="why">Mismo bloque, distinto texto: el QR es de un agente viejo (que no cifra) y la clave del celu no se pudo guardar (no se empareja nada).</p>
+<div class="both">
+<div><p class="lbl">QR de una versión vieja</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body"><div class="err">Ese QR es de una versión vieja del agente. Actualizá el agente en la PC y generá otro.</div>
+  <span class="btn p" style="display:block;text-align:center">Escanear QR</span></div>
+</div></div>
+<div><p class="lbl">No se pudo guardar la clave</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body"><div class="err">No pude guardar la clave de este celu. Probá de nuevo.</div>
+  <span class="btn p" style="display:block;text-align:center">Escanear QR</span></div>
+</div></div>
+</div></section>
+
+<section class="pair"><h2>C · Panel de la PC</h2>
+<p class="why">Aviso arriba del panel cuando el agente migró su archivo de configuración (queda una copia <code>agent.json.v1.bak</code>). Los dispositivos viejos desaparecen de la lista; de los nuevos se ve una huella corta de la clave para reconocerlos.</p>
+<div class="browser">
+ <div class="bar">http://127.0.0.1:47801/</div>
+ <div class="page">
+  <h3>Proyecto E</h3>
+  <div class="note">Actualizamos la seguridad: ahora el celu y la PC hablan cifrado. Hay que volver a emparejar tu celu (tocá Emparejar y escaneá el QR nuevo).</div>
+  <div class="sec">Dispositivos</div>
+  <div class="box"><div class="row"><div class="grow"><b>Pixel de Jay</b> <span class="sub">· Android · En línea · clave AbCdEfGh</span><div class="sub">Emparejado: 07/11/2026 · Última vez: ahora</div></div><span class="btn">Revocar</span></div></div>
+ </div>
+</div>
+</section>
+</body>
+</html>

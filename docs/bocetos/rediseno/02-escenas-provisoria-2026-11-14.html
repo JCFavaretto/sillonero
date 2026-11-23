@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Rediseño · 02 Escenas (F1)</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("02 · Escenas en F1 (provisoria)", "Fase F1 (D98). Hasta que lleguen los decks (F3, bocetos 04 a 06), la pestaña Escenas junta lo que ya existe y cambia de lugar: <b>las teclas que hoy tiene el Inicio</b>, la sección <b>Abrir</b> con los lanzadores que salen de Apps, y el acceso a la lista de escenas y su editor. No se inventa nada: cada pieza ya tiene boceto aprobado (Apps y Escenas 01, 02, 03, 07, 08 y 09) y se comporta igual; acá solo se muestra cómo quedan juntas. Todo sigue guardado en la PC.", ["01-navegacion-y-apps-2026-11-14.html", "01 · Navegación y Apps"], ["03-reproductor-web-2026-11-14.html", "03 · Reproductor web (F2)"]);
+
+const sec = (t, first, right = "") => `<div class="sec" style="display:flex;justify-content:space-between;${first ? "margin-top:0" : ""}"><span>${t}</span><span style="color:#F5A524;text-transform:none">${right}</span></div>`;
+const deck = (keys) => `<div class="deck" style="display:grid;grid-template-columns:repeat(3,1fr)">${keys.join("")}</div>`;
+const deckL = (keys) => `<div class="deck" style="display:grid;grid-template-columns:repeat(3,1fr)">${keys.join("")}</div>`;
+const pin = (a, n, o = {}) => `<div class="pin" style="${o.dim ? "opacity:.4" : ""}">${ic(a, 40)}${n}</div>`;
+const pinAdd = `<div class="pin"><span class="app" style="width:40px;height:40px;border-radius:11px;background:transparent;border:1.5px dashed #6a6577;color:#A29DAE;margin:0 auto 3px">+</span>Agregar</div>`;
+const PINS = `<div class="pins" style="flex-wrap:wrap;row-gap:8px">${pin("yt", "YouTube")}${pin("ytm", "YT Music")}${pin("tw", "Twitch")}${pin("spotify", "Spotify")}${pin("gh", "GitHub")}${pin("ig", "Instagram")}${pinAdd}</div>`;
+const sceneLink = `<div class="card" style="display:flex;align-items:center;min-height:48px;margin-top:10px"><div class="grow"><b style="font-size:13px">Todas las escenas</b><div class="sub">4 guardadas · crear, editar, borrar</div></div><span style="color:#A29DAE">›</span></div>`;
+const EDIT = `<span class="btn">Editar</span>`;
+const colsL = (a, b) => `<div style="display:flex;gap:12px;align-items:flex-start"><div style="flex:1;min-width:0">${a}</div><div style="flex:1;min-width:0">${b}</div></div>`;
+
+pair("A", "Escenas: teclas, Abrir y la lista", "<b>Teclas:</b> las mismas del Inicio de hoy (escenas, pantallas, Traer todo, audio); un toque las ejecuta. <b>Abrir:</b> los lanzadores de apps y links que estaban en Apps; un toque abre o enfoca, mantener apretado abre su menú (renombrar, quitar). <b>Todas las escenas:</b> lleva a la lista de hoy, con su editor y el borrado. <b>Editar</b> (arriba) pone las teclas en modo quitar y mover, como en el Inicio de hoy.",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: sec("Teclas", true) + deck(DECK) + sec("Abrir") + PINS + sceneLink }),
+  L({ title: "Escenas", right: EDIT, body: colsL(sec("Teclas", true) + deckL(DECK), sec("Abrir", true) + PINS + sceneLink) }));
+
+const running = [K("Traer todo", "◫"), `<div class="key" style="border-color:#F5A524"><span style="font-size:18px">◌</span><b>Trabajo 2/5</b></div>`, K("Juego", "▶"), K("Modo sillón", "▶"), K("Tele", "📺"), `<div class="key add">+<b>Agregar</b></div>`];
+const failed = [K("Traer todo", "◫"), K("Trabajo", "▶"), K("Juego", "▶"), K("Modo sillón", "▶"), `<div class="key" style="opacity:.4"><span style="font-size:18px">📺</span><b>Tele</b></div>`, `<div class="key add">+<b>Agregar</b></div>`];
+pair("B", "Mientras corre una escena, y cuando algo falla", "<b>Vertical:</b> la tecla de la escena muestra el paso (2 de 5) con borde ámbar; las demás escenas esperan. <b>Apaisado:</b> un lanzador que no abrió queda marcado unos segundos y el motivo aparece arriba; una tecla cuya pantalla está desconectada queda gris. Es el comportamiento de hoy, sin cambios.",
+  V({ title: "Escenas", right: EDIT, tab: "Escenas", body: sec("Teclas", true) + deck(running) + sec("Abrir") + PINS + sceneLink }),
+  L({ title: "Escenas", right: EDIT, body: `<div class="err" style="margin-bottom:6px">No se pudo abrir Twitch: la PC no encontró el navegador.</div>` + colsL(sec("Teclas", true) + deckL(failed), sec("Abrir", true) + PINS) }));
+
+const emptyKeys = `<div class="card" style="text-align:center;padding:14px"><b>Todavía no hay teclas</b><div class="sub" style="white-space:normal">Agregá una escena, una pantalla o una acción</div><div style="margin-top:8px"><span class="btn p">Agregar tecla</span></div></div>`;
+const emptyPins = `<div class="pins">${pinAdd}</div><div class="sub" style="white-space:normal;margin-top:4px">Sumá una app de la PC o un link para abrirlos desde acá.</div>`;
+pair("C", "Vacía y sin conexión", "<b>Vacía</b> (primera vez): cada sección invita a sumar lo suyo. <b>Sin conexión:</b> aviso arriba, todo apagado y sin Editar; se ve lo último que llegó.",
+  V({ title: "Escenas", tab: "Escenas", body: sec("Teclas", true) + emptyKeys + sec("Abrir") + emptyPins + sceneLink.replace("4 guardadas", "Ninguna guardada") }),
+  L({ title: "Escenas", right: `<span class="sub">● Sin conexión</span>`, body: `<div class="err" style="margin-bottom:6px">Sin conexión con la PC. Se muestra lo último que llegó.</div><div style="opacity:.45">${colsL(sec("Teclas", true) + deckL(DECK), sec("Abrir", true) + PINS)}</div>` }));
+</script>
+</body>
+</html>

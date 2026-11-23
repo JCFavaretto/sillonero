@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pantallas · 04 ordenar</title>
+<link rel="stylesheet" href="../_base.css">
+<style>
+  .tiles{display:flex;gap:8px;margin:10px 0 4px}
+  .tile{flex:1;border:1.5px solid var(--line);border-radius:12px;background:#fcfcfb;padding:8px 4px;text-align:center}
+  .tile b{display:block;font-size:22px;color:var(--acc)}
+  .tile .sub{white-space:normal;font-size:10px;margin-bottom:6px}
+  .tile .ar{display:flex;gap:4px;justify-content:center}
+  .tile .ar span{width:34px;height:30px;border-radius:8px;background:var(--fill);border:1.5px solid #d5d5d0;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .tile .ar span.dis{opacity:.35}
+  .tile.mv{border-color:var(--acc);background:#eef3fd}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Pantallas · 04 · Ordenar</h1>
+  <p>Fase B2, ampliación del 07/11/2026 (pedido de Jay tras probar: al volver a prender la tele quedó al final y no había forma de ordenarlas). Un botón <b>Ordenar</b> junto a Identificar abre una hoja con las pantallas prendidas <b>de izquierda a derecha</b>, como en el escritorio. Con las flechas ◀ ▶ se mueve cada una un lugar; <b>Aplicar</b> se lo manda a la PC. La principal siempre queda en el origen (0,0), así que "izquierda de la principal" son las que están antes en la fila. Es el mismo estilo de hoja que Renombrar. Resoluciones, fondos y demás vendrán como hojas parecidas, una por tema.</p>
+  <p class="nav-links"><a href="01-pantalla-2026-11-07.html">← 01 · Pantalla principal</a> · <a href="../README.md">Índice de bocetos</a></p>
+</div>
+
+<section class="pair"><h2>A · El botón y la hoja</h2>
+<p class="why">Abajo del título, junto a Identificar. Solo aparece con la PC conectada y 2 o más pantallas prendidas. "Aplicar" está deshabilitado hasta que algo cambie.</p>
+<div class="both">
+<div><p class="lbl">Vertical · botón</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div>
+ <div class="body">
+  <div style="display:flex;gap:8px;margin-bottom:8px"><span class="btn">Identificar</span><span class="btn">Ordenar</span></div>
+  <div class="map" style="height:110px"><div class="mon" style="left:8px;top:20px;width:78px;height:50px">1</div><div class="mon sel" style="left:92px;top:20px;width:78px;height:50px">2 ★</div><div class="mon" style="left:176px;top:20px;width:78px;height:50px">3</div></div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+<div><p class="lbl">Vertical · hoja</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div><div class="body" style="opacity:.5"></div>
+ <div class="sheetwrap"><div class="sheet">
+  <h3>Orden de las pantallas</h3>
+  <div class="sub" style="white-space:normal">De izquierda a derecha, como están en tu escritorio.</div>
+  <div class="tiles">
+   <div class="tile mv"><b>1</b><div class="sub">Tele living</div><div class="ar"><span class="dis">◀</span><span>▶</span></div></div>
+   <div class="tile"><b>2 ★</b><div class="sub">Principal</div><div class="ar"><span>◀</span><span>▶</span></div></div>
+   <div class="tile"><b>3</b><div class="sub">Derecha</div><div class="ar"><span>◀</span><span class="dis">▶</span></div></div>
+  </div>
+  <div class="acts"><span class="btn">Cancelar</span><span class="btn p" style="opacity:.45">Aplicar</span></div>
+ </div></div>
+</div></div>
+</div></section>
+
+<section class="pair"><h2>B · Estados de la hoja</h2>
+<p class="why">Al aplicar, los botones quedan deshabilitados y no se puede cerrar la hoja hasta que la PC conteste. Si falla, el error aparece adentro y el botón pasa a "Reintentar".</p>
+<div class="both">
+<div><p class="lbl">Apaisado · con un cambio</p><div class="phoneL"><div class="notchL"></div><button class="hamb" aria-label="Menú">☰</button>
+ <div class="mainL" style="opacity:.5"><div class="top"><b>Pantallas</b></div></div>
+ <div class="sheetwrap center"><div class="sheet" style="padding:12px 14px">
+  <h3>Orden de las pantallas</h3>
+  <div class="tiles">
+   <div class="tile"><b>1</b><div class="sub">Principal</div><div class="ar"><span class="dis">◀</span><span>▶</span></div></div>
+   <div class="tile"><b>2</b><div class="sub">Derecha</div><div class="ar"><span>◀</span><span>▶</span></div></div>
+   <div class="tile mv"><b>3</b><div class="sub">Tele living</div><div class="ar"><span>◀</span><span class="dis">▶</span></div></div>
+  </div>
+  <div class="acts"><span class="btn">Cancelar</span><span class="btn p">Aplicar</span></div>
+ </div></div>
+</div></div>
+<div><p class="lbl">Vertical · falló</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div><div class="body" style="opacity:.5"></div>
+ <div class="sheetwrap"><div class="sheet">
+  <h3>Orden de las pantallas</h3>
+  <div class="tiles">
+   <div class="tile"><b>1</b><div class="sub">Principal</div></div><div class="tile"><b>2</b><div class="sub">Derecha</div></div><div class="tile mv"><b>3</b><div class="sub">Tele living</div></div>
+  </div>
+  <div class="err">No se pudo completar el cambio. Probá de nuevo.</div>
+  <div class="acts"><span class="btn">Cancelar</span><span class="btn p">Reintentar</span></div>
+ </div></div>
+</div></div>
+</div></section>
+</body>
+</html>

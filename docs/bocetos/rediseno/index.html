@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rediseño · plan y bocetos (todos)</title>
+<link rel="stylesheet" href="../_base.css">
+<style>
+  .toc{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:8px 0 0}
+  .toc a{color:var(--acc)}
+  iframe{display:block;width:100%;max-width:1400px;margin:0 auto;border:0;border-top:2px solid #ccc;height:1400px}
+  .plan{max-width:1100px;margin:0 auto;padding:0 32px 24px;font-size:13px;line-height:1.5}
+  .plan h2{font-size:16px;margin:22px 0 6px}
+  .plan table{border-collapse:collapse;width:100%;margin:6px 0}
+  .plan th,.plan td{border:1px solid #d5d5d0;padding:6px 8px;text-align:left;vertical-align:top}
+  .plan th{background:#f0f0ec;font-size:12px}
+  .plan .q{background:#fff7e0;border:1px solid #e8c877;border-radius:8px;padding:10px 14px}
+  .plan .q li{margin:4px 0}
+  .plan .tw{overflow-x:auto}
+  @media (max-width:700px){.plan{padding:0 16px 20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Rediseño de la app · plan y bocetos</h1>
+  <p>Pedido de Jay el 13/11/2026; plan del 14/11/2026 con sus respuestas. Detalle completo en <code>docs/PLAN.md</code> 8.8 (decisiones D94 a D109). <b>Aprobado por Jay</b> (bocetos 01 a 07); todo implementado el 18/11/2026.</p>
+  <div class="toc" id="toc"><a href="#plan">Plan</a><a href="#preguntas">Preguntas abiertas</a></div>
+  <p class="nav-links" style="margin-top:8px"><a href="../README.md">Índice general de bocetos</a></p>
+</div>
+
+<div class="plan" id="plan">
+  <h2>Qué cambia, en una mirada</h2>
+  <div class="tw"><table>
+    <tr><th>Parte</th><th>Hoy</th><th>Con el rediseño</th></tr>
+    <tr><td>Barra</td><td>Inicio · Pantallas · Apps · Audio · Pad</td><td><b>Escenas · Pantallas · Apps · Audio · Pad</b>; la app abre en Apps</td></tr>
+    <tr><td>Apps</td><td>Una tarjeta por ventana + lanzadores; el reproductor está en el Inicio</td><td>Una tarjeta por ventana; cada reproducción es una tarjeta con <b>barra de reproducción</b> y <b>volumen de esa app</b>; sin lanzadores</td></tr>
+    <tr><td>Escenas</td><td>Lista de escenas (se llega desde el Inicio)</td><td><b>Decks</b>: hasta 32 páginas de teclas con imagen, guardados en el celu</td></tr>
+    <tr><td>Navegador</td><td>Botones propios solo para YouTube</td><td>Los mismos controles para <b>cualquier video o audio</b>, por la extensión</td></tr>
+    <tr><td>Pantallas, Audio, Pad</td><td colspan="2">Quedan como están. Pantallas se rediseña al final, con su propio plan</td></tr>
+  </table></div>
+
+  <h2>Fases y fechas</h2>
+  <div class="tw"><table>
+    <tr><th>Fase</th><th>Qué entra</th><th>Bocetos</th><th>Ritmo nuestro</th><th>Para un cliente</th></tr>
+    <tr><td><b>F1</b></td><td>Barra nueva, Apps como inicio, tarjetas con volumen y barra de reproducción, Escenas provisoria</td><td>01, 02</td><td>dom 15/11 y lun 16/11/2026</td><td>lun 16/11 al vie 27/11/2026</td></tr>
+    <tr><td><b>F2</b></td><td>Controles de video para cualquier sitio (extensión); por teclado sin ella</td><td>03</td><td>mar 17/11 y mié 18/11/2026</td><td>lun 30/11 al vie 11/12/2026</td></tr>
+    <tr><td><b>F3</b></td><td>Decks en el celu, imágenes fijas y animadas, exportar/importar, mudanza de los links</td><td>04, 05, 06</td><td>jue 19/11 al dom 22/11/2026</td><td>lun 14/12/2026 al vie 15/01/2027</td></tr>
+    <tr><td><b>F4a</b></td><td>Sonido por una salida (spike; si falla, se descarta)</td><td>cuando le toque</td><td>lun 23/11 y mar 24/11/2026</td><td>lun 18/01 al vie 29/01/2027</td></tr>
+    <tr><td><b>F4b</b></td><td>Pantallas: interfaz nueva</td><td>cuando le toque</td><td>mié 25/11 y jue 26/11/2026</td><td>lun 01/02 al vie 12/02/2027</td></tr>
+  </table></div>
+  <p>Cada fase termina con los tests en verde, revisión, una APK nueva y tu prueba en el celu. F3 es la única que suma módulos nativos.</p>
+
+  <h2>Lo que conviene que sepas antes de aprobar</h2>
+  <div class="tw"><table>
+    <tr><th>Tema</th><th>Qué pasa</th></tr>
+    <tr><td>Volumen de Chrome</td><td>Windows le da un solo volumen a todo Chrome: sin extensión, la barra de cualquier ventana de Chrome mueve la de todas (la tarjeta lo dice). Con la extensión, la barra de un video mueve solo ese video</td></tr>
+    <tr><td>Barra de reproducción</td><td>Sale de Windows (apps de escritorio) o de la extensión (navegador). Si la app no informa por dónde va, no hay barra. En F1 solo muestra: no se arrastra</td></tr>
+    <tr><td>Pantalla completa</td><td>El navegador exige un gesto del usuario, así que siempre trae la ventana al frente. Los otros controles no</td></tr>
+    <tr><td>Decks en un solo celu</td><td>Si se rompe o se reinstala, se pierden: por eso exportar/importar, y Ajustes recuerda cuándo exportaste</td></tr>
+    <tr><td>Imágenes animadas</td><td>Gastan batería: se animan solo en el deck a la vista, con tope de 2 MB, y hay un interruptor</td></tr>
+  </table></div>
+
+  <h2 id="preguntas">Preguntas abiertas</h2>
+  <div class="q"><ol>
+    <li><b>Permiso de la extensión sobre todos los sitios.</b> Para controlar videos fuera de YouTube, Chrome va a avisar que la extensión puede "leer y modificar los datos de todos los sitios". No manda nada a internet y la dirección completa no viaja al celu. ¿OK? Sin eso, F2 queda en "solo por teclado".</li>
+    <li><b>⏮ ⏭ en la tarjeta:</b> ¿al desplegar (boceto 01 A, tarjeta más baja) o siempre a la vista (01 C)?</li>
+    <li><b>La barra de reproducción solo muestra</b> en F1 (no se arrastra para saltar). ¿Alcanza?</li>
+    <li><b>Apaisado:</b> la grilla del deck se da vuelta y las teclas se estiran (boceto 04 A). ¿OK?</li>
+    <li><b>Mover una tecla</b> tocando origen y destino, sin arrastrar (boceto 05 A). ¿OK?</li>
+    <li>¿OK a los bocetos 01 a 06? (Los de F1 a F3 ya se implementaron.)</li>
+    <li><b>Pantallas (F4b), boceto 07:</b> ¿mapa único con panel, o dejar la lista con interruptores? Es lo único que falta del rediseño.</li>
+  </ol></div>
+</div>
+
+<div id="all"></div>
+<script>
+// Para sumar un boceto nuevo de esta carpeta: agregarlo acá, en orden.
+const BOCETOS = [
+  ["01-navegacion-y-apps-2026-11-14.html", "01 · Navegación y Apps (F1)"],
+  ["02-escenas-provisoria-2026-11-14.html", "02 · Escenas provisoria (F1)"],
+  ["03-reproductor-web-2026-11-14.html", "03 · Reproductor web (F2)"],
+  ["04-decks-2026-11-14.html", "04 · Decks (F3)"],
+  ["05-editar-deck-2026-11-14.html", "05 · Editar un deck (F3)"],
+  ["06-imagen-y-respaldo-2026-11-14.html", "06 · Imagen y respaldo (F3)"],
+  ["07-pantallas-2026-11-17.html", "07 · Pantallas (F4b, aprobado)"],
+];
+const toc = document.getElementById("toc");
+const all = document.getElementById("all");
+for (const [file, name] of BOCETOS) {
+  const id = file.slice(0, 2);
+  toc.insertAdjacentHTML("beforeend", `<a href="#b${id}">${name}</a>`);
+  all.insertAdjacentHTML("beforeend", `<iframe id="b${id}" src="${file}" title="${name}" loading="lazy"></iframe>`);
+}
+window.addEventListener("message", (e) => {
+  const { boceto, h } = e.data || {};
+  const frame = boceto && document.getElementById("b" + String(boceto).slice(0, 2));
+  if (frame && typeof h === "number") frame.style.height = h + 20 + "px";
+});
+</script>
+</body>
+</html>

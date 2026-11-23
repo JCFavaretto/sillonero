@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pad · 04 Atajos</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+<style>.sc .hit{border-color:#F5A524;background:rgba(245,165,36,.16)}.sc .bad{border-color:#FF5C5C;background:#3A1E22}
+.alt{background:#211F29;border:1px solid #F5A524;border-radius:16px;padding:12px;text-align:center}
+.alt .big3{display:flex;gap:8px;justify-content:center;margin-top:10px}.alt .big3 span{flex:1;padding:16px 0;border-radius:12px;background:#2C2935;font-size:15px}
+.alt .big3 .ok{background:#F5A524;color:#1B1405;font-weight:700}</style>
+</head>
+<body>
+<script>
+head("04 · Atajos", "Fase B5. Una grilla <b>fija</b> de atajos pensada para navegar y mirar YouTube desde el sillón, agrupada por para qué sirve. Cada tecla dice qué hace (grande) y la combinación (en mono, ámbar). Lista cerrada: el celu manda el nombre del atajo y la PC sabe qué teclas son. Editar la lista queda para después (sección 12). Alt+F4 no está a propósito: cerrar ventanas ya existe en Apps, con confirmación.", ["03-teclado-2026-11-08.html", "03 · Teclado"], ["05-ajustes-2026-11-08.html", "05 · Ajustes del pad"]);
+
+const R = chip("on");
+const K = (t, c, cls = "") => `<div class="${cls}"><small>${t}</small><b>${c}</b></div>`;
+const G = (t) => `<div class="grp">${t}</div>`;
+const grid = (hit = "", bad = "") => `<div class="sc">${G("VENTANAS")}${K("Cambiar ventana", "Alt+Tab")}${K("Escritorio", "Win+D")}${K("Pant. completa", "F11", hit === "F11" ? "hit" : "")}
+${G("NAVEGADOR")}${K("Atrás", "Alt+←")}${K("Adelante", "Alt+→")}${K("Recargar", "F5")}${K("Ir a la barra", "Ctrl+L")}${K("Pestaña nueva", "Ctrl+T")}${K("Cerrar pestaña", "Ctrl+W", bad === "W" ? "bad" : "")}
+${G("YOUTUBE")}${K("Play / pausa", "K", hit === "K" ? "hit" : "")}${K("−10 s", "J")}${K("+10 s", "L")}${K("Pant. completa", "F")}${K("Subtítulos", "C")}${K("Salir", "Esc")}
+${G("EDITAR")}${K("Copiar", "Ctrl+C")}${K("Pegar", "Ctrl+V")}${K("Deshacer", "Ctrl+Z")}</div>`;
+const gridL = grid().replace('class="sc"', 'class="sc" style="grid-template-columns:repeat(5,1fr)"');
+
+pair("A", "La grilla", "Vertical: se baja con el dedo. Apaisado: cinco columnas, sin touchpad (para mover el cursor, la pestaña Touchpad). Teclas de 48 dp o más con 6 dp entre una y otra.",
+  V({ right: R, body: `${seg(2)}${grid()}` }),
+  L({ right: R, body: `<div style="display:flex;gap:8px"><div style="flex:1">${gridL}</div><div style="width:118px">${seg(2, true)}<div style="height:6px"></div>${stopBtn}</div></div>` }));
+
+pair("B", "Al tocar, y si falla", "Al tocar, la tecla se ilumina en ámbar 160 ms (llegó). Si la PC contesta con error, se pone roja 1 s y abajo aparece el motivo (\"sin control\", \"ventana de administrador\").",
+  V({ right: R, body: `${seg(2)}${grid("K", "W")}<div class="err" style="margin:0">Ctrl+W no llegó: la ventana activa es de administrador.</div>` }),
+  L({ right: R, body: `<div style="display:flex;gap:8px"><div style="flex:1">${grid("F11").replace('class="sc"', 'class="sc" style="grid-template-columns:repeat(5,1fr)"')}</div><div style="width:118px">${seg(2, true)}<div style="height:6px"></div>${stopBtn}</div></div>` }));
+
+const alt = `<div class="alt"><div class="sub">La PC muestra el selector de ventanas (Alt apretado)</div><div class="big3"><span>◀</span><span>▶</span></div><div class="big3"><span>Cancelar</span><span class="ok">Elegir</span></div><div class="sub" style="margin-top:8px">Se elige sola a los 2 s sin tocar nada</div></div>`;
+pair("C", "Alt+Tab", "Alt+Tab necesita dejar Alt apretado mientras se elige. Al tocarlo, el celu muestra ◀ ▶ grandes y \"Elegir\": la PC mantiene Alt y mueve el selector. \"Elegir\" (o 2 s sin tocar) suelta Alt; \"Cancelar\" manda Esc. Si se corta la conexión, la PC suelta Alt sola.",
+  V({ right: R, body: `${seg(2)}${alt}` }),
+  L({ right: R, body: `<div style="display:flex;gap:8px"><div style="flex:1">${alt}</div><div style="width:118px">${seg(2, true)}<div style="height:6px"></div>${stopBtn}</div></div>` }));
+</script>
+</body>
+</html>

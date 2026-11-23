@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Atajos (B6) · 02 Panel de la PC</title><link rel="stylesheet" href="../_base.css">
+<style>
+ .win{border:1px solid #bbb;background:#fafafa;padding:14px 16px;margin:8px 0;font:14px/1.4 system-ui,sans-serif}
+ .win.narrow{max-width:360px}
+ .card{border:1px solid #ccc;background:#fff;padding:10px 12px;margin:8px 0;border-radius:6px}
+ .card h4{margin:0 0 6px;font-size:14px}
+ .r{display:flex;align-items:center;gap:10px;padding:5px 0;border-top:1px solid #eee}
+ kbd{font:12px monospace;background:#eee;border:1px solid #bbb;border-radius:4px;padding:1px 6px}
+ .sp{margin-left:auto}.sub2{font-size:12px;color:#666}.bad{color:#a02020}
+ .tg{width:36px;height:20px;border-radius:10px;background:#bbb;position:relative;display:inline-block}
+ .tg.on{background:#d98f00}.tg:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff}.tg.on:after{left:18px}
+ .btn2{border:1px solid #999;border-radius:6px;padding:4px 10px;background:#fff;font-size:13px}
+ .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+</style></head>
+<body>
+<div class="wrap">
+<h1>02 · Panel de la PC: Atajos y Arranque</h1>
+<p>Fase B6 (plan 8.6). El panel local (<code>http://127.0.0.1:47801</code>) suma <b>dos tarjetas</b> bajo las que ya hay (Pad, Audio…). Es una página de navegador en la PC, no una pantalla del celu: se muestra en <b>ventana ancha</b> y <b>angosta</b>. La app del celu no cambia con este boceto.</p>
+<p class="nav-links"><a href="01-escena-atajo-y-disparador-2026-11-09.html">← 01 · Atajo y disparador</a> · <a href="03-bandeja-2026-11-09.html">03 · Bandeja →</a></p>
+
+<h2>A · Ancha</h2>
+<div class="win">
+ <div class="grid2">
+  <div class="card"><h4>Iniciar con Windows</h4>
+   <div class="r"><span>El agente arranca solo al iniciar sesión</span><span class="tg on sp"></span></div>
+   <div class="sub2">Como lo hacía el .ahk: una entrada del usuario actual, sin permisos de administrador. Apagarlo la borra.</div>
+  </div>
+  <div class="card"><h4>Cortar el control del celu</h4>
+   <div class="r"><span>Atajo en la PC</span><kbd class="sp">Ctrl+Alt+Esc</kbd></div>
+   <div class="sub2">Suelta todo lo apretado y apaga la llave del Pad (igual que “Cortar ahora”). Se vuelve a prender en la tarjeta del Pad.</div>
+  </div>
+ </div>
+ <div class="card"><h4>Atajos de teclado</h4>
+  <div class="r"><span class="sub2">Atajos globales del agente (reemplazan al .ahk)</span><span class="tg on sp"></span></div>
+  <div class="r"><kbd>Ctrl+Alt+T</kbd><span>Prender / apagar la tele</span><span class="sub2 sp">Tele living</span></div>
+  <div class="r"><kbd>Ctrl+Alt+M</kbd><span>Abrir el panel</span></div>
+  <div class="r"><kbd>Ctrl+Alt+1 · 2 · 3</kbd><span>Mandar la ventana activa a la pantalla 1 · 2 · 3</span><span class="sub2 sp">de izquierda a derecha</span></div>
+  <div class="r"><kbd>Ctrl+Alt+4</kbd><span>Pantalla completa de la ventana activa (otra vez: vuelve)</span></div>
+  <div class="r"><kbd>Ctrl+Alt+5 · 6 · 7</kbd><span>Música: anterior · play/pausa · siguiente</span></div>
+  <div class="r"><kbd>Ctrl+Alt+J</kbd><span>Escena “Juego”</span></div>
+  <div class="r"><kbd>Ctrl+Alt+K</kbd><span>Escena “Trabajo”</span><span class="bad sp">⚠ en uso por otro programa</span></div>
+ </div>
+</div>
+
+<h2>B · Angosta</h2>
+<div class="win narrow">
+ <div class="card"><h4>Iniciar con Windows</h4><div class="r"><span>Arranca solo al iniciar sesión</span><span class="tg on sp"></span></div></div>
+ <div class="card"><h4>Cortar el control</h4><div class="r"><kbd>Ctrl+Alt+Esc</kbd></div></div>
+ <div class="card"><h4>Atajos de teclado</h4>
+  <div class="r"><span class="sub2">Atajos globales</span><span class="tg on sp"></span></div>
+  <div class="r"><kbd>Ctrl+Alt+T</kbd><span>Tele</span></div>
+  <div class="r"><kbd>Ctrl+Alt+K</kbd><span>“Trabajo”</span><span class="bad sp">⚠</span></div>
+ </div>
+</div>
+
+<h2>C · Estados</h2>
+<div class="win">
+ <div class="card"><h4>Atajos de teclado · apagados</h4><div class="r"><span class="sub2">Atajos globales</span><span class="tg sp"></span></div><div class="sub2">Con esto apagado, Ctrl+Alt+T, 1–7 y los de las escenas no hacen nada (sirve para un juego que use esas teclas). El de cortar el control (Ctrl+Alt+Esc) queda activo siempre: es un botón de pánico.</div></div>
+ <div class="card"><h4>Iniciar con Windows · error</h4><div class="r"><span>El agente arranca solo al iniciar sesión</span><span class="tg on sp"></span></div><div class="bad">No se pudo escribir la entrada de inicio. Probá de nuevo; el detalle está en el log.</div></div>
+ <div class="card"><h4>Atajos de teclado · no arrancó</h4><div class="bad">No se pudo activar ninguno: el programa auxiliar de teclas no arrancó. El resto del agente anda. <span class="btn2">Reintentar</span></div></div>
+</div>
+</div>
+</body>
+</html>

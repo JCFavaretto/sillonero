@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bocetos · Pad (todos)</title>
+<link rel="stylesheet" href="../_base.css">
+<style>
+  .toc{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:8px 0 0}
+  .toc a{color:var(--acc)}
+  iframe{display:block;width:100%;max-width:1400px;margin:0 auto;border:0;border-top:2px solid #ccc;height:1400px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Pad (B5) · todos los bocetos</h1>
+  <p>Los 6 bocetos de la fase, en orden, en una sola página. Cada uno sigue siendo su propio archivo. En color con los tokens de <code>theme.ts</code> (grafito y ámbar), baja fidelidad en la forma. Plan en <code>docs/PLAN.md</code> 8.5. Aprobados por Jay el 08/11/2026 (pad lo más grande posible; sin permiso aparte).</p>
+  <div class="toc" id="toc"></div>
+  <p class="nav-links" style="margin-top:8px"><a href="../README.md">Índice general de bocetos</a></p>
+</div>
+<div id="all"></div>
+<script>
+// Para sumar un boceto nuevo de esta carpeta: agregarlo acá, en orden.
+const BOCETOS = [
+  ["01-touchpad-2026-11-08.html", "01 · Touchpad"],
+  ["02-permiso-2026-11-08.html", "02 · Permiso y control"],
+  ["03-teclado-2026-11-08.html", "03 · Teclado"],
+  ["04-atajos-2026-11-08.html", "04 · Atajos"],
+  ["05-ajustes-2026-11-08.html", "05 · Ajustes del pad"],
+  ["06-cortar-2026-11-08.html", "06 · Cortar el control (pánico)"],
+];
+const toc = document.getElementById("toc");
+const all = document.getElementById("all");
+for (const [file, name] of BOCETOS) {
+  const id = file.slice(0, 2);
+  toc.insertAdjacentHTML("beforeend", `<a href="#b${id}">${name}</a>`);
+  all.insertAdjacentHTML("beforeend", `<iframe id="b${id}" src="${file}" title="${name}" loading="lazy"></iframe>`);
+}
+window.addEventListener("message", (e) => {
+  const { boceto, h } = e.data || {};
+  const frame = boceto && document.getElementById("b" + String(boceto).slice(0, 2));
+  if (frame && typeof h === "number") frame.style.height = h + 20 + "px";
+});
+</script>
+</body>
+</html>

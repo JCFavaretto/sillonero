@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Comodidad · 04 YouTube: cola y buscador</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("04 · YouTube y YouTube Music: cola y buscador", "Fase C3, el caso que pidió Jay el 11/11/2026: <b>su pareja juega en la PC, hay una lista sonando, y él quiere cambiar de tema o de lista desde el sillón sin que ella deje de jugar</b>. La cola y el buscador hablan con la pestaña por la extensión: <b>nada se trae al frente</b>. Vale igual para YouTube y YouTube Music. Depende del spike S2 (que la pestaña en segundo plano acepte cambiar de video y siga sonando).", ["03-navegador-2026-11-11.html", "03 · Navegador"], null);
+
+const item = (t, s, o = {}) => `<div class="trow ${o.on ? "on" : ""}"><div class="th" style="${o.c ? "background:" + o.c : ""}"></div><div class="grow"><div class="tt">${t}</div><div class="sub">${s}</div></div>${o.on ? '<span class="bg amb">▮▮▮</span>' : `<span class="sub">${o.d || "3:42"}</span>`}</div>`;
+const Q = item("Tema que suena ahora", "Artista · 2:10 de 3:42", { on: true, c: "linear-gradient(135deg,#d11,#511)" }) + item("Siguiente tema", "Artista", { d: "4:05" }) + item("Otro tema de la lista", "Otro artista", { d: "2:58" }) + item("Uno más", "Artista", { d: "5:12" }) + item("Y otro", "Artista", { d: "3:30" });
+const mini = `<div class="now" style="padding:8px"><div class="nrow"><div class="cv yt" style="width:44px;height:44px;font-size:14px">▶</div><div class="ninfo"><div class="t1" style="font-size:12px;-webkit-line-clamp:1">Tema que suena ahora</div><div class="t2">Mix para jugar · 7 de 24</div></div><div class="mc"><span>⏮</span><span class="big">⏸</span><span>⏭</span></div></div></div>`;
+const seg = (on) => `<div class="tabs" style="margin-top:8px">${["Cola", "Buscar", "Mis listas"].map((s) => `<span class="${s === on ? "on" : ""}">${s}</span>`).join("")}</div>`;
+const bgNote = `<div class="src" style="text-align:center;margin-top:6px">Se manda a la pestaña en segundo plano · no cambia la ventana activa</div>`;
+
+pair("A", "Cola: elegir un tema de la lista", "Arriba, lo que suena en chico con ⏮ ⏯ ⏭ siempre a mano. La lista muestra la cola con el tema actual marcado; <b>un toque lo pone</b>. Con ⏭ y ⏮ en una lista, YouTube ya responde (hoy salen apagados porque no había lista).",
+  V({ title: "YouTube", back: true, tab: "Apps", body: `${mini}${seg("Cola")}${Q}${bgNote}` }),
+  L({ title: "YouTube", back: true, body: `<div style="display:flex;gap:12px"><div style="flex:1">${mini}${seg("Cola")}${bgNote}</div><div style="flex:1.3">${Q}</div></div>` }));
+
+const R = item("lofi hip hop radio: beats to relax", "Lofi Girl · en vivo", { d: "VIVO" }) + item("Resultado de la búsqueda", "Canal · 1,2 M vistas", { d: "12:40" }) + item("Otro resultado", "Canal · 300 k vistas", { d: "8:15" }) + item("Lista: Mix lofi", "Lista · 50 videos", { d: "LISTA" });
+const field = `<div class="search" style="border-color:#F5A524;color:#F1EEE8;display:flex;justify-content:space-between"><span>lofi para jugar▏</span><span>✕</span></div>`;
+pair("B", "Buscar y elegir un video", "Se escribe con el teclado del celu; al enviar, los resultados llegan como lista (miniatura, canal, duración). <b>Un toque reproduce</b> en la pestaña de YouTube; mantener ofrece \"Agregar a la cola\". Mientras busca: tres filas grises. Sin resultados: \"No se encontró nada con ese texto\".",
+  V({ title: "YouTube", back: true, tab: "Apps", body: `${mini}${seg("Buscar")}${field}<div style="margin-top:6px">${R}</div>` }),
+  L({ title: "YouTube", back: true, body: `<div style="display:flex;gap:12px"><div style="flex:1">${mini}${seg("Buscar")}${field}</div><div style="flex:1.3">${R}</div></div>` }));
+
+const PL = item("Mix para jugar", "24 videos · sonando", { on: true, c: "linear-gradient(135deg,#d11,#511)" }) + item("Para cocinar", "40 videos", { d: "›" }) + item("Rock nacional", "112 videos", { d: "›" }) + item("Ver más tarde", "9 videos", { d: "›" });
+pair("C", "Mis listas: cambiar de lista", "Las listas de la cuenta que está abierta en el navegador. Un toque en una lista la pone a sonar desde el principio (mantener: abrirla para elegir un tema). Es el caso \"cambiar la playlist sin molestar\".",
+  V({ title: "YouTube", back: true, tab: "Apps", body: `${mini}${seg("Mis listas")}${PL}${bgNote}` }),
+  L({ title: "YouTube", back: true, body: `<div style="display:flex;gap:12px"><div style="flex:1">${mini}${seg("Mis listas")}${bgNote}</div><div style="flex:1.3">${PL}</div></div>` }));
+
+pair("D", "Errores y casos límite", "No hay pestaña de YouTube abierta: se ofrece abrir una (esa sí abre una pestaña nueva; se avisa). YouTube cambió y la cola no se puede leer: los controles ⏮ ⏯ ⏭ siguen andando y se dice claro qué falta. Sin sesión iniciada: \"Mis listas\" queda vacía con su explicación.",
+  V({ title: "YouTube", back: true, tab: "Apps", body: `<div class="box" style="text-align:center;padding:18px;margin-top:10px"><b>No hay una pestaña de YouTube abierta</b><div class="sub" style="white-space:normal;margin:4px 0 10px">Se abre una nueva en Chrome. Puede pasar al frente de lo que esté en esa pantalla.</div><span class="btn p">Abrir YouTube</span></div>` }),
+  L({ title: "YouTube", back: true, body: `<div style="display:flex;gap:12px"><div style="flex:1">${mini}${seg("Cola")}</div><div style="flex:1.3"><div class="err">No se pudo leer la cola (YouTube cambió algo). Play, pausa, anterior y siguiente siguen andando.</div></div></div>` }));
+</script>
+</body>
+</html>

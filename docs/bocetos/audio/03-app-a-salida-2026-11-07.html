@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 03 Mandar una app a una salida</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("03 · Mandar una app a una salida", "Fase B4, R7 (recortable: entra solo si el spike S2 anda). Hoja que se abre tocando \"→ salida ▾\" en una app. Usa una función de Windows no documentada (D30) y Windows lo guarda por app: queda así hasta que se vuelve a \"Seguir a la predeterminada\".", ["02-acciones-salida-2026-11-07.html", "02 · Acciones de una salida"], ["04-inicio-teclas-audio-2026-11-07.html", "04 · Inicio con teclas de audio"]);
+
+const BG = `<div class="box">${appRow({ a: "spotify", n: "Spotify", v: 60, sounding: true })}${appRow({ a: "discord", n: "Discord", v: 80 })}</div>`;
+const opt = (k, n, on = false, busy = false) => `<div class="row"><div class="ico">${busy ? '<span class="spin"></span>' : KIND[k] || "↺"}</div><div class="grow">${n}</div>${on ? '<span class="chip on">✓</span>' : ""}</div>`;
+const route = (busy) => `<h3>¿Por dónde suena Spotify?</h3>
+  ${opt("df", "Seguir a la predeterminada (Auriculares)", !busy)}
+  ${opt("hp", "Auriculares")}${opt("sp", "Parlantes", false, busy)}${opt("tv", "Tele")}
+  <div class="note">Si no cambia enseguida, pausá y volvé a reproducir en la app. Windows lo recuerda: Spotify va a seguir saliendo por ahí mañana.</div>
+  <div class="acts"><span class="btn">Cerrar</span></div>`;
+
+pair("A", "Elegir salida", "Solo salidas activas. La actual con ✓. \"Seguir a la predeterminada\" deshace el cambio.",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(route(false)) }),
+  L({ title: "Audio", body: BG, dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:80%;max-height:90%;overflow:auto">${route(false)}</div></div>` }));
+
+pair("B", "Cambiando", "Ruedita en la elegida; al confirmar, la hoja se cierra y la fila dice \"→ Parlantes (fijada)\".",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(route(true)) }),
+  L({ title: "Audio", body: BG, dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:80%;max-height:90%;overflow:auto">${route(true)}</div></div>` }));
+
+const fixed = `<div class="box">${appRow({ a: "spotify", n: "Spotify", v: 60, sounding: true, to: "Parlantes", fixed: true })}${appRow({ a: "discord", n: "Discord", v: 80 })}</div>`;
+pair("C", "Fijada", "Así queda en la lista. \"(fijada)\" recuerda que no sigue a la predeterminada.",
+  V({ title: "Audio", tab: "Audio", body: fixed }), L({ title: "Audio", body: fixed }));
+
+const err = `<h3>¿Por dónde suena Spotify?</h3><div class="err">Windows no dejó mandar Spotify a los parlantes.</div>${opt("df", "Seguir a la predeterminada (Auriculares)", true)}${opt("sp", "Parlantes")}<div class="acts"><span class="btn">Cerrar</span></div>`;
+const unav = `<div class="box">${appRow({ a: "spotify", n: "Spotify", v: 60, sounding: true })}</div><div class="note">Mandar una app a otra salida no está disponible en esta PC. La fila muestra la salida pero sin ▾.</div>`;
+pair("D", "Error y no disponible", "Izquierda: falló el cambio. Derecha: D30 apagada (o S2 no anduvo y R7 se recortó): no se abre la hoja.",
+  V({ title: "Audio", tab: "Audio", body: BG, dim: true, over: sheet(err) }), L({ title: "Audio", body: unav }));
+</script>
+</body>
+</html>

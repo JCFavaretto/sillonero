@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 01 Audio</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("01 · Audio", "Fase B4, R1 a R5. Pestaña Audio (reemplaza la sección 13 del boceto v4). Arriba \"Ahora suena\" (D34), después las salidas (D32, con apodo; las 4 activas de la PC de Jay, con la Digital Output oculta) y las apps con sesión de audio (D33). Tocar ⋯ en una salida abre la hoja 02; tocar \"→ salida ▾\" en una app abre la hoja 03.", null, ["02-acciones-salida-2026-11-07.html", "02 · Acciones de una salida"]);
+
+const OUTS = (o = {}) => `<div class="sec">Salidas</div><div class="box">
+  ${outRow({ k: "hp", n: "Auriculares", def: !o.sp, v: 46, busy: o.busy })}
+  ${outRow({ k: "sp", n: "Parlantes", def: !!o.sp, v: 40 })}
+  ${outRow({ k: "tv", n: "Tele", v: o.tvOff ? null : 34, sub: o.tvOff ? "no disponible · la tele está apagada" : "" })}
+  </div><div class="sub" style="margin-top:4px">Mostrar ocultas (1)</div>`;
+const APPLIST = (o = {}) => `<div class="sec">Apps</div><div class="box">
+  ${appRow({ a: "spotify", n: "Spotify", v: o.spv ?? 60, sounding: true })}
+  ${appRow({ a: "chrome", n: "Chrome", v: 100 })}
+  ${appRow({ a: "discord", n: "Discord", v: 80, to: "Auriculares", fixed: true })}
+  </div>`;
+const NP = np("Nombre del tema que suena", "Artista", "Spotify");
+
+pair("A", "Normal", "La predeterminada va primero y marcada. \"sonando\" son tres barritas en verde (ok) que se mueven; quietas si Android tiene \"Quitar animaciones\". El volumen de una app es relativo a su salida, como en Windows.",
+  V({ title: "Audio", tab: "Audio", body: NP + OUTS() + APPLIST() }),
+  L({ title: "Audio", body: `<div class="c2"><div>${NP}${OUTS()}</div><div>${APPLIST()}</div></div>` }));
+
+const drag = `<div class="sec">Apps</div><div class="box">${appRow({ a: "spotify", n: "Spotify", v: 25, sounding: true })}</div><div class="sub" style="white-space:normal">Mientras arrastrás, el celu manda como mucho 10 cambios por segundo y el último al soltar (D38).</div>`;
+pair("B", "Arrastrando y cambiando la predeterminada", "Izquierda: bajando Spotify. Derecha: se tocó \"Hacer predeterminada\" en la hoja 02 y la fila muestra la ruedita hasta que Windows confirma.",
+  V({ title: "Audio", tab: "Audio", body: NP + drag }),
+  L({ title: "Audio", body: `<div class="c2"><div>${OUTS({ busy: true })}</div><div>${drag}</div></div>` }));
+
+const nothing = `<div class="box" style="text-align:center;padding:12px"><b>Nada sonando</b><div class="sub" style="white-space:normal">Cuando una app avise a Windows qué reproduce (Spotify, YouTube…), aparece acá.</div></div>`;
+const noApps = `<div class="sec">Apps</div><div class="box" style="text-align:center;padding:12px"><div class="sub" style="white-space:normal">Ninguna app sonó todavía. Una app aparece acá cuando reproduce algo (así funciona Windows).</div></div>`;
+pair("C", "Nada sonando y sin apps", "No es un error. La tele apagada sigue en la lista, en gris, porque tiene apodo (D32).",
+  V({ title: "Audio", tab: "Audio", body: nothing + OUTS({ tvOff: true }) + noApps }),
+  L({ title: "Audio", body: `<div class="c2"><div>${nothing}${OUTS({ tvOff: true })}</div><div>${noApps}</div></div>` }));
+
+const errV = `<div class="err">No se pudo cambiar el volumen de Spotify. La app se cerró o dejó de sonar.</div>`;
+pair("D", "Error al cambiar", "El deslizador vuelve al valor real y aparece el aviso arriba, 4 s.",
+  V({ title: "Audio", tab: "Audio", body: errV + NP + APPLIST({ spv: 60 }) }),
+  L({ title: "Audio", body: errV + `<div class="c2"><div>${NP}</div><div>${APPLIST({ spv: 60 })}</div></div>` }));
+
+const loading = `<div class="box" style="text-align:center;padding:22px"><span class="spin"></span><div class="sub" style="margin-top:6px">Leyendo el audio de la PC…</div></div>`;
+pair("E", "Cargando", "La primera vez que arranca el agente (PowerShell tarda ~1 s).",
+  V({ title: "Audio", tab: "Audio", body: loading }), L({ title: "Audio", body: loading }));
+
+const unav = `<div class="note">Cambiar la salida predeterminada no está disponible en esta PC (usa una función de Windows que no está documentada). El volumen sigue andando.</div>`;
+const off = `<div class="box" style="text-align:center;padding:22px"><b>Audio no disponible</b><div class="sub" style="white-space:normal;margin-top:4px">El agente no pudo hablar con el audio de Windows. Probá reiniciar el agente desde la bandeja.</div></div>`;
+pair("F", "Función no disponible y audio caído", "Izquierda: D29 apagada (desde el panel o porque Windows la rompió): la hoja 02 no tiene \"Hacer predeterminada\" y se ve la nota. Derecha: el hijo de audio se cayó tres veces (D27).",
+  V({ title: "Audio", tab: "Audio", body: unav + OUTS() }), L({ title: "Audio", body: off }));
+
+const disc = `<div class="box" style="text-align:center;padding:22px"><b>Sin conexión con la PC</b><div class="sub" style="margin-top:4px">Reintentando…</div></div>`;
+pair("G", "Sin conexión", "Igual que las otras pestañas.",
+  V({ title: "Audio", tab: "Audio", body: disc }), L({ title: "Audio", body: disc }));
+</script>
+</body>
+</html>

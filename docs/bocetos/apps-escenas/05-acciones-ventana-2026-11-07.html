@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 05 Acciones de una ventana</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("05 · Acciones de una ventana (hoja)", "Fase B3, R1 y R3. Se abre al tocar una fila de Abiertas. Arriba, a qué pantalla mandarla (la actual deshabilitada, como en B2). Abajo, las acciones. Maximizar se vuelve Restaurar si ya está maximizada; Pantalla completa (sin bordes, como Ctrl+Alt+4 del .ahk) se vuelve Salir de pantalla completa. Cerrar pide confirmación (06). Si la ventana se cierra en la PC con la hoja abierta, la hoja se cierra sola con un aviso.", ["04-apps-abiertas-2026-11-07.html", "04 · Apps · Abiertas"], ["06-confirmar-cerrar-2026-11-07.html", "06 · Confirmar cerrar"]);
+
+const tabs = `<div class="tabs"><span class="on">Abiertas</span><span>Lanzadores</span></div>`;
+const bg = `${tabs}<div class="box">${["Code", "Chrome", "Discord"].map((n) => `<div class="row"><span class="ico"></span><div class="grow">${n}</div></div>`).join("")}</div>`;
+const headW = `<div class="row" style="border:0;padding-top:0">${ic("chrome")}<div class="grow"><b>YouTube — Age of Empires</b><div class="sub">Chrome · pantalla 1</div></div></div>`;
+const move = `<div class="sec">Mover a</div><div style="display:flex;gap:6px"><span class="btn" style="opacity:.45;flex:1;text-align:center">1 · acá</span><span class="btn" style="flex:1;text-align:center">2</span><span class="btn" style="flex:1;text-align:center">3 · Tele</span></div>`;
+const acts = (busy) => `<div class="sec">Ventana</div><div class="c2" style="gap:6px">${["Traer al frente", "Maximizar", "Pantalla completa", "Minimizar"].map((a, i) => `<span class="btn" style="text-align:center">${busy && i === 0 ? '<span class="spin"></span>' : ""}${a}</span>`).join("")}</div><div style="margin-top:8px"><span class="btn" style="color:#a02020;width:100%;text-align:center;display:block">Cerrar ventana</span></div>`;
+
+pair("A", "Hoja de acciones", "Cada botón manda el comando y la hoja se cierra cuando la PC confirma (la lista ya muestra el cambio). La tele dice su apodo.",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: sheet(`${headW}${move}${acts(false)}`) }),
+  L({ title: "Apps", body: bg, dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:86%">${headW}<div class="c2"><div>${move}</div><div>${acts(false)}</div></div></div></div>` }));
+
+const err = `<div class="err">No se pudo traer al frente: Windows no lo permitió (titila en la barra de tareas de la PC).</div>`;
+pair("B", "En curso y error", "El botón tocado muestra que está trabajando; los otros se deshabilitan. Si falla, la hoja queda abierta con el motivo en palabras. Los motivos posibles: Windows no deja traerla al frente; es de administrador; ya no existe.",
+  V({ title: "Apps", tab: "Apps", body: bg, dim: true, over: sheet(`${headW}${err}${acts(true)}`) }),
+  L({ title: "Apps", body: bg, dim: true, over: `<div class="sheetwrap center"><div class="sheet" style="width:86%">${headW}${err}<div class="c2"><div>${move}</div><div>${acts(true)}</div></div></div></div>` }));
+
+const gone = `<div class="note" style="position:absolute;left:12px;right:12px;bottom:70px;z-index:9">Esa ventana se cerró en la PC.</div>`;
+pair("C", "La ventana desapareció", "Si la ventana ya no está en la lista (se cerró en la PC), la hoja se cierra y aparece un aviso de 3 s.",
+  V({ title: "Apps", tab: "Apps", body: bg, over: gone }),
+  L({ title: "Apps", body: bg, over: gone.replace("bottom:70px", "bottom:16px") }));
+</script>
+</body>
+</html>

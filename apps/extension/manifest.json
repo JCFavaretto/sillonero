@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Sillonero",
+  "version": "0.1.0",
+  "description": "Deja que la app del celu vea tus pestañas, tus marcadores y la cola de YouTube, y maneje el video o audio de cualquier página. Solo habla con el programa de tu PC; no manda nada a internet.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvjP+vH8qLBiCqLo+YAG5UFRK8ZlQaygloSfHXg4AlR6oHB5pt0cyy8mrUwBgPEn13i4Wx+AFCptoIzDV9pIk+iDLy83rYvKznSmjAfVbX4mYvBfiXzd+x7V2Djs5Co60TmB/IkkzQWtbTDbDSy+PqhEZaogc6XgSaIO4Qn1YF3KwWlqnEDydgPSV/CUzrDpMZG2rQlreHeMrRiz1J+U7eSNNGnOCLeEkdpY4upEtA0upZUv/Ks7AFmCYjjz1PUVMwS+eAV7tXqoz16CoSn2OJ0i6m3Sqn+2bgLmh6+zKv6DdJldKhfjgHiw8LRxyTCzqybLAUSYVrDkZS154Ltzf3wIDAQAB",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "scripting",
+    "sessions",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}

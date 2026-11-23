@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pad · 05 Ajustes del pad</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+<style>.opt{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #3B3746;font-size:13px}.opt .grow{flex:1}
+.bar5{flex:1;height:6px;border-radius:4px;background:#3B3746;position:relative}.bar5 b{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:linear-gradient(90deg,#F5A524,#FF6B4A)}.bar5 em{position:absolute;top:-6px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:#fff}</style>
+</head>
+<body>
+<script>
+head("05 · Ajustes del pad", "Fase B5. Hoja que se abre con ⚙ desde el Touchpad. Se guarda en el celu (como el plegado del reproductor), no en la PC. Pocas opciones a propósito: las que cambian cómo se siente.", ["04-atajos-2026-11-08.html", "04 · Atajos"], ["06-cortar-2026-11-08.html", "06 · Cortar el control"]);
+
+const sl = (p, l, r) => `<div style="display:flex;align-items:center;gap:8px;padding:2px 0 6px"><span class="sub">${l}</span><div class="bar5"><b style="width:${p}%"></b><em style="left:${p}%"></em></div><span class="sub">${r}</span></div>`;
+const opts = `<h3>Ajustes del pad</h3>
+<div class="opt"><div class="grow">Velocidad del cursor</div></div>${sl(55, "lenta", "rápida")}
+<div class="opt"><div class="grow">Velocidad del scroll</div></div>${sl(40, "lenta", "rápida")}
+<div class="opt"><div class="grow">Scroll natural<div class="sub">Como en el celu: subís el dedo y la página sube</div></div>${toggle(true)}</div>
+<div class="opt"><div class="grow">Vibrar en cada clic</div>${toggle(false)}</div>
+<div class="opt" style="border:0"><div class="grow">Pantalla siempre prendida en el Pad</div>${toggle(true)}</div>
+<div class="acts"><span class="btn">Restablecer</span><span class="btn p">Listo</span></div>`;
+const bg = `${seg(0)}${surface({ h: 300 })}${clickbar()}`;
+
+pair("A", "La hoja", "Vertical: hoja inferior sobre el touchpad oscurecido; se cierra con Listo, tocando afuera o con Atrás. Apaisado: cuadro centrado, más angosto. La velocidad del cursor se prueba al toque: cerrás y movés.",
+  V({ right: chip("on"), body: bg, over: sheet(opts) }),
+  L({ right: chip("on"), body: surface({ h: 220 }), over: sheet(opts.replace("<h3>", '<h3 style="margin-bottom:2px">'), true) }));
+</script>
+</body>
+</html>

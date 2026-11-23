@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 08 Audio en el Inicio (mezclador)</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("08 · Audio en el Inicio (mezclador mínimo)", "Fase B4, pedido de Jay el 08/11/2026: ver y manejar el audio desde el Inicio sin ir a la pestaña. Una tarjeta \"Audio\" arriba de las teclas, con tres cosas: la salida predeterminada con su volumen (y cambiarla ahí mismo), lo que suena con ⏮ ⏯ ⏭, y las apps que suenan ahora con su volumen y su salida, como el Mezclador de volumen de Windows. \"Ver todo\" abre la pestaña Audio. Se puede plegar y se recuerda. Las teclas de audio del boceto 04 siguen existiendo (son otra forma de lo mismo).", ["07-elegir-app-media-2026-11-07.html", "07 · Elegir la app de Media"], null);
+
+const STRIP = `<div class="strip"><span class="dot"></span><b style="color:#222">DESKTOP-PSB9K0R</b><span>CPU 23 % · RAM 61 %</span></div>`;
+const K = (label, inner, cls = "") => `<div class="key ${cls}">${inner}<b>${label}</b></div>`;
+const keys = [K("Trabajo", "<i></i>"), K("Juego", "<i></i>"), K("Modo sillón", "<i></i>"), K("Traer todo", "<i></i>"), K("Identificar", "<i></i>")].join("");
+const RIGHT = `<span class="btn">Escenas</span>`;
+
+// salida predeterminada: ícono, nombre ▾ (cambia de salida), silencio, volumen
+const masterRow = (o = {}) => `<div class="row" style="padding:6px 0"><div class="ico">🎧</div><div class="grow"><div class="row" style="border:0;padding:0;gap:6px"><b style="font-size:13px">Auriculares</b><span class="chip on" style="margin:0">▾ cambiar</span></div>
+  <div class="row" style="border:0;padding:4px 0 0;gap:8px"><span class="sub">${o.mute ? "🔇" : "🔈"}</span>${sl(46, o.mute)}${vol(46)}</div></div></div>`;
+const mini = `<div class="np" style="gap:8px"><div class="art" style="width:40px;height:40px"></div><div class="grow"><b style="font-size:12px">Nombre del tema</b><div class="sub">Artista · Spotify</div></div><div class="ctr" style="margin:0;gap:6px"><span style="width:30px;height:30px">⏮</span><span class="pl" style="width:30px;height:30px">⏸</span><span style="width:30px;height:30px">⏭</span></div></div>`;
+const appMini = (a, n, v, to, snd) => `<div class="row" style="padding:4px 0">${ic(a)}<div class="grow"><div class="row" style="border:0;padding:0;gap:6px"><span style="font-size:12px">${n}</span>${snd ? '<span class="st ok">▮▮▮</span>' : ""}<span class="chip" style="margin:0;font-size:10px">${to} ▾</span></div><div class="row" style="border:0;padding:2px 0 0;gap:8px">${sl(v)}${vol(v)}</div></div></div>`;
+const apps = `${appMini("spotify", "Spotify", 60, "Auriculares", true)}${appMini("chrome", "Chrome", 100, "Auriculares", false)}${appMini("discord", "Discord", 80, "Parlantes", false)}`;
+const head2 = (open) => `<div class="row" style="border:0;padding:0 0 4px"><b style="font-size:12px;letter-spacing:1px;color:#666">AUDIO</b><span class="grow"></span><span class="sub">Ver todo ›</span><span class="sub" style="margin-left:10px">${open ? "▴" : "▾"}</span></div>`;
+const card = (inner, open = true) => `<div class="box">${head2(open)}${inner}</div>`;
+const full = `${masterRow()}<div class="sec" style="margin:6px 0 2px">Lo que suena</div>${mini}<div class="sec" style="margin:8px 0 0">Apps</div>${apps}`;
+
+pair("A", "Normal", "Tarjeta desplegada arriba de las teclas. La salida (▾ cambiar) abre la hoja de salidas del boceto 02; el chip de cada app abre la hoja de ruta del boceto 03; \"Ver todo\" lleva a la pestaña Audio. Muestra solo las 3 apps que más suenan (la lista completa está en Audio).",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${card(full)}<div class="sec">Escenas y acciones</div><div class="deck">${keys}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="c2"><div>${card(`${masterRow()}${mini}`)}</div><div>${card(`<div class="sec" style="margin:0 0 2px">Apps</div>${apps}`)}</div></div><div class="deckL" style="margin-top:8px">${keys}</div>` }));
+
+pair("B", "Plegada", "Una sola línea: salida, volumen y silencio, más ⏯. Para quien quiere las teclas del Inicio y nada más. El estado plegado se recuerda en el celu.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="box"><div class="row" style="padding:2px 0;gap:8px"><b style="font-size:12px;letter-spacing:1px;color:#666">AUDIO</b><div class="ico">🎧</div><div class="grow"><div class="slider"><b style="width:46%"></b><em style="left:46%"></em></div></div><span class="sub">46</span><span class="sub">🔈</span><span class="sub">▾</span></div></div><div class="sec">Escenas y acciones</div><div class="deck">${keys}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="box"><div class="row" style="padding:2px 0;gap:8px"><b style="font-size:12px;letter-spacing:1px;color:#666">AUDIO</b><div class="ico">🎧</div><div class="grow"><div class="slider"><b style="width:46%"></b><em style="left:46%"></em></div></div><span class="sub">46</span><span class="sub">🔈</span><span class="sub">▾</span></div></div><div class="deckL" style="margin-top:8px">${keys}</div>` }));
+
+const nothing = `${masterRow()}<div class="sub" style="margin:6px 0">Nada sonando. Las apps aparecen acá cuando reproducen algo.</div>`;
+pair("C", "Nada sonando", "Sin tema ni apps: queda la salida y el aviso. No es un error.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${card(nothing)}<div class="sec">Escenas y acciones</div><div class="deck">${keys}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}${card(nothing)}<div class="deckL" style="margin-top:8px">${keys}</div>` }));
+
+const off = `<div class="sub" style="white-space:normal">Audio no disponible en la PC. Probá reiniciar el agente desde la bandeja.</div>`;
+const disc = `<div class="sub">Sin conexión con la PC.</div>`;
+pair("D", "Audio caído y sin conexión", "Izquierda: el agente no pudo hablar con el audio de Windows. Derecha: sin conexión (la tarjeta queda gris y no se toca nada, como el resto del Inicio).",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${card(off)}<div class="sec">Escenas y acciones</div><div class="deck">${keys}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="opacity:.5">${card(disc)}</div><div class="deckL" style="margin-top:8px">${keys}</div>` }));
+
+const dup = `${appMini("chrome", "chrome · Señorita", 100, "Auriculares", false)}${appMini("chrome", "chrome · Los JUEGOS de SAW…", 100, "Auriculares", true)}`;
+pair("E", "Varias sesiones de la misma app", "Caso real de Jay: YouTube y YouTube Music abiertos en Chrome. En Windows son una sola app (un volumen) con dos sesiones de media: en \"Lo que suena\" se elige cuál (chip \"⏯ va a:\" del boceto 07) y en Apps hay una sola fila de Chrome. Las dos sesiones se distinguen por su título.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${card(`${masterRow()}<div class="sec" style="margin:6px 0 2px">Lo que suena</div>${mini}<div class="row" style="border:0;padding:6px 0 0"><span class="chip on" style="margin:auto">⏯ va a: Chrome · Los JUEGOS de SAW ▾</span></div><div class="sec" style="margin:8px 0 0">Apps</div>${appMini("chrome", "Chrome", 100, "Auriculares", true)}${appMini("spotify", "Spotify", 60, "Auriculares", false)}`)}<div class="deck">${keys}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="c2"><div>${card(`${masterRow()}${mini}`)}</div><div>${card(`<div class="sec" style="margin:0 0 2px">Apps</div>${appMini("chrome", "Chrome", 100, "Auriculares", true)}${appMini("spotify", "Spotify", 60, "Auriculares", false)}`)}</div></div>` }));
+</script>
+</body>
+</html>

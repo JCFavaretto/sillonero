@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Atajos (B6) · 01 Atajo y disparador de una escena</title><link rel="stylesheet" href="../_base.css"><script src="../apps-escenas/_kit.js"></script></head>
+<body>
+<script>
+head("01 · Atajo y disparador de una escena", "Fase B6 (plan 8.6). El editor de escena (B3, boceto 10) suma <b>dos filas</b> debajo del nombre: <b>Atajo</b> y <b>Ejecutar solo</b>. Las dos abren una hoja inferior. El atajo es siempre <b>Ctrl+Alt+ una tecla</b> que se elige de una grilla (no se tipea), así no hay combinaciones raras; las teclas que ya usa la paridad con el .ahk (T, M, 1–7) salen tachadas con su motivo. La lista de escenas (boceto 09) muestra una insignia con el atajo y otra con ⟳ si corre sola. Teclas de 44 dp o más y el botón principal abajo (zona del pulgar).", ["../apps-escenas/10-editor-escena-2026-11-07.html", "B3 · 10 Editor de escena"], ["02-panel-pc-2026-11-09.html", "02 · Panel de la PC"]);
+
+const name = `<div class="field" style="border-color:#bbb"><span>Juego</span><small>5/32</small></div>`;
+const row = (label, val) => `<div class="step" style="min-height:48px"><div class="grow"><b>${label}</b></div><span class="btn" style="min-width:120px;text-align:center">${val} ›</span></div>`;
+const steps = `<div class="step"><span class="n">1</span><div class="grow"><b>Pantallas</b><div class="sub">Tele living: prender</div></div></div><div class="step"><span class="n">2</span><div class="grow"><b>Abrir link · YouTube</b><div class="sub">Tele living · pantalla completa</div></div></div>`;
+const foot = `<div style="display:flex;gap:8px;margin-top:12px"><span class="btn" style="color:#a02020;margin-right:auto">Borrar escena</span><span class="btn">Probar</span><span class="btn p">Guardar</span></div>`;
+
+pair("A", "Editor con las dos filas nuevas", "Sin atajo ni disparador las filas dicen “Ninguno” y “Solo a mano”. Con valores muestran el atajo (Ctrl+Alt+J) y “Al prender Tele living”. En apaisado las dos filas van en la columna izquierda, arriba de los pasos.",
+  V({ title: "Editar escena", back: true, tab: "Apps", body: `<div class="sec">Nombre</div>${name}<div class="sec">En la PC</div>${row("Atajo", "Ctrl+Alt+J")}${row("Ejecutar solo", "Al prender Tele living")}<div class="sec">Pasos (2 de 12)</div>${steps}${foot}` }),
+  L({ title: "Editar escena", back: true, body: `<div class="c2"><div>${name}<div class="sec">En la PC</div>${row("Atajo", "Ctrl+Alt+J")}${row("Ejecutar solo", "Al prender Tele living")}</div><div><div class="sec">Pasos (2 de 12)</div>${steps}${foot}</div></div>` }));
+
+const keys = ["0", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "N", "O", "P", "Q", "R", "S", "U", "V", "W", "X", "Y", "Z"];
+const taken = { T: 1, M: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1 };
+const grid = (sel) => `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:8px 0">${[...keys, "T", "M", "1", "2", "3", "4", "5", "6", "7"].map((k) => `<span class="btn ${k === sel ? "p" : ""}" style="min-height:44px;display:flex;align-items:center;justify-content:center;${taken[k] ? "opacity:.35;text-decoration:line-through" : ""}">${k}</span>`).join("")}</div>`;
+const atajoSheet = (sel, msg, warn) => sheet(`<h3>Atajo de “Juego”</h3><div class="sub">Ctrl+Alt+ <b>${sel}</b></div>${grid(sel)}<div class="sub" style="white-space:normal;${warn ? "color:#a02020" : ""}">${msg}</div><div class="acts"><span class="btn">Sin atajo</span><span class="btn p">Listo</span></div>`);
+const bgA = `<div class="sec">En la PC</div>${row("Atajo", "Ctrl+Alt+J")}`;
+pair("B", "Hoja “Atajo”", "Grilla de 7 columnas. Las tachadas ya tienen dueño (la paridad con el .ahk y el corte del Pad); tocar una tachada no la elige y dice de quién es.",
+  V({ title: "Editar escena", back: true, tab: "Apps", body: bgA, dim: true, over: atajoSheet("J", "Libre. Va a andar mientras el agente esté abierto.", false) }),
+  L({ title: "Editar escena", back: true, body: bgA, dim: true, over: atajoSheet("J", "Libre. Va a andar mientras el agente esté abierto.", false) }));
+pair("C", "Tecla ya usada", "Al tocar una tachada no cambia la selección; el texto explica el motivo en rojo. Nada se guarda hasta “Listo” y “Guardar”.",
+  V({ title: "Editar escena", back: true, tab: "Apps", body: bgA, dim: true, over: atajoSheet("J", "Ctrl+Alt+4 ya es “pantalla completa”. Elegí otra tecla.", true) }),
+  L({ title: "Editar escena", back: true, body: bgA, dim: true, over: atajoSheet("J", "Ctrl+Alt+4 ya es “pantalla completa”. Elegí otra tecla.", true) }));
+
+const opt = (t, s, on) => `<div class="step" style="min-height:52px"><span class="n">${on ? "●" : "○"}</span><div class="grow"><b>${t}</b><div class="sub" style="white-space:normal">${s}</div></div></div>`;
+const trigSheet = sheet(`<h3>Ejecutar solo</h3>${opt("Solo a mano", "Desde el celu, el Inicio o el atajo.", false)}${opt("Al iniciar el agente", "Cuando se prende la PC o se abre el agente. Espera 20 s a que Windows termine de arrancar.", false)}${opt("Al prender una pantalla", "Cuando Windows detecta que la pantalla elegida pasó de apagada a prendida.", true)}<div class="field" style="margin-top:6px"><span>Tele living</span><small>▾</small></div><div class="sub" style="white-space:normal">Una escena que corre sola no se repite hasta 60 s después, y no se dispara si ya hay otra corriendo.</div><div class="acts"><span class="btn">Cancelar</span><span class="btn p">Listo</span></div>`);
+const bgD = `<div class="sec">En la PC</div>${row("Ejecutar solo", "Al prender Tele living")}`;
+pair("D", "Hoja “Ejecutar solo”", "Tres opciones, una sola a la vez. “Al prender una pantalla” despliega un selector con las pantallas conocidas (con su apodo). El texto de abajo dice la protección contra repetirse.",
+  V({ title: "Editar escena", back: true, tab: "Apps", body: bgD, dim: true, over: trigSheet }),
+  L({ title: "Editar escena", back: true, body: bgD, dim: true, over: trigSheet }));
+
+const sc = (t, b, extra) => `<div class="step" style="min-height:56px"><div class="grow"><b>${t}</b><div class="sub">${b}</div></div>${extra || ""}</div>`;
+const badge = (t, w) => `<span class="btn" style="font-size:11px;padding:2px 8px;${w ? "color:#a02020;border-color:#a02020" : ""}">${t}</span>`;
+const list = `${sc("Juego", "3 pasos", badge("Ctrl+Alt+J") + " " + badge("⟳ al prender Tele"))}${sc("Trabajo", "4 pasos", badge("Ctrl+Alt+K", true))}${sc("Sillón", "2 pasos")}<div class="err" style="margin-top:8px">“Trabajo”: otro programa ya usa Ctrl+Alt+K. El atajo no está activo; el resto de la escena funciona.</div>`;
+pair("E", "Lista de escenas", "Insignias chicas bajo cada escena: el atajo y el disparador. En rojo si el atajo no se pudo registrar (otro programa lo tiene); el aviso queda hasta que se cambie la tecla.",
+  V({ title: "Escenas", tab: "Apps", body: list }), L({ title: "Escenas", body: list }));
+</script>
+</body>
+</html>

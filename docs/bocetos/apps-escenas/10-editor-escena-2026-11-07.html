@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 10 Editor de escena</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("10 · Editor de escena", "Fase B3, R1 y R5. Reemplaza la sección 12 del boceto v4 <b>sin</b> paso de Audio (B4), sin \"Capturar de la PC\" (sección 12 del plan) y sin atajo de teclado (B6). Nombre arriba, pasos en orden con ↑ ↓ y ✕, \"+ Paso\" abre la hoja 11, tocar un paso lo edita. Hasta 12 pasos. \"Probar\" ejecuta lo que está en pantalla sin guardar. En apaisado: pasos a la izquierda, vista previa de las pantallas a la derecha.", ["09-escenas-2026-11-07.html", "09 · Escenas"], ["11-paso-2026-11-07.html", "11 · Agregar o editar un paso"]);
+
+const name = `<div class="field" style="border-color:#bbb"><span>Juego</span><small>5/32</small></div>`;
+const P = (n, kind, desc, zone = "") => `<div class="step"><span class="n">${n}</span><div class="grow"><b>${kind}</b><div class="sub" style="white-space:normal">${desc}</div></div>${zone}<span style="display:flex;flex-direction:column;gap:2px;font-size:11px;color:#777"><span>↑</span><span>↓</span></span><span style="color:#a02020;font-size:12px">✕</span></div>`;
+const z = (style) => `<span class="zone" style="width:40px;height:26px"><i style="${style}"></i></span>`;
+const steps = `${P(1, "Pantallas", "Tele living: prender")}${P(2, "Abrir app · Discord", "Pantalla 1 · mitad derecha", z("left:50%;top:0;right:0;bottom:0"))}${P(3, "Abrir link · YouTube", "Tele living · pantalla completa", z("inset:0"))}<div style="margin-top:8px"><span class="btn">+ Paso</span></div>`;
+const foot = `<div style="display:flex;gap:8px;margin-top:12px"><span class="btn" style="color:#a02020;margin-right:auto">Borrar escena</span><span class="btn">Probar</span><span class="btn p">Guardar</span></div>`;
+const preview = `<div class="sec">Cómo queda</div><div class="map" style="height:110px"><div class="mon" style="left:8px;top:30px;width:70px;height:44px">1<div class="w" style="left:35px;top:3px;width:31px;height:37px"></div></div><div class="mon" style="left:84px;top:30px;width:70px;height:44px">2</div><div class="mon sel" style="left:160px;top:18px;width:90px;height:58px">Tele<div class="w" style="left:3px;top:3px;width:80px;height:48px"></div></div></div>`;
+
+pair("A", "Editando", "Los pasos corren de arriba hacia abajo. La miniatura de cada paso muestra la zona; la vista previa (apaisado) junta todos en el mapa de pantallas de B2.",
+  V({ title: "Editar escena", back: true, body: `<div class="sec">Nombre</div>${name}<div class="sec">Pasos (3 de 12)</div>${steps}${foot}` }),
+  L({ title: "Editar escena", back: true, body: `<div class="c2"><div>${name}${steps}</div><div>${preview}${foot}</div></div>` }));
+
+const newEmpty = `<div class="sec">Nombre</div><div class="field"><span>|</span><small>0/32</small></div><div class="sec">Pasos</div><div class="box" style="text-align:center;padding:16px"><div class="sub" style="white-space:normal">Agregá el primer paso: prender o apagar pantallas, abrir una app o un link, o juntar todo en la principal.</div><div style="margin-top:8px"><span class="btn p">+ Paso</span></div></div><div style="display:flex;justify-content:flex-end;margin-top:12px"><span class="btn" style="opacity:.45">Guardar</span></div>`;
+pair("B", "Escena nueva", "Guardar se habilita con nombre y al menos un paso.",
+  V({ title: "Nueva escena", back: true, body: newEmpty }), L({ title: "Nueva escena", back: true, body: newEmpty }));
+
+const unsaved = sheet(`<h3>¿Salir sin guardar?</h3><div class="sub" style="white-space:normal">Los cambios a “Juego” se pierden.</div><div class="acts"><span class="btn">Seguir editando</span><span class="btn p" style="background:#a02020;border-color:#a02020">Salir</span></div>`, true);
+pair("C", "Salir con cambios", "Con la flecha de arriba o Atrás de Android.",
+  V({ title: "Editar escena", back: true, body: steps, dim: true, over: unsaved }), L({ title: "Editar escena", back: true, body: steps, dim: true, over: unsaved }));
+
+const errs = `<div class="err">No se pudo guardar: “Cursor” ya no está instalada en la PC (paso 2). Cambiá ese paso o quitalo.</div>`;
+pair("D", "Error al guardar", "La PC vuelve a revisar cada paso al guardar. El paso con problema se marca en rojo.",
+  V({ title: "Editar escena", back: true, body: errs + steps.replace("Abrir app · Discord", "<span style='color:#a02020'>Abrir app · Cursor</span>") + foot }),
+  L({ title: "Editar escena", back: true, body: `<div class="c2"><div>${errs}${steps}</div><div>${foot}</div></div>` }));
+</script>
+</body>
+</html>

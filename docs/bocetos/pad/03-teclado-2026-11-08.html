@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pad · 03 Teclado</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+</head>
+<body>
+<script>
+head("03 · Teclado", "Fase B5. <b>Escribir y mandar</b>: se escribe en un campo del celu (con el autocorrector y el dictado del celu, que andan bien) y \"Enviar\" lo escribe en la ventana activa de la PC, letra por letra con Unicode (ñ, tildes y emojis andan con cualquier distribución de teclado). \"Enviar ↵\" también aprieta Enter al final (lo típico para buscar en YouTube). Arriba del teclado del celu, una fila de modificadores que se <b>enganchan</b> (tocás Ctrl y queda ámbar hasta la próxima tecla) y una fila de teclas que van <b>al instante</b>. Un mini touchpad arriba deja mover el cursor sin cerrar el teclado.", ["02-permiso-2026-11-08.html", "02 · Permiso y control"], ["04-atajos-2026-11-08.html", "04 · Atajos"]);
+
+const R = chip("on");
+const mini = (h) => surface({ h, hint: false, label: "→ PANTALLA 1", lat: "18 ms" });
+const vb = (f, mods = [], extra = "") => `${seg(1)}${mini(70)}${f}${extra}${modrow(mods)}${keyrow()}`;
+const lb = (f, mods = [], extra = "") => `<div style="display:flex;gap:8px"><div style="flex:1;display:flex;flex-direction:column;gap:5px">${f}${extra}${modrow(mods)}${keyrow()}</div><div style="width:118px">${seg(1, true)}<div style="height:6px"></div>${stopBtn}</div></div>`;
+
+pair("A", "Escribiendo", "El teclado del celu tapa la mitad de abajo; por eso el campo, los modificadores y las teclas van pegados arriba del teclado (KeyboardAvoidingView) y el touchpad se achica a una tira. En apaisado el teclado del celu tapa casi todo: queda el campo y una fila de teclas.",
+  V({ right: R, kb: true, body: vb(field("lofi hip hop radio")) }),
+  L({ right: R, kb: true, body: lb(field("lofi hip hop radio")) }));
+
+pair("B", "Mandando y enviado", "Mientras se escribe en la PC, el botón muestra que está en curso (un texto largo tarda: ~2 ms por letra). Al terminar, \"✓ Enviado\" aparece 150 ms y se va; el campo se vacía. Tope: 500 letras por envío.",
+  V({ right: R, kb: true, body: vb(field("lofi hip hop radio", { busy: true })) }),
+  L({ right: R, kb: true, body: lb(field("", { ok: true })) }));
+
+pair("C", "Combinación con modificadores", "Ctrl enganchado (ámbar) + tocar \"L\" en el teclado del celu = Ctrl+L en la PC (barra de direcciones). Las teclas del celu con un modificador enganchado no van al campo: van directo como combinación. Se suelta solo después de una tecla; dos toques seguidos lo dejan fijo (con un candado) hasta tocarlo otra vez.",
+  V({ right: R, kb: true, body: vb(field(""), ["Ctrl"], `<div class="sub" style="text-align:center">Ctrl enganchado · la próxima tecla va como Ctrl + tecla</div>`) }),
+  L({ right: R, kb: true, body: lb(field(""), ["Ctrl", "Shift"]) }));
+
+pair("D", "No se pudo escribir", "Error cerca del campo y con salida: el texto queda en el campo para reintentar. Motivos: sin control, la ventana activa es de administrador, o la PC no respondió.",
+  V({ right: R, kb: true, body: vb(field("lofi hip hop radio", { err: true }), [], `<div class="err" style="margin:0">No se escribió: la ventana activa es de administrador. Cambiá de ventana y volvé a enviar.</div>`) }),
+  L({ right: R, kb: true, body: lb(field("lofi hip hop radio", { err: true }), [], `<div class="err" style="margin:0;padding:4px 8px;font-size:11px">No se escribió: ventana de administrador.</div>`) }));
+
+pair("E", "Teclado del celu cerrado", "Con el teclado del celu cerrado se ve el campo arriba, todas las teclas especiales (incluidas Inicio, Fin, Supr, RePág, AvPág y F1–F12 en una fila que se desliza) y el touchpad grande debajo.",
+  V({ right: R, body: `${seg(1)}${field("")}${modrow()}${keyrow()}${keyrow(["Inicio", "Fin", "Supr", "RePág", "AvPág"])}<div class="krow" style="overflow:hidden">${["F1", "F2", "F3", "F4", "F5", "F6", "F11", "F12 ›"].map((k) => `<span class="k">${k}</span>`).join("")}</div>${surface({ h: 150, hint: false })}${clickbar()}` }),
+  L({ right: R, body: `<div style="display:flex;gap:8px"><div style="flex:1;display:flex;flex-direction:column;gap:5px">${field("")}${modrow()}${keyrow()}${keyrow(["Inicio", "Fin", "Supr", "RePág", "AvPág", "F5", "F11"])}</div><div style="width:118px">${seg(1, true)}<div style="height:6px"></div>${stopBtn}</div></div>` }));
+</script>
+</body>
+</html>

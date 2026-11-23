@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyecto E — Bocetos v2 (fase B1)</title>
+<style>
+  :root{--bg:#f3f3f1;--ink:#222;--mut:#888;--line:#bbb;--card:#fff;--fill:#e6e6e3;--acc:#3b6fe0}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+  header{padding:28px 32px 8px;max-width:1400px;margin:auto}
+  h1{margin:0 0 6px;font-size:22px}
+  header p{margin:0;color:#555;max-width:760px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 0;font-size:12px;color:#555}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:14px;height:14px;border:1.5px dashed var(--line);border-radius:3px;display:inline-block}
+  .grid{display:flex;flex-wrap:wrap;gap:36px 28px;padding:24px 32px 48px;max-width:1400px;margin:auto}
+  .item{width:300px}
+  .item h2{font-size:14px;margin:0 0 2px}
+  .item .why{font-size:12px;color:#666;margin:0 0 10px;min-height:34px}
+  .phone{width:300px;height:620px;background:var(--card);border:2px solid #333;border-radius:34px;padding:14px 12px 0;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .notch{width:90px;height:6px;border-radius:4px;background:#333;margin:0 auto 10px}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:0 4px 8px}
+  .top b{font-size:17px}
+  .pc{font-size:11px;color:var(--mut);display:flex;align-items:center;gap:5px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#3a3}
+  .body{flex:1;overflow:auto;padding:0 4px 8px}
+  .nav{display:flex;border-top:1.5px solid var(--line);margin:0 -12px;background:#fafafa}
+  .nav div{flex:1;text-align:center;padding:8px 0 14px;font-size:10px;color:var(--mut)}
+  .nav div i{display:block;width:20px;height:20px;margin:0 auto 3px;border:1.5px solid var(--mut);border-radius:6px}
+  .nav .on{color:var(--acc);font-weight:600}.nav .on i{border-color:var(--acc);background:#e7eefc}
+  .sec{font-size:11px;letter-spacing:.06em;color:var(--mut);margin:12px 0 6px;text-transform:uppercase}
+  .box{border:1.5px dashed var(--line);border-radius:12px;padding:10px;background:#fcfcfb}
+  .row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eee}
+  .row:last-child{border-bottom:0}
+  .ico{width:30px;height:30px;border-radius:8px;background:var(--fill);flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;color:#777}
+  .grow{flex:1;min-width:0}
+  .sub{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tg{width:38px;height:22px;border-radius:12px;background:#ccc;position:relative;flex:none;cursor:pointer;border:0}
+  .tg::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+  .tg.on{background:var(--acc)}.tg.on::after{left:19px}
+  .deck{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .key{aspect-ratio:1;border-radius:14px;background:var(--fill);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;text-align:center;gap:4px;border:1.5px solid #d5d5d0;cursor:pointer}
+  .key i{width:22px;height:22px;border-radius:6px;border:1.5px solid #999}
+  .key.add{background:transparent;border-style:dashed;color:var(--mut)}
+  .key:active{background:#d8e2f8}
+  .slider{height:6px;border-radius:4px;background:#ddd;position:relative;flex:1}
+  .slider b{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--acc)}
+  .slider em{position:absolute;top:-5px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid var(--acc);margin-left:-8px}
+  .btn{display:inline-block;padding:7px 12px;border-radius:10px;background:var(--fill);font-size:12px;border:1.5px solid #d5d5d0}
+  .btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .chip{display:inline-block;padding:3px 8px;border-radius:20px;border:1.5px solid var(--line);font-size:11px;margin:2px 2px 0 0}
+  .chip.on{border-color:var(--acc);color:var(--acc);background:#eef3fd}
+  .map{position:relative;height:120px;border-radius:12px;background:#f0f0ec;border:1.5px dashed var(--line)}
+  .mon{position:absolute;border:2px solid #999;border-radius:6px;background:#fff;font-size:10px;padding:3px;color:#555}
+  .mon.off{border-style:dashed;color:#aaa;background:transparent}
+  .mon .w{position:absolute;background:#c9d6f3;border-radius:2px}
+  .note{font-size:11px;color:#a05a00;background:#fff4e0;border-radius:8px;padding:6px 8px;margin-top:8px}
+  .pad{height:300px;border-radius:16px;background:#ececea;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:12px;text-align:center;padding:20px}
+  .kb{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-top:6px}
+  .kb span{background:var(--fill);border-radius:4px;font-size:9px;text-align:center;padding:6px 0;color:#666}
+  .qr{width:150px;height:150px;margin:10px auto;background:repeating-linear-gradient(45deg,#ddd 0 6px,#f5f5f5 6px 12px);border:2px solid #333;border-radius:8px}
+  .np{display:flex;gap:10px;align-items:center}
+  .art{width:54px;height:54px;border-radius:8px;background:var(--fill)}
+  .ctr{display:flex;justify-content:center;gap:10px;margin-top:8px}
+  .ctr span{width:34px;height:34px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;font-size:12px}
+  .ctr .pl{background:var(--acc);color:#fff}
+  .thumb{width:62px;height:40px;border-radius:6px;background:#dde3ee;flex:none}
+  .tabs{display:flex;gap:4px;margin-bottom:8px}
+  .tabs span{flex:1;text-align:center;padding:6px;border-radius:8px;font-size:12px;background:var(--fill);cursor:pointer}
+  .tabs .on{background:var(--acc);color:#fff}
+  .step{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #eee;font-size:12px}
+  .step .n{width:20px;height:20px;border-radius:50%;background:var(--fill);font-size:11px;display:flex;align-items:center;justify-content:center;flex:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:3px;height:70px;border:2px solid #999;border-radius:6px;padding:3px}
+  .grid2 div{background:#c9d6f3;border-radius:2px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#456}
+  footer{max-width:1400px;margin:auto;padding:0 32px 40px;color:#666;font-size:12px}
+  .err{font-size:12px;color:#a02020;background:#fdecec;border-radius:8px;padding:8px 10px;margin:8px 0;text-align:left}
+  .cam{height:250px;border-radius:14px;background:#222;color:#bbb;display:flex;align-items:center;justify-content:center;position:relative;margin:8px 0}
+  .cam::after{content:"";width:150px;height:150px;border:2px solid #fff;border-radius:12px;position:absolute}
+  .stat{display:flex;align-items:center;gap:8px;font-weight:600}
+  .dot.y{background:#e0a020}.dot.g{background:#aaa}
+  .meter{height:8px;border-radius:5px;background:#ddd;margin:4px 0 10px;overflow:hidden}.meter b{display:block;height:100%;background:var(--acc)}
+  .stale{opacity:.5}
+  .browser{width:620px;border:2px solid #333;border-radius:12px;overflow:hidden;background:#fff}
+  .bar{background:#e6e6e3;padding:7px 12px;font-size:12px;color:#555;border-bottom:1.5px solid var(--line)}
+  .page{padding:14px 18px}
+  .page h3{margin:0 0 6px;font-size:15px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .tray{display:inline-block;border:1.5px solid #333;border-radius:8px;background:#fff;font-size:12px;box-shadow:2px 2px 0 #ccc}
+  .tray div{padding:7px 16px;border-bottom:1px solid #eee}.tray div:last-child{border:0}
+  [data-state]{display:none}[data-state].show{display:block}
+</style>
+</head>
+<body>
+<header>
+  <h1>Proyecto E — bocetos v2 · fase B1</h1>
+  <p>Detalle de lo que se construye en B1 (06/11/2026): conectar el celu con la PC y ver su estado en vivo. Baja fidelidad. Complementa a v1; no lo reemplaza. Lo nuevo respecto de v1: <b>estados de error y espera en Conectar</b>, <b>el panel de la PC</b> (donde se ve el QR y se toca Permitir), <b>Inicio con la tarjeta de estado</b> y <b>Ajustes reducidos</b>. Los interruptores, pestañas y estados se pueden tocar.</p>
+  <div class="legend"><span><i class="sw"></i>zona o lista dinámica</span><span><i class="sw" style="background:#3b6fe0;border-style:solid"></i>acción principal / activo</span></div>
+</header>
+
+<div class="grid">
+
+<!-- C1 -->
+<div class="item"><h2>C1 · Conectar (primera vez)</h2><p class="why">Igual que v1, pero con una sola PC y el QR sale del panel de la PC.</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body" style="text-align:center">
+  <p style="margin:6px 0 0">Abrí el panel del agente en tu PC y tocá <b>“Emparejar celu”</b>.</p>
+  <div class="qr"></div>
+  <span class="btn p">Escanear QR</span>
+  <div class="note" style="text-align:left">Solo red local. El control de mouse y teclado es un permiso aparte, apagado por defecto.</div>
+ </div>
+</div></div>
+
+<!-- C2 -->
+<div class="item"><h2>C2 · Escaneando</h2><p class="why">Cámara con marco. Se lee una sola vez aunque el QR siga a la vista.</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Escaneá el QR</b><span class="btn">Cancelar</span></div>
+ <div class="body"><div class="cam">cámara</div><div class="sub" style="text-align:center">Apuntá al QR que muestra la PC.</div></div>
+</div></div>
+
+<!-- C3 -->
+<div class="item"><h2>C3 · Esperando confirmación</h2><p class="why">El QR era válido. Falta que Jay toque Permitir en la PC (hasta 60 s).</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body" style="text-align:center">
+  <div style="font-size:40px;margin-top:70px">⏳</div>
+  <p><b>Confirmá en la PC…</b></p>
+  <div class="sub">DESKTOP-PSB9K0R pregunta si te deja entrar.</div>
+  <p style="margin-top:30px"><span class="btn">Cancelar</span></p>
+ </div>
+</div></div>
+
+<!-- C4 -->
+<div class="item"><h2>C4 · Errores (tocá las pestañas)</h2><p class="why">Cada error dice qué pasó y qué hacer. Siempre se vuelve a “Escanear QR”.</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Conectar</b></div>
+ <div class="body" style="text-align:center">
+  <div class="tabs" data-tabs><span class="on" data-k="e1">QR</span><span data-k="e2">PC</span><span data-k="e3">Permiso</span></div>
+  <div data-state="e1" class="show">
+   <div class="err">El QR venció. Generá otro en la PC.</div>
+   <div class="sub" style="white-space:normal">Otros mensajes de QR: “Ese QR no es de Proyecto E.” · “No pude leer el QR.” · “La PC no está en una red local.”</div>
+  </div>
+  <div data-state="e2">
+   <div class="err">La PC rechazó el pedido.</div>
+   <div class="sub" style="white-space:normal">Otros: “Nadie confirmó en la PC a tiempo.” · “El código ya se usó o venció.” · “La PC ya está atendiendo otro pedido.” · “No encuentro la PC. ¿Están en el mismo Wi-Fi?”</div>
+  </div>
+  <div data-state="e3">
+   <div class="err">Sin permiso de cámara no puedo leer el QR.</div>
+   <span class="btn">Abrir ajustes</span>
+   <div class="sub" style="white-space:normal;margin-top:8px">Este mismo lugar muestra “La PC te quitó el acceso. Volvé a emparejar.” cuando se revoca el celu.</div>
+  </div>
+  <p style="margin-top:20px"><span class="btn p">Escanear QR</span></p>
+ </div>
+</div></div>
+
+<!-- P1 -->
+<div class="item" style="width:640px"><h2>P1 · Panel de la PC: QR</h2><p class="why">Se abre en el navegador desde la bandeja. Ahí se prende el remoto, se muestra el QR y se ven los dispositivos.</p>
+<div class="browser"><div class="bar">http://127.0.0.1:47801/ &nbsp;·&nbsp; Proyecto E — Panel del agente</div>
+ <div class="page">
+  <div class="row" style="border:0"><div class="grow"><h3>Remoto</h3><div class="sub">El celu solo puede conectarse mientras esté prendido.</div></div><button class="tg on"></button></div>
+  <div class="cols">
+   <div>
+    <h3>Emparejar celu</h3>
+    <div class="qr" style="margin:6px 0;width:130px;height:130px"></div>
+    <div class="sub">Vence en 1:42 · <u>Generar otro</u></div>
+    <div class="sec">IP que va en el QR</div>
+    <div class="box" style="font-size:12px">Wi-Fi · 192.168.1.23 ▾<div class="sub">Otras: Ethernet 10.0.0.7</div></div>
+   </div>
+   <div>
+    <h3>Dispositivos</h3>
+    <div class="box">
+     <div class="row"><div class="grow">Pixel de Jay<div class="sub">Android · emparejado 06/11/2026</div></div><span class="dot"></span><span class="btn">Revocar</span></div>
+    </div>
+    <div class="note" style="margin-top:12px">Si el celu no conecta, revisá que la red de Windows sea <b>Privada</b>. (Aparece solo si pasó 1 minuto sin conexiones.)</div>
+   </div>
+  </div>
+ </div>
+</div></div>
+
+<!-- P2 -->
+<div class="item" style="width:640px"><h2>P2 · Panel de la PC: pedido pendiente</h2><p class="why">Aparece solo, con el título de la pestaña en “(1) Permitir…”. Un único pedido a la vez.</p>
+<div class="browser"><div class="bar">http://127.0.0.1:47801/ &nbsp;·&nbsp; (1) Permitir… — Panel del agente</div>
+ <div class="page">
+  <div class="box" style="border-color:var(--acc);background:#eef3fd">
+   <h3 style="margin-top:0">¿Permitir a “Pixel de Jay”?</h3>
+   <div class="sub" style="white-space:normal">Android · desde 192.168.1.41 · te quedan 38 s</div>
+   <div style="margin-top:10px"><span class="btn p">Permitir</span> <span class="btn">Rechazar</span></div>
+  </div>
+  <div class="note">Permitir crea un acceso solo para ese celu. Se puede revocar cuando quieras.</div>
+  <div class="note" style="margin-top:6px;background:#fdecec;color:#a02020">Si el panel se abre desde otra pestaña o sitio (sin pasar por la bandeja): “Abrí el panel desde la bandeja”.</div>
+ </div>
+</div></div>
+
+<!-- T1 -->
+<div class="item"><h2>T1 · Bandeja de Windows</h2><p class="why">Mínima a propósito: todo lo demás está en el panel. Si ninguna librería de bandeja anda, no hay ícono y el panel abre solo al iniciar.</p>
+<div class="tray"><div>Abrir panel</div><div>✓ Remoto</div><div>Salir</div></div>
+<div class="note" style="max-width:260px">Ícono provisorio. El diseño final llega más adelante.</div></div>
+
+<!-- H1 -->
+<div class="item"><h2>H1 · Inicio (versión B1)</h2><p class="why">Todavía no hay stream deck: solo la tarjeta de estado de la PC. Tocá las pestañas para ver los 4 estados.</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Inicio</b><span class="pc"><span class="dot" id="hdot"></span>DESKTOP-PSB9K0R</span></div>
+ <div class="body">
+  <div class="tabs" data-tabs data-hdot><span class="on" data-k="s1">En línea</span><span data-k="s2">Reconect.</span><span data-k="s3">Sin conex.</span><span data-k="s0">Conect.</span></div>
+  <div class="box">
+   <div data-state="s1" class="show">
+    <div class="stat"><span class="dot"></span>En línea</div>
+    <div class="sec">CPU</div><div class="meter"><b style="width:23%"></b></div><div class="sub">23 %</div>
+    <div class="sec">RAM</div><div class="meter"><b style="width:61%"></b></div><div class="sub">9,8 de 16 GB</div>
+    <div class="sec">Encendida hace</div><div>2 h 15 min</div>
+   </div>
+   <div data-state="s2">
+    <div class="stat"><span class="dot y"></span>Reconectando…</div>
+    <div class="stale"><div class="sec">CPU</div><div class="meter"><b style="width:23%"></b></div><div class="sub">23 % (último dato)</div>
+    <div class="sec">RAM</div><div class="meter"><b style="width:61%"></b></div><div class="sub">9,8 de 16 GB</div></div>
+   </div>
+   <div data-state="s3">
+    <div class="stat"><span class="dot g"></span>Sin conexión</div>
+    <div class="sub" style="margin:6px 0 10px;white-space:normal">No encuentro la PC. ¿Están en el mismo Wi-Fi?</div>
+    <span class="btn p">Reintentar</span>
+   </div>
+   <div data-state="s0">
+    <div class="stat"><span class="dot y"></span>Conectando…</div>
+   </div>
+  </div>
+  <div class="note">El resto del Inicio (escenas, Media, volumen) llega en B3 y B4.</div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+
+<!-- H2 -->
+<div class="item"><h2>H2 · Pestañas pendientes</h2><p class="why">Pantallas, Apps, Audio y Pad existen en la barra pero muestran un aviso.</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div>
+ <div class="body" style="text-align:center">
+  <div style="font-size:40px;margin-top:100px">🚧</div>
+  <p><b>Llega en B2</b></p>
+  <div class="sub">Apps y Escenas: B3 · Audio: B4 · Pad: B5</div>
+ </div>
+ <div class="nav"><div><i></i>Inicio</div><div class="on"><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+
+<!-- A1 -->
+<div class="item"><h2>A1 · Ajustes (versión B1)</h2><p class="why">Se entra tocando el nombre de la PC en Inicio. Solo la sección Conexión. Tocá Olvidar.</p>
+<div class="phone"><div class="notch"></div>
+ <div class="top"><b>Ajustes</b></div>
+ <div class="body">
+  <div class="sec">Conexión</div>
+  <div class="box">
+   <div class="row"><div class="grow">DESKTOP-PSB9K0R<div class="sub">192.168.1.23:47800</div><div class="sub">Emparejada el 06/11/2026</div></div><span class="btn" id="forget">Olvidar</span></div>
+  </div>
+  <div class="note">Olvidar borra el acceso del celu. Para quitarlo del todo, revocalo también en la PC.</div>
+  <div id="confirm" style="display:none" class="box">
+   <b>¿Olvidar DESKTOP-PSB9K0R?</b>
+   <div class="sub" style="white-space:normal;margin:4px 0 8px">Vas a tener que escanear el QR de nuevo.</div>
+   <span class="btn p">Olvidar</span> <span class="btn" id="cancel">Cancelar</span>
+  </div>
+ </div>
+ <div class="nav"><div class="on"><i></i>Inicio</div><div><i></i>Pantallas</div><div><i></i>Apps</div><div><i></i>Audio</div><div><i></i>Pad</div></div>
+</div></div>
+
+</div>
+
+<footer>
+ <p><b>Flujo completo de B1:</b> panel → prender Remoto → Emparejar celu (QR) → celu: Escanear → “Confirmá en la PC…” → panel: Permitir → celu: Inicio en línea.</p>
+ <p>Textos de error: claves de <code>es.json</code> en <code>docs/PLAN.md</code> sección 8.1, punto 6.4. Boceto v2 del 06/11/2026. No reemplaza a v1: Pantallas, Apps, Escenas, Audio y Pad siguen como en v1.</p>
+</footer>
+
+<script>
+document.querySelectorAll('.tg').forEach(t=>t.addEventListener('click',()=>{if(!t.disabled)t.classList.toggle('on')}));
+document.querySelectorAll('[data-tabs]').forEach(g=>g.querySelectorAll('span').forEach(s=>s.addEventListener('click',()=>{
+  g.querySelectorAll('span').forEach(x=>x.classList.remove('on'));s.classList.add('on');
+  g.parentElement.querySelectorAll('[data-state]').forEach(d=>d.classList.toggle('show',d.dataset.state===s.dataset.k));
+  if(g.hasAttribute('data-hdot')){document.getElementById('hdot').className='dot'+(s.dataset.k==='s1'?'':s.dataset.k==='s3'?' g':' y')}
+})));
+document.getElementById('forget').addEventListener('click',()=>document.getElementById('confirm').style.display='block');
+document.getElementById('cancel').addEventListener('click',()=>document.getElementById('confirm').style.display='none');
+</script>
+</body>
+</html>

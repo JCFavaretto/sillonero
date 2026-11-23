@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Diseño · 01 tokens antes y después</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Tokens: "antes" = apps/mobile/src/theme.ts de hoy; "después" = la propuesta. */
+.t-old{--bg:#1F2430;--sf:#2A3040;--sf2:#3A4155;--bd:#4A5268;--tx:#E6E8EF;--mu:#9AA3B8;--ac:#3B6FE0;--act:#FFFFFF;--ok:#3FB950;--wa:#E0A020;--dg:#E5484D;--dgb:#3A2328;--acs:rgba(59,111,224,.16);
+  --ft:system-ui,"Segoe UI",Roboto,sans-serif;--fd:var(--ft);--fm:var(--ft);--wt:700;--rk:12px;--rl:16px;--rs:16px;--led:0}
+.t-new{--bg:#17161D;--sf:#211F29;--sf2:#2C2935;--bd:#3B3746;--tx:#F1EEE8;--mu:#A29DAE;--ac:#F5A524;--act:#1B1405;--ok:#3DD6A3;--wa:#F5A524;--dg:#FF5C5C;--dgb:#3A1E22;--acs:rgba(245,165,36,.14);
+  --ft:"IBM Plex Sans",sans-serif;--fd:"IBM Plex Sans Condensed",sans-serif;--fm:"IBM Plex Mono",monospace;--wt:600;--rk:14px;--rl:18px;--rs:24px;--led:1}
+*{box-sizing:border-box}
+body{margin:0;background:#0e0e12;color:#ddd;font:14px/1.45 system-ui,sans-serif}
+.wrap{max-width:1500px;margin:auto;padding:24px 24px 8px}
+.wrap h1{font-size:22px;margin:0 0 6px}.wrap p{max-width:900px;color:#aaa;margin:0 0 8px}
+.wrap a{color:#F5A524}
+section{max-width:1500px;margin:auto;padding:8px 24px 30px}
+section h2{font-size:15px;margin:0 0 2px;color:#eee}section .why{font-size:12px;color:#999;margin:0 0 12px;max-width:900px}
+.row2{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.cap{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#888;margin:0 0 6px}
+.tok{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-width:1100px}
+.tok div{border-radius:10px;padding:8px;font-size:11px;color:#ccc;background:#1b1b22}
+.tok i{display:block;height:34px;border-radius:7px;margin-bottom:6px;border:1px solid #333}
+table{border-collapse:collapse;font-size:12px;color:#ccc}td,th{border-bottom:1px solid #2a2a33;padding:6px 10px;text-align:left;vertical-align:top}
+
+/* teléfono */
+.ph{width:300px;height:620px;border-radius:34px;border:2px solid #444;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--bg);color:var(--tx);font-family:var(--ft)}
+.phL{width:620px;height:300px;border-radius:30px;border:2px solid #444;overflow:hidden;position:relative;display:flex;background:var(--bg);color:var(--tx);font-family:var(--ft)}
+.sb{height:22px;flex:none}
+.body{flex:1;overflow:hidden;padding:4px 16px 12px;display:flex;flex-direction:column;gap:12px}
+.phL .body{padding:12px 16px 10px 58px}
+.hd{display:flex;align-items:center;justify-content:space-between}
+.title{font-family:var(--fd);font-weight:var(--wt);font-size:24px;letter-spacing:-.2px}
+.small{font-size:13px;color:var(--mu)}
+.label{font-family:var(--fm);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mu)}
+.data{font-family:var(--fm);font-size:12.5px}
+.card{background:var(--sf);border-radius:var(--rl);padding:14px;display:flex;flex-direction:column;gap:8px}
+.t-new .card{border:1px solid var(--bd)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--ok);display:inline-block}
+.t-new .dot{width:8px;height:8px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent),0 0 10px var(--ok)}
+.meter{height:8px;border-radius:4px;background:var(--sf2);overflow:hidden}.meter b{display:block;height:100%;background:var(--ac)}
+.t-new .meter{height:6px}
+.btn{min-height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:0 18px;font-weight:600;font-size:15px;background:var(--sf2);color:var(--tx)}
+.btn.p{background:var(--ac);color:var(--act)}
+.notice{background:var(--sf);border-radius:12px;padding:12px;font-size:13px;color:var(--mu)}
+.t-new .notice{background:transparent;border:1px dashed var(--bd)}
+.nav{display:flex;background:var(--sf);border-top:1px solid var(--bd);flex:none}
+.nav div{flex:1;text-align:center;padding:8px 0 14px;font-size:10.5px;color:var(--mu);position:relative}
+.nav i{display:block;width:20px;height:20px;margin:0 auto 3px;border:1.6px solid currentColor;border-radius:6px}
+.nav .on{color:var(--ac);font-weight:600}
+.t-new .nav{background:var(--bg)}
+.t-new .nav .on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.t-new .nav div{font-family:var(--fd);font-weight:600;font-size:11px;letter-spacing:.3px}
+/* Pantallas */
+.map{position:relative;height:118px;border-radius:12px;background:var(--sf)}
+.t-new .map{background:repeating-linear-gradient(0deg,transparent 0 13px,rgba(255,255,255,.03) 13px 14px),repeating-linear-gradient(90deg,transparent 0 13px,rgba(255,255,255,.03) 13px 14px),var(--sf);border:1px solid var(--bd)}
+.mon{position:absolute;border:2px solid var(--mu);border-radius:6px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--tx);background:var(--sf2)}
+.t-new .mon{font-family:var(--fm);font-weight:500;border-width:1.5px;border-color:var(--bd);background:var(--sf2)}
+.mon.off{border-style:dashed;background:transparent;color:var(--mu)}
+.mon.fg{border-color:var(--ac)}
+.t-new .mon.fg{box-shadow:0 0 0 1px var(--ac),0 0 14px color-mix(in srgb,var(--ac) 35%,transparent)}
+.winbar{background:var(--sf);border-radius:var(--rl);padding:12px;display:flex;flex-direction:column;gap:8px}
+.t-new .winbar{border:1px solid var(--bd)}
+.chips{display:flex;gap:6px}
+.chip{flex:1;min-height:40px;border-radius:10px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.chip.dis{opacity:.4}
+.t-new .chip{font-family:var(--fd);background:transparent;border:1px solid var(--bd)}
+.list{background:var(--sf);border-radius:var(--rl);padding:2px 12px}
+.t-new .list{border:1px solid var(--bd)}
+.mrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--sf2);position:relative}
+.mrow:last-child{border-bottom:0}
+.num{width:32px;height:32px;border-radius:9px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.t-new .num{font-family:var(--fm);font-weight:500;background:transparent;border:1px solid var(--bd)}
+.t-new .mrow.on .num{border-color:color-mix(in srgb,var(--ok) 60%,var(--bd));color:var(--ok)}
+.grow{flex:1;min-width:0}.nm{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg{width:44px;height:26px;border-radius:13px;background:var(--sf2);position:relative;flex:none}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--mu)}
+.tg.on{background:var(--ac)}.tg.on::after{left:21px;background:#fff}
+.t-new .tg.on{background:var(--ok)}.t-new .tg.on::after{background:var(--bg)}
+.tg.busy{background:var(--wa)}.tg.busy::after{left:12px;background:#fff}
+.t-new .tg.dis{opacity:.35}
+/* Hojas */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;z-index:5}
+.scrim.c{align-items:center;justify-content:center}
+.sheet{width:100%;background:var(--sf);border-radius:var(--rs) var(--rs) 0 0;padding:10px 16px 18px;display:flex;flex-direction:column;gap:10px}
+.t-new .sheet{border-top:1px solid var(--bd)}
+.scrim.c .sheet{width:72%;border-radius:var(--rs)}
+.grab{width:36px;height:4px;border-radius:2px;background:var(--bd);align-self:center}
+.h3{font-size:17px;font-weight:600}
+.t-new .h3{font-family:var(--fd);font-size:19px}
+.field{border:1.5px solid var(--ac);border-radius:12px;padding:12px;display:flex;justify-content:space-between;font-size:15px}
+.acts{display:flex;gap:8px;justify-content:flex-end}
+.acts .btn{min-height:40px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--dg);padding:0 8px;margin-right:auto}
+.ord{display:flex;gap:6px}
+.ord div{flex:1;border:1.5px solid var(--bd);border-radius:10px;padding:8px 4px;text-align:center;font-size:12px;display:flex;flex-direction:column;gap:4px;align-items:center}
+.ord b{font-size:18px}.t-new .ord b{font-family:var(--fm);font-weight:500}
+.ord .sel{border-color:var(--ac);background:var(--acs)}
+.arr{display:flex;gap:4px}.arr span{width:30px;height:28px;border-radius:8px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:12px}
+/* Menú ☰ */
+.hamb{position:absolute;left:12px;top:12px;width:38px;height:38px;border-radius:11px;background:var(--sf);display:flex;align-items:center;justify-content:center;z-index:7;font-size:17px}
+.t-new .hamb{border:1px solid var(--bd)}
+.menu{position:absolute;left:0;top:0;bottom:0;width:200px;background:var(--sf);z-index:6;padding:60px 10px 10px;display:flex;flex-direction:column;gap:2px}
+.t-new .menu{border-right:1px solid var(--bd);background:var(--bg)}
+.menu div{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;font-size:14px;color:var(--mu);position:relative}
+.menu i{width:18px;height:18px;border:1.6px solid currentColor;border-radius:6px}
+.menu .on{color:var(--ac);background:var(--acs);font-weight:600}
+.t-new .menu div{font-family:var(--fd);font-weight:600;font-size:15px;letter-spacing:.2px}
+.t-new .menu .on::before{content:"";position:absolute;left:-10px;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.menu-scrim{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Diseño · 01 · Tokens: antes y después</h1>
+  <p>Pasada de diseño, primera parte (07/11/2026). Solo cambian los <b>tokens</b> de <code>apps/mobile/src/theme.ts</code> (color, tipografía, radios, movimiento) y tres detalles que salen de ellos: la luz de la pestaña activa, la del menú ☰ y el punto de estado. Las pantallas son las que ya existen (Inicio, Pantallas, Renombrar, Ordenar, menú ☰), con los mismos textos y la misma distribución. A la izquierda, hoy; a la derecha, la propuesta.</p>
+  <p><b>Idea:</b> es un control remoto que se usa desde el sillón, de noche y al lado de la tele. Se toma del mundo de las consolas de audio y video y de los stream deck: fondo grafito (no negro puro, cansa menos al lado de una tele encendida), teclas con borde fino en vez de bloques de color, y <b>una luz ámbar</b> (como la luz piloto de un equipo) que marca lo activo y lo que está en curso. Verde solo significa "prendido / en línea". La letra es IBM Plex: la versión angosta para títulos y teclas (entran más letras en una tecla chica del Inicio en apaisado) y la mono para datos (porcentajes, resoluciones, números de pantalla).</p>
+  <p><a href="../README.md">Índice de bocetos</a></p>
+</div>
+<section><h2>Tokens</h2><p class="why">Contraste de texto sobre el fondo: texto 16:1, gris 6,9:1, ámbar 9:1 y el texto oscuro sobre ámbar 9:1 (todos pasan AA; los chicos, AAA).</p>
+<div class="tok" id="tok"></div>
+<table style="margin-top:14px"><tr><th>Token</th><th>Hoy</th><th>Propuesta</th></tr>
+<tr><td>Fuentes</td><td>Roboto del sistema</td><td>IBM Plex Sans Condensed 600 (títulos, teclas, pestañas) · IBM Plex Sans 400/500/600 (texto) · IBM Plex Mono 500 (datos y etiquetas). Paquetes <code>@expo-google-fonts/*</code> 0.4.1 con <code>expo-font</code> (ya instalado; anda en Expo Go)</td></tr>
+<tr><td>Escala</td><td>22 / 17 / 15 / 13 / 11</td><td>título 26 · encabezado 17 · cuerpo 15 · chico 13 · etiqueta 11 mono mayúsculas · dato 13 mono · tecla 13 angosta</td></tr>
+<tr><td>Radios</td><td>8 / 12 / 16</td><td>8 / 12 / 18 · tecla 14 · hoja 24</td></tr>
+<tr><td>Bordes</td><td>sin bordes, bloques de color</td><td>borde de 1 px (<code>border</code>) en tarjetas, listas y teclas; los bloques de color quedan solo para lo activo</td></tr>
+<tr><td>Movimiento</td><td>sin tokens (menú ☰ aparece de golpe)</td><td><code>motion = { fast: 120, base: 220, slow: 300 }</code>, curva de salida <code>cubic-bezier(0.2, 0.8, 0.2, 1)</code>, tecla presionada a escala 0,96. Menú ☰: entra deslizando 220 ms + fondo que se oscurece 180 ms. Hojas: suben 300 ms. Con "reducir movimiento" de Android, solo fundido</td></tr>
+<tr><td>Ícono de la app</td><td>provisorio</td><td>sigue esperando el nombre definitivo (no se toca en esta pasada)</td></tr>
+</table></section>
+<section><h2>A · Inicio (tarjeta de estado)</h2><p class="why">Vertical. Misma estructura; la tarjeta gana borde y los datos van en mono.</p><div class="row2" id="home"></div></section>
+<section><h2>B · Pantallas</h2><p class="why">Vertical. La pantalla con la ventana activa se marca con la luz ámbar; las prendidas, con el número en verde. El interruptor prendido pasa de azul a verde: ámbar queda para "cambiando…".</p><div class="row2" id="screens"></div></section>
+<section><h2>C · Pantallas en apaisado</h2><p class="why">Mapa y franja a la izquierda, lista a la derecha (como hoy).</p><div class="row2" id="screensL"></div></section>
+<section><h2>D · Menú ☰ abierto (apaisado)</h2><p class="why">La sección activa lleva la misma luz que la pestaña activa en vertical. Animación: entra deslizando desde la izquierda.</p><div class="row2" id="menu"></div></section>
+<section><h2>E · Hoja Renombrar</h2><p class="why">Vertical. Esquinas de 24 y título en la letra angosta.</p><div class="row2" id="rename"></div></section>
+<section><h2>F · Hoja Ordenar</h2><p class="why">Vertical. La pantalla elegida se marca en ámbar.</p><div class="row2" id="order"></div></section>
+<script>
+const NAV = on => `<div class="nav">${["Inicio","Pantallas","Apps","Audio","Pad"].map(n=>`<div class="${n===on?"on":""}"><i></i>${n}</div>`).join("")}</div>`;
+const MAP = (h=118) => `<div class="map" style="height:${h}px"><div class="mon" style="left:10px;top:30px;width:74px;height:46px">1</div><div class="mon fg" style="left:90px;top:30px;width:74px;height:46px">2</div><div class="mon off" style="left:170px;top:20px;width:90px;height:58px">3</div></div>`;
+const WIN = `<div class="winbar"><span class="label">Ventana activa</span><div class="nm">proyecto-e — PLAN.md</div><span class="small">Code.exe · pantalla 2</span><div class="chips"><div class="chip">Mover a 1</div><div class="chip dis">Mover a 2</div></div></div>`;
+const ROW = (n,name,meta,tg,on) => `<div class="mrow ${on?"on":""}"><div class="num">${n}</div><div class="grow"><div class="nm">${name}</div><div class="small data">${meta}</div></div><div class="tg ${tg}"></div></div>`;
+const LIST = `<div class="list">${ROW(1,"Monitor izquierdo","1920×1080 · DP","on",1)}${ROW(2,"Principal ★","2560×1440 · DP","on dis",1)}${ROW("–","Tele living","Apagada · HDMI","",0)}</div>`;
+const HDR = (t,r="") => `<div class="hd"><span class="title">${t}</span>${r}</div>`;
+const PC = `<span class="small" style="display:flex;gap:8px;align-items:center"><span class="dot"></span>DESKTOP-PSB9K0R</span>`;
+const screens = {
+ home: () => `<div class="ph"><div class="sb"></div><div class="body">${HDR("Inicio",PC)}<div class="card"><div style="display:flex;gap:8px;align-items:center;font-weight:600"><span class="dot"></span>En línea</div><span class="label">CPU</span><div class="meter"><b style="width:23%"></b></div><span class="data">23 %</span><span class="label">RAM</span><div class="meter"><b style="width:61%"></b></div><span class="data">9,8 de 16 GB</span><span class="label">Encendida hace</span><span class="data">2 h 15 min</span></div><div class="notice">Escenas, Media y volumen llegan en B3 y B4.</div></div>${NAV("Inicio")}</div>`,
+ screens: () => `<div class="ph"><div class="sb"></div><div class="body">${HDR("Pantallas",'<div class="btn" style="min-height:36px;font-size:13px">Identificar</div>')}${MAP()}${WIN}${LIST}</div>${NAV("Pantallas")}</div>`,
+ screensL: () => `<div class="phL"><div class="hamb">☰</div><div class="body" style="flex-direction:row;gap:14px"><div style="flex:1;display:flex;flex-direction:column;gap:10px">${HDR("Pantallas")}${MAP(96)}${WIN.replace('<span class="small">Code.exe · pantalla 2</span>','')}</div><div style="flex:1;padding-top:44px">${LIST}</div></div></div>`,
+ menu: () => `<div class="phL"><div class="hamb">✕</div><div class="menu">${["Inicio","Pantallas","Apps","Audio","Pad"].map(n=>`<div class="${n==="Pantallas"?"on":""}"><i></i>${n}</div>`).join("")}</div><div class="menu-scrim"></div><div class="body">${HDR("Pantallas")}${MAP(96)}</div></div>`,
+ rename: () => `<div class="ph"><div class="sb"></div><div class="body" style="opacity:.6">${HDR("Pantallas")}${MAP()}${LIST}</div>${NAV("Pantallas")}<div class="scrim"><div class="sheet"><div class="grab"></div><div class="h3">Apodo de la pantalla 3</div><span class="small">Es la de <span class="data">3840×2160 · HDMI</span></span><div class="field"><span>Tele living|</span><span class="small data">11/32</span></div><div class="acts"><div class="btn ghost">Quitar apodo</div><div class="btn">Cancelar</div><div class="btn p">Guardar</div></div></div></div></div>`,
+ order: () => `<div class="ph"><div class="sb"></div><div class="body" style="opacity:.6">${HDR("Pantallas")}${MAP()}${LIST}</div>${NAV("Pantallas")}<div class="scrim"><div class="sheet"><div class="grab"></div><div class="h3">Orden de las pantallas</div><span class="small">De izquierda a derecha, como están en el escritorio.</span><div class="ord"><div><b>1</b>Izquierdo</div><div class="sel"><b>2</b>Principal ★<span class="arr"><span>◀</span><span>▶</span></span></div><div><b>3</b>Tele</div></div><div class="acts"><div class="btn">Cancelar</div><div class="btn p">Aplicar</div></div></div></div></div>`,
+};
+for (const [id, fn] of Object.entries(screens)) {
+  document.getElementById(id).innerHTML = ["old","new"].map(t => `<div class="t-${t}"><p class="cap">${t==="old"?"Hoy":"Propuesta"}</p>${fn()}</div>`).join("");
+}
+const T = [["bg","Grafito · fondo","#1F2430","#17161D"],["sf","Tecla · superficie","#2A3040","#211F29"],["sf2","Tecla presionada","#3A4155","#2C2935"],["bd","Borde","#4A5268","#3B3746"],["tx","Texto","#E6E8EF","#F1EEE8"],["mu","Texto secundario","#9AA3B8","#A29DAE"],["ac","Acento · luz ámbar","#3B6FE0","#F5A524"],["ok","Prendido / en línea","#3FB950","#3DD6A3"],["dg","Peligro","#E5484D","#FF5C5C"]];
+document.getElementById("tok").innerHTML = T.map(([k,n,a,b]) => `<div><span style="display:flex;gap:4px"><i style="flex:1;background:${a}"></i><i style="flex:1;background:${b}"></i></span>${n}<br><code>${a} → ${b}</code></div>`).join("");
+</script>
+</body>
+</html>

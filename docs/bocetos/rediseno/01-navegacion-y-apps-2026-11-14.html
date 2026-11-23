@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Rediseño · 01 Navegación y Apps</title><link rel="stylesheet" href="../_base.css"><link rel="stylesheet" href="_neo.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("01 · Navegación nueva y Apps", "Fase F1 (D94 a D97). La barra pasa a <b>Escenas · Pantallas · Apps · Audio · Pad</b> y la app abre en <b>Apps</b>; el Inicio desaparece y su tira de estado (nombre de la PC, CPU y RAM; un toque abre Ajustes) queda arriba de Apps. El carrusel \"Ahora\" se va: <b>cada reproducción es una tarjeta</b>, con barra de reproducción y volumen de esa app. Sigue habiendo una tarjeta por ventana. Los lanzadores (\"Abrir\") ya no están acá: pasan a Escenas (boceto 02). Baja fidelidad: los dibujos son provisorios, en la app van los íconos de siempre.", null, ["02-escenas-provisoria-2026-11-14.html", "02 · Escenas (F1)"]);
+
+const sec = (t, first) => `<div class="sec" style="${first ? "margin-top:0" : ""}">${t}</div>`;
+const scr = (n, on) => act("📺", n, { on });
+const spotify = (o = {}) => pcard({ t1: "Midnight City", t2: "M83", src: "Spotify · 📺 3", inner: "♪", prog: pt(34, "1:22", "2:41"), vol: slim(46), ...o });
+const yt = (o = {}) => pcard({ t1: "lofi hip hop radio para estudiar", t2: "Lofi Girl", src: "YouTube · Chrome · 📺 2", cls: "yt", inner: "▶", glow: "rgba(220,40,40,.18)", prog: pt(0, "", "", { live: true }), vol: slim(72, { hint: "todo Chrome" }), ...o });
+const wins = (open) => [
+  wcard("game", "Elden Ring", { scr: 1, full: true, front: true, vol: slim(80) }),
+  wcard("discord", "Discord", { scr: 3, vol: slim(55), open: open === "discord" ? `<div class="acts2">${act("◫", "Traer") + scr("1", false) + scr("2", false) + scr("3", true)}</div><div class="acts2">${act("▁", "Minimizar") + act("⛶", "Completa") + act("✕", "Cerrar") + act("⋯", "Todo")}</div>` : "" }),
+  wcard("code", "VS Code", { scr: 3 }),
+];
+const RIGHT = `<span class="btn">Traer todo</span>`;
+const colsL = (a, b) => `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1;min-width:0">${a}</div><div style="flex:1;min-width:0">${b}</div></div>`;
+
+pair("A", "Apps, todo plegado", "Dos secciones. <b>Reproduciendo:</b> una tarjeta por cosa que suena, con carátula, ⏯, la barra de reproducción (por dónde va y cuánto falta; en un vivo dice VIVO) y la barra de volumen de esa app. <b>Abiertas:</b> el resto de las ventanas; si la app figura en el mezclador de Windows tiene su barra de volumen, si no, queda baja como hoy (VS Code). El ícono 🔉 silencia esa app. Las tarjetas no cambian de lugar solas mientras las usás. <b>Límite de Windows:</b> todas las ventanas de Chrome comparten un volumen, por eso la barra dice \"todo Chrome\". Apaisado: Reproduciendo a la izquierda, Abiertas a la derecha.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 2", true) + spotify() + yt() + sec("Abiertas · 3") + wins().join("") }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 2", true) + spotify() + yt(), sec("Abiertas · 3", true) + wins().join("")) }));
+
+const openSp = `<div class="acts2">${act("⏮", "Anterior") + act("⏭", "Siguiente") + act("◫", "Traer") + act("⋯", "Todo")}</div><div class="acts2">${scr("1", false) + scr("2", false) + scr("3", true) + act("⇄", "Salida")}</div>`;
+pair("B", "Una reproducción desplegada", "Un toque en la tarjeta la despliega (y pliega la que estaba abierta, como hoy). <b>Fila 1:</b> Anterior y Siguiente (grises si la app no los acepta), Traer al frente y <b>⋯ Todo</b> (el menú completo de la ventana, el de hoy). <b>Fila 2:</b> un botón por pantalla para mover la ventana y <b>Salida</b>, que manda esa app a otra salida de audio (lo que hoy está en Audio). Arrastrar la barra de volumen no despliega ni pliega la tarjeta.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 2", true) + spotify({ open: openSp }) + yt() + sec("Abiertas · 3") + wins().join("") }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 2", true) + spotify({ open: openSp }), sec("Abiertas · 3", true) + wins().join("")) }));
+
+pair("C", "Variante para elegir: ⏮ ⏯ ⏭ siempre a la vista", "En A, Anterior y Siguiente aparecen al desplegar: la tarjeta es más baja y entran más. Acá están siempre, en su propia fila: cambiar de tema es un toque, pero cada reproducción ocupa unos 50 px más. <b>Jay elige A o C.</b> Mi recomendación: C solo si cambiás de tema seguido; con dos reproducciones y tres ventanas, C ya obliga a bajar en vertical.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 2", true) + spotify({ ctl: "row" }) + yt({ ctl: "row", noPrev: true, noNext: true }) + sec("Abiertas · 3") + wins().join("") }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 2", true) + spotify({ ctl: "row" }), sec("Abiertas · 3", true) + wins().join("")) }));
+
+pair("D", "Una ventana desplegada (Discord)", "Igual que hoy (Comodidad 05), con la barra de volumen arriba de las acciones: fila 1, Traer y un botón por pantalla; fila 2, acciones de ventana, Cerrar (pide confirmar) y ⋯ Todo. El botón \"Vol app\" de hoy desaparece porque la barra ya está en la tarjeta.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 1", true) + spotify() + sec("Abiertas · 3") + wins("discord").join("") }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 1", true) + spotify(), sec("Abiertas · 3", true) + wins("discord").join("")) }));
+
+const empty = (t, s) => `<div class="card" style="text-align:center;padding:16px"><b>${t}</b><div class="sub" style="white-space:normal">${s}</div></div>`;
+pair("E", "Nada reproduciendo, en pausa, silenciada y sin barra", "Sin nada sonando la sección Reproduciendo no aparece (no deja un hueco). En pausa la tarjeta sigue ahí con ▶ y la barra quieta. Silenciada: el ícono y la barra en gris y rojo. Si la app no informa por dónde va, la tarjeta no muestra barra de reproducción (no se inventa una).",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Reproduciendo · 2", true) + spotify({ paused: true, vol: slim(46, { off: true }) }) + pcard({ t1: "Partida guardada 3", t2: "VLC", src: "VLC · 📺 2", cls: "none", inner: "▶", vol: slim(60) }) + sec("Abiertas · 3") + wins().join("") }),
+  L({ title: "Apps", right: RIGHT, body: sec("Abiertas · 3", true) + colsL(wins()[0] + wins()[2], wins()[1]) }));
+
+pair("F", "Sin ventanas, sin conexión y audio caído", "<b>Sin ventanas:</b> una tarjeta con el texto y el botón que lleva a Escenas, donde ahora se abre todo. <b>Sin conexión:</b> la tira dice Reintentar, aviso arriba y las tarjetas apagadas con lo último que llegó; nada se despliega ni se arrastra. <b>Audio de la PC caído</b> (apaisado): las tarjetas siguen, sin barras de volumen, con un aviso.",
+  V({ title: "Apps", body: STRIP_OFF + `<div class="err">Sin conexión con la PC. Se muestra lo último que llegó.</div><div style="opacity:.45">${sec("Reproduciendo · 1", true) + spotify({ paused: true }) + sec("Abiertas · 3") + wins().join("")}</div>` }),
+  L({ title: "Apps", right: RIGHT, body: colsL(`<div class="note" style="margin-bottom:6px">El audio de la PC no responde: no hay volumen por app.</div>` + sec("Abiertas · 0", true) + empty("No hay ventanas abiertas", "Abrí algo desde Escenas") + `<div style="text-align:center;margin-top:6px"><span class="btn p">Ir a Escenas</span></div>`, sec("Así se ve una tarjeta sin audio", true) + wcard("discord", "Discord", { scr: 3 }) + wcard("game", "Elden Ring", { scr: 1, full: true, front: true })) }));
+
+const menu = `<div class="sidedim"></div><div style="position:absolute;left:0;top:0;bottom:0;width:190px;background:#1B1A22;border-right:1px solid #3B3746;z-index:8;padding:52px 10px 10px">${["Escenas", "Pantallas", "Apps", "Audio", "Pad"].map((t) => `<div style="padding:9px 10px;border-radius:10px;font-size:13px;${t === "Apps" ? "background:rgba(245,165,36,.14);color:#F5A524" : ""}">${t}</div>`).join("")}</div>`;
+pair("G", "La barra nueva y el menú ☰", "Vertical: Apps en el centro de la barra, marcada al abrir la app. Apaisado: el botón ☰ abre el mismo menú de hoy, con las cinco secciones en el orden nuevo. Ajustes se abre tocando la tira de estado, como antes en el Inicio.",
+  V({ title: "Apps", right: RIGHT, body: STRIP + sec("Abiertas · 3", true) + wins().join("") }),
+  L({ title: "Apps", right: RIGHT, body: colsL(sec("Reproduciendo · 1", true) + spotify(), sec("Abiertas · 3", true) + wins().join("")), over: menu }));
+</script>
+</body>
+</html>

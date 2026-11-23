@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 09 Inicio con reproductor</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script>
+<style>
+  /* Este boceto va en COLOR a propósito (pedido de Jay): grafito + ámbar que vira a coral. Los colores finales salen de theme.ts. */
+  body.neo .phone,body.neo .phoneL{background:#17161D;border-color:#000;color:#F1EEE8}
+  body.neo .top b,body.neo .nav div,body.neo .sec{color:#F1EEE8}
+  body.neo .nav{background:#1B1A22;border-color:#3B3746}
+  body.neo .nav i{border-color:#6a6577}
+  body.neo .nav .on{color:#F5A524}body.neo .nav .on i{border-color:#F5A524;background:rgba(245,165,36,.18)}
+  body.neo .hamb{background:#2C2935;border-color:#3B3746;color:#F1EEE8}
+  body.neo .sub,body.neo .lbl{color:#A29DAE}
+  body.neo .strip{border-color:#3B3746;color:#A29DAE}body.neo .strip b{color:#F1EEE8!important}
+  body.neo .btn{background:#2C2935;border-color:#3B3746;color:#F1EEE8}
+  body.neo .key{background:#211F29;border-color:#3B3746;color:#F1EEE8}
+  body.neo .key i{border-color:#6a6577;background:#2C2935}
+  body.neo .box{background:#211F29;border-color:#3B3746}
+  body.neo .row{border-color:#3B3746}
+  body.neo .ico{background:#2C2935;border-color:#3B3746}
+  body.neo .err{background:#3A1E22;color:#FF8A8A}
+  body.neo .chip{border-color:#3B3746;color:#F1EEE8;background:#2C2935}
+  body.neo .chip.on{border-color:#F5A524;color:#F5A524;background:rgba(245,165,36,.14)}
+  body.neo .st.ok{background:rgba(61,214,163,.16);color:#3DD6A3}
+  body.neo .sheet{background:#211F29;color:#F1EEE8}
+
+  .hero{position:relative;border-radius:22px;padding:14px 10px 12px;text-align:center;background:radial-gradient(120% 90% at 50% 0%,var(--glow,rgba(255,107,74,.38)),rgba(245,165,36,.10) 45%,#211F29 80%);border:1px solid #3B3746}
+  .ringwrap{position:relative;width:var(--d,176px);height:var(--d,176px);margin:2px auto 8px}
+  .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 225deg,#F5A524 0deg,#FF6B4A calc(var(--v,46)*2.7deg),#3B3746 calc(var(--v,46)*2.7deg) 270deg,transparent 270deg);-webkit-mask:radial-gradient(circle,transparent calc(var(--d,176px)/2 - 14px),#000 calc(var(--d,176px)/2 - 13px));mask:radial-gradient(circle,transparent calc(var(--d,176px)/2 - 14px),#000 calc(var(--d,176px)/2 - 13px))}
+  .ring.off{background:conic-gradient(from 225deg,#4a4655 0deg 270deg,transparent 270deg)}
+  .knob{position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,107,74,.9);left:50%;top:50%;margin:-8px;transform:rotate(calc(225deg + var(--v,46)*2.7deg)) translateY(calc(var(--d,176px)/-2 + 7px))}
+  .cover{position:absolute;inset:20px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffb347,#c2410c 55%,#3a1204);box-shadow:0 8px 24px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .cover.yt{background:linear-gradient(135deg,#d11,#511)}
+  .cover.none{background:#2C2935;color:#A29DAE;font-size:12px;padding:10px;text-align:center}
+  .pwr{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:#17161D;border:2px solid #F5A524;color:#F5A524;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(245,165,36,.55)}
+  .pwr.mute{border-color:#FF5C5C;color:#FF5C5C;box-shadow:0 0 14px rgba(255,92,92,.55)}
+  .vnum{position:absolute;right:0;top:4px;font:600 12px monospace;color:#F5A524;background:#17161D;border-radius:10px;padding:1px 7px;border:1px solid #3B3746}
+  .t1{font-weight:700;font-size:14px;margin-top:2px}.t2{font-size:11px;color:#c9c4d4}
+  .out{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:5px 12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid #F5A524;color:#F5A524;font-size:12px;font-weight:600}
+  .ctl{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:10px}
+  .ctl span{width:40px;height:40px;border-radius:50%;background:#2C2935;display:flex;align-items:center;justify-content:center;font-size:15px;color:#F1EEE8}
+  .ctl .big{width:54px;height:54px;background:linear-gradient(135deg,#F5A524,#FF6B4A);color:#1B1405;font-size:20px;box-shadow:0 6px 18px rgba(255,107,74,.45)}
+  .ctl .dim{opacity:.3}
+  .mini{display:flex;align-items:center;gap:8px}
+  .mini .rw{position:relative;width:46px;height:46px;flex:none}
+  .mini .rw .ring{-webkit-mask:radial-gradient(circle,transparent 18px,#000 19px);mask:radial-gradient(circle,transparent 18px,#000 19px)}
+  .mini .cover{inset:7px}
+  .fold{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:14px;background:#211F29;border:1px solid #3B3746;margin-top:8px;font-size:12px}
+  .fold b{letter-spacing:1px;color:#A29DAE;font-size:11px}
+  .mixer{margin-top:8px;border-radius:14px;background:#211F29;border:1px solid #3B3746;padding:4px 10px}
+  .grad{height:6px;border-radius:4px;background:#3B3746;position:relative;flex:1}.grad b{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:linear-gradient(90deg,#F5A524,#FF6B4A)}.grad em{position:absolute;top:-5px;width:16px;height:16px;border-radius:50%;background:#fff;margin-left:-8px;box-shadow:0 0 8px rgba(255,107,74,.8)}
+</style></head>
+<body class="neo">
+<script>
+head("09 · Inicio con reproductor (más onda)", "Fase B4, pedido de Jay el 08/11/2026. Reemplaza la tarjeta del boceto 08. Lo principal arriba y a simple vista: <b>qué suena</b>, los <b>botones disponibles</b>, la <b>salida</b> y la <b>barra de volumen — que es la de la salida predeterminada, nunca la de una app</b>. La barra es un <b>anillo alrededor de la carátula</b> (se arrastra girando el dedo, de ámbar a coral); el <b>botón de encendido</b> del centro-abajo es el silencio: prendido en ámbar, apagado en rojo. Los controles van debajo. Lo demás (el mezclador por app) está en un desplegable, y abajo siguen las teclas de escenas y acciones. Este boceto va en <b>color</b> para ver la intensidad; el color final sale de <code>theme.ts</code>.", ["08-inicio-mezclador-2026-11-08.html", "08 · Audio en el Inicio (reemplazado)"], null);
+document.body.classList.add("neo");
+
+const STRIP = `<div class="strip"><span class="dot"></span><b>DESKTOP-PSB9K0R</b><span>CPU 23 % · RAM 61 %</span></div>`;
+const K = (label, g) => `<div class="key"><span style="font-size:18px">${g}</span><b>${label}</b></div>`;
+const deck = [K("Traer todo", "◫"), K("Identificar", "◉"), K("Trabajo", "▶"), K("Juego", "▶"), K("Modo sillón", "▶"), `<div class="key add">+<b>Agregar</b></div>`].join("");
+const RIGHT = `<span class="btn">Escenas</span>`;
+const ring = (v, o = {}) => `<div class="ringwrap" style="--v:${v};--d:${o.d || 176}px"><div class="ring ${o.off ? "off" : ""}"></div>${o.off ? "" : '<div class="knob"></div>'}<div class="cover ${o.cls || ""}">${o.inner || ""}</div><div class="pwr ${o.off ? "mute" : ""}">⏻</div>${o.off ? "" : `<div class="vnum">${v}</div>`}</div>`;
+const ctl = (o = {}) => `<div class="ctl"><span class="${o.noPrev ? "dim" : ""}">⏮</span><span class="big">${o.paused ? "▶" : "⏸"}</span><span class="${o.noNext ? "dim" : ""}">⏭</span></div>`;
+const hero = (o = {}) => `<div class="hero" style="${o.glow ? "--glow:" + o.glow : ""}">${ring(o.v ?? 46, o)}
+  <div class="t1">${o.t1 || "Nombre del tema"}</div><div class="t2">${o.t2 || "Artista · Spotify"}</div>
+  <div class="out">🎧 Auriculares ▾</div>${o.noCtl ? "" : ctl(o)}${o.chip ? `<div style="margin-top:8px"><span class="chip on" style="margin:0">⏯ va a: ${o.chip} ▾</span></div>` : ""}</div>`;
+const fold = (open) => `<div class="fold"><b>MEZCLADOR · 3 APPS</b><span class="sub">${open ? "Ver todo ›  ▴" : "▾"}</span></div>`;
+const app = (a, n, v, to, snd) => `<div class="row" style="padding:5px 0">${ic(a)}<div class="grow"><div class="row" style="border:0;padding:0;gap:6px"><span style="font-size:12px">${n}</span>${snd ? '<span class="st ok">▮▮▮</span>' : ""}<span class="chip" style="margin:0;font-size:10px">${to} ▾</span></div><div class="row" style="border:0;padding:3px 0 0;gap:8px"><div class="grad"><b style="width:${v}%"></b><em style="left:${v}%"></em></div><span class="sub">${v}</span></div></div></div>`;
+const mixer = `<div class="mixer">${app("spotify", "Spotify", 60, "Auriculares", true)}${app("chrome", "Chrome", 100, "Auriculares", false)}${app("discord", "Discord", 80, "Parlantes", false)}</div>`;
+const deckV = `<div class="sec" style="margin:10px 0 4px">Escenas y acciones</div><div class="deck">${deck}</div>`;
+
+pair("A", "Reproduciendo", "Vertical: el reproductor ocupa la parte alta (fondo que toma el color de la carátula), los controles debajo, el mezclador plegado y las teclas más abajo (se baja con el dedo). Apaisado: reproductor a la izquierda y, a la derecha, el mezclador plegado y las teclas.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${hero({})}${fold(false)}${deckV}` }),
+  L({ title: "Inicio", right: RIGHT, body: `<div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1">${hero({ d: 128 })}</div><div style="flex:1">${STRIP}${fold(false)}<div class="deckL" style="grid-template-columns:repeat(3,1fr);margin-top:8px">${deck}</div></div></div>` }));
+
+pair("B", "Silenciado (el botón de encendido)", "El anillo se apaga (gris), el botón ⏻ pasa a rojo y el volumen queda guardado: al encender vuelve al mismo lugar. Tocar ⏻ alterna; sirve también cuando la tele o los parlantes están en silencio.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${hero({ off: true, glow: "rgba(120,110,140,.30)" })}${fold(false)}${deckV}` }),
+  L({ title: "Inicio", right: RIGHT, body: `<div style="display:flex;gap:10px"><div style="flex:1">${hero({ d: 128, off: true, glow: "rgba(120,110,140,.30)" })}</div><div style="flex:1">${STRIP}${fold(false)}<div class="deckL" style="grid-template-columns:repeat(3,1fr);margin-top:8px">${deck}</div></div></div>` }));
+
+pair("C", "Mezclador desplegado", "El desplegable abre el mezclador por app (volumen y salida de cada una, con las barras en degradé). \"Ver todo\" lleva a la pestaña Audio. Cada app tiene SU volumen y SU salida; la barra grande del anillo no se toca.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${hero({ d: 150 })}${fold(true)}${mixer}` }),
+  L({ title: "Inicio", right: RIGHT, body: `<div style="display:flex;gap:10px"><div style="flex:1">${hero({ d: 128 })}</div><div style="flex:1">${fold(true)}${mixer}</div></div>` }));
+
+const miniBar = (off) => `<div class="hero" style="padding:8px 10px;text-align:left"><div class="mini"><div class="rw" style="--v:46;--d:46px"><div class="ring ${off ? "off" : ""}"></div><div class="cover"></div></div><div class="grow" style="min-width:0"><div class="t1" style="font-size:12px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Nombre del tema</div><div class="t2">🎧 Auriculares · 46</div></div><span class="btn" style="padding:6px 10px">⏮</span><span class="btn" style="padding:6px 10px;background:linear-gradient(135deg,#F5A524,#FF6B4A);color:#1B1405;border:0">⏸</span><span class="btn" style="padding:6px 10px">⏭</span><span style="font-size:18px;color:${off ? "#FF5C5C" : "#F5A524"}">⏻</span></div></div>`;
+pair("D", "Plegado (se recuerda)", "Una sola línea: carátula con su anillo (el volumen), tema, salida y ⏮ ⏯ ⏭ con el ⏻. El botón de plegar vive en el borde del reproductor; la elección se guarda para la próxima vez. Nada de íconos de parlante repetidos.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${miniBar(false)}${deckV}<div class="sub" style="text-align:center;margin-top:6px">▾ desplegar el reproductor</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}${miniBar(false)}<div class="deckL" style="margin-top:8px">${deck}</div>` }));
+
+pair("E", "Nada sonando, y YouTube sin ⏮ ⏭", "Sin tema: la carátula es un disco con \"Nada sonando\"; el anillo, la salida y el ⏻ siguen andando (el volumen es de la salida, suene algo o no) y los controles quedan apagados. Con YouTube (que no acepta ⏮ ⏭) esos dos salen apagados y, si hay varias ventanas de media, el chip \"⏯ va a\" deja elegir.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${hero({ cls: "none", inner: "Nada sonando", t1: "Nada sonando", t2: "Las apps aparecen cuando reproducen algo", noCtl: false, noPrev: true, noNext: true, paused: true, glow: "rgba(120,110,140,.25)" })}${fold(false)}`.replace('<span class="big">▶</span>', '<span class="big dim">▶</span>') }),
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${hero({ cls: "yt", inner: "▶", t1: "Título del video de YouTube", t2: "Canal · Chrome", noPrev: true, noNext: true, chip: "Chrome · Los JUEGOS de SAW", glow: "rgba(209,17,17,.35)", d: 150 })}${fold(false)}` }));
+
+pair("F", "Primera vez: el Inicio ya viene con cosas", "El agente siembra el Inicio una sola vez con las teclas que la app ya ofrece: Traer todo, Identificar y las de Media, volumen y silencio. Como el reproductor de arriba ya tiene Media, volumen y silencio, esas teclas son un respaldo para cuando lo plegás; se pueden quitar desde Editar sin que vuelvan. Escenas y lanzadores los armás vos.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="height:6px"></div>${miniBar(false)}<div class="sec" style="margin:10px 0 4px">Escenas y acciones</div><div class="deck">${[K("Anterior", "⏮"), K("Play / pausa", "⏯"), K("Siguiente", "⏭"), K("Vol −", "🔉"), K("Vol +", "🔊"), K("Silenciar", "🔈"), K("Traer todo", "◫"), K("Identificar", "◉"), `<div class="key add">+<b>Agregar</b></div>`].join("")}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}${miniBar(false)}<div class="deckL" style="margin-top:8px">${[K("Anterior", "⏮"), K("Play / pausa", "⏯"), K("Siguiente", "⏭"), K("Vol −", "🔉"), K("Vol +", "🔊"), K("Silenciar", "🔈"), K("Traer todo", "◫"), K("Identificar", "◉"), `<div class="key add">+<b>Agregar</b></div>`].join("")}</div>` }));
+</script>
+</body>
+</html>

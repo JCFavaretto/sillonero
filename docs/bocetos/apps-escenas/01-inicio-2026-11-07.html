@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Apps y Escenas · 01 Inicio</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("01 · Inicio (stream deck)", "Fase B3, rebanadas R1 (demo) y R7 (real). Versión del 07/11/2026. Reemplaza la sección 8 del boceto v4 <b>sin</b> Media ni volumen (llegan en B4): arriba una tira de estado de una línea (la tarjeta de B1 achicada; tocarla abre Ajustes) y abajo las teclas. Un toque ejecuta. 3 columnas en vertical, 5 en apaisado. Las teclas viven en la PC: si cambiás de celu, siguen ahí.", null, ["02-editar-inicio-2026-11-07.html", "02 · Editar Inicio"]);
+
+const STRIP = `<div class="strip"><span class="dot"></span><b style="color:#222">DESKTOP-PSB9K0R</b><span>CPU 23 % · RAM 61 %</span></div>`;
+const K = (label, inner, cls = "") => `<div class="key ${cls}">${inner}<b>${label}</b></div>`;
+const keys = [
+  K("Trabajo", "<i></i>"), K("Juego", "<i></i>"), K("Modo sillón", "<i></i>"),
+  K("Tele", "<i></i><span style='font-size:9px;color:#888'>apagada</span>"), K("Traer todo", "<i></i>"), K("Identificar", "<i></i>"),
+  K("Discord", ic("discord")), K("Spotify", ic("spotify")), `<div class="key add">+<b>Agregar</b></div>`,
+];
+const RIGHT = `<span class="btn">Escenas</span>`;
+const legend = `<div class="sec">Escenas y acciones</div>`;
+
+pair("A", "Con teclas", "Escenas, acciones de la PC (Tele, Traer todo, Identificar) y lanzadores mezclados, en el orden que elija Jay. La tecla de la tele muestra si está prendida o apagada. \"Escenas\" lleva a la lista (boceto 09). Toque largo en una tecla = modo Editar (02).",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${legend}<div class="deck">${keys.join("")}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="deckL" style="margin-top:8px">${keys.join("")}</div>` }));
+
+const running = [K("Trabajo", "<i></i>"), K("Juego", "<i></i><span class='spin'></span>", "run"), K("Modo sillón", "<i></i>"), K("Tele", "<i></i>"), K("Traer todo", "<i></i>"), K("Identificar", "<i></i>")];
+const runBar = `<div class="note" style="margin-top:8px">Juego · paso 2 de 3: abriendo Discord… <span style="float:right;text-decoration:underline">Ver</span></div>`;
+pair("B", "Escena corriendo", "La tecla se enciende en ámbar mientras corre (la luz de la pasada de diseño). Abajo, una franja con el paso actual; \"Ver\" abre el progreso (boceto 09, C). Las otras teclas siguen andando, salvo otra escena (\"Ya hay una escena corriendo\"). Vibra corto al tocar.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${legend}<div class="deck">${running.join("")}</div>${runBar}` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="deckL" style="margin-top:8px">${running.join("")}</div>${runBar}` }));
+
+const bad = [K("Trabajo", "<i></i>"), K("Juego", "<i></i>", "bad"), K("Modo sillón", "<i></i>"), K("Tele", "<i></i>"), K("Escena borrada", "<i></i>", "na"), K("Identificar", "<i></i>")];
+const err = `<div class="err">Juego terminó con 1 paso fallido: "Prender la tele" (la pantalla no está conectada). <u>Ver detalle</u></div>`;
+pair("C", "Terminó con error y tecla no disponible", "Si un paso falla, la tecla queda en rojo 4 s y aparece el aviso con el paso que falló. Una tecla de una escena o lanzador borrado, o de una pantalla desconectada, queda punteada y apagada: al tocarla dice por qué y ofrece quitarla.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${err}<div class="deck">${bad.join("")}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}${err}<div class="deckL">${bad.join("")}</div>` }));
+
+const empty = `<div class="box" style="text-align:center;padding:20px 12px"><p style="margin:0 0 6px"><b>Tu Inicio está vacío</b></p><div class="sub" style="white-space:normal">Agregá escenas, apps o acciones de la PC para tenerlas a un toque.</div><div style="margin-top:12px"><span class="btn p">+ Agregar</span></div></div>`;
+pair("D", "Vacío (primera vez)", "La primera vez no hay teclas. El botón abre la hoja Agregar (03).",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${empty}` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div style="margin-top:8px">${empty}</div>` }));
+
+const offStrip = `<div class="strip"><span class="dot g"></span><b style="color:#222">DESKTOP-PSB9K0R</b><span>Sin conexión · reintentando…</span></div>`;
+const off = `<div class="stale">${legend}<div class="deck">${keys.slice(0, 6).join("")}</div></div>`;
+const offL = `<div class="stale"><div class="deckL" style="margin-top:8px">${keys.slice(0, 6).join("")}</div></div>`;
+pair("E", "Sin conexión", "Las teclas se ven (la última lista que llegó) pero apagadas y sin respuesta al toque. La tira dice qué pasa; tocarla abre Ajustes.",
+  V({ title: "Inicio", right: RIGHT, body: `${offStrip}${off}` }),
+  L({ title: "Inicio", right: RIGHT, body: `${offStrip}${offL}` }));
+</script>
+</body>
+</html>

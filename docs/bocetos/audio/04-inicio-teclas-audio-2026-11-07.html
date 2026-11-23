@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Audio · 04 Inicio con teclas de audio</title><link rel="stylesheet" href="../_base.css"><script src="_kit.js"></script></head>
+<body>
+<script>
+head("04 · Inicio con teclas de audio", "Fase B4, R6. El Inicio de B3 (boceto apps-escenas/01) con las teclas nuevas: ⏮ ⏯ ⏭ (D35), Vol −, Vol + y Silenciar sobre la predeterminada (D36) y \"Salida: …\" que hace predeterminada esa salida. Son teclas comunes: se agregan, quitan y ordenan como las de B3. Sin deslizador ni tarjeta de \"Ahora suena\" en el Inicio (eso vive en la pestaña Audio).", ["03-app-a-salida-2026-11-07.html", "03 · Mandar una app a una salida"], ["05-agregar-tecla-audio-2026-11-07.html", "05 · Agregar al Inicio · Audio"]);
+
+const STRIP = `<div class="strip"><span class="dot"></span><b style="color:#222">DESKTOP-PSB9K0R</b><span>CPU 23 % · RAM 61 %</span></div>`;
+const K = (label, inner, cls = "") => `<div class="key ${cls}">${inner}<b>${label}</b></div>`;
+const G = (s) => `<span style="font-size:18px">${s}</span>`;
+const keys = (o = {}) => [
+  K("Trabajo", "<i></i>"), K("Juego", "<i></i>"), K("Modo sillón", "<i></i>"),
+  K("Anterior", G("⏮")), K("Play / pausa", G("⏯")), K("Siguiente", G("⏭")),
+  K("Vol −", G("🔉")), K("Vol +", G("🔊"), o.vol ? "run" : ""), K(o.muted ? "Activar sonido" : "Silenciar", G(o.muted ? "🔇" : "🔈")),
+  K("Salida: Parlantes", G("🔊"), o.na ? "na" : ""), K("Salida: Tele", G("📺"), "na"), `<div class="key add">+<b>Agregar</b></div>`,
+];
+const RIGHT = `<span class="btn">Escenas</span>`;
+const legend = `<div class="sec">Escenas y acciones</div>`;
+const toast = (t) => `<div style="position:absolute;left:50%;bottom:70px;transform:translateX(-50%);background:#222;color:#fff;font-size:12px;padding:6px 12px;border-radius:14px;z-index:9">${t}</div>`;
+
+pair("A", "Con teclas de audio", "Las de Media y volumen junto a las escenas. \"Salida: Tele\" en gris punteado: la tele está apagada (no disponible), igual que una escena borrada en B3.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${legend}<div class="deck">${keys().join("")}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="deckL" style="margin-top:8px">${keys().join("")}</div>` }));
+
+pair("B", "Al tocar Vol +", "Vibra corto (como las otras teclas) y un cartelito \"Volumen 51 · Auriculares\" 1 s. Silenciar cambia a \"Activar sonido\" mientras está en silencio.",
+  `<div style="position:relative">${V({ title: "Inicio", right: RIGHT, body: `${STRIP}${legend}<div class="deck">${keys({ vol: true, muted: true }).join("")}</div>` })}${toast("Volumen 51 · Auriculares")}</div>`,
+  `<div style="position:relative">${L({ title: "Inicio", right: RIGHT, body: `${STRIP}<div class="deckL" style="margin-top:8px">${keys({ vol: true, muted: true }).join("")}</div>` })}${toast("Volumen 51 · Auriculares")}</div>`);
+
+const errK = [K("Anterior", G("⏮")), K("Play / pausa", G("⏯"), "bad"), K("Siguiente", G("⏭"))];
+const err = `<div class="err">Audio no disponible en la PC: las teclas de audio no hacen nada hasta que vuelva.</div>`;
+pair("C", "Error", "Si el hijo de audio está caído, la tecla tocada queda en rojo 2 s y aparece el aviso. Las teclas de Media no dependen del hijo de audio (van por el de koffi), así que fallan solo si la PC no está.",
+  V({ title: "Inicio", right: RIGHT, body: `${STRIP}${err}<div class="deck">${errK.join("")}</div>` }),
+  L({ title: "Inicio", right: RIGHT, body: `${STRIP}${err}<div class="deckL">${errK.join("")}</div>` }));
+</script>
+</body>
+</html>

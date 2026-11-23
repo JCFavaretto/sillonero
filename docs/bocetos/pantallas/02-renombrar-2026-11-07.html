@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto · Pantallas · 02 renombrar</title>
+<link rel="stylesheet" href="../_base.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Pantallas · 02 · Renombrar (hoja inferior)</h1>
+  <p>Fase B2, rebanada R1 (la UI) y R4 (guardar). Versión del 07/11/2026. Se abre con un toque largo sobre una fila de la lista o sobre el rectángulo del mapa. En vertical es una hoja que sube desde abajo; en apaisado, un cuadro centrado (el teclado ocupa media pantalla). El apodo se guarda en la PC, así sobrevive aunque desenchufes la tele.</p>
+  <p class="nav-links"><a href="01-pantalla-2026-11-07.html">← 01 · Pantalla principal</a> · <a href="../README.md">Índice de bocetos</a></p>
+</div>
+
+<section class="pair"><h2>A · Escribiendo</h2>
+<p class="why">Contador de 32 caracteres. "Guardar" se deshabilita si no cambió. "Quitar apodo" solo aparece si ya tenía uno.</p>
+<div class="both">
+<div><p class="lbl">Vertical</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b><span class="btn">Identificar</span></div>
+ <div class="body" style="opacity:.5">
+  <div class="map" style="height:126px"><div class="mon" style="left:8px;top:26px;width:78px;height:50px">1</div><div class="mon sel" style="left:92px;top:26px;width:78px;height:50px">2 ★</div><div class="mon off" style="left:176px;top:14px;width:90px;height:62px">3</div></div>
+  <div class="box" style="margin-top:12px"><div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo</div></div><div class="row"><div class="ico">2</div><div class="grow">Principal ★</div></div><div class="row"><div class="ico">–</div><div class="grow">Tele living</div></div></div>
+ </div>
+ <div class="sheetwrap"><div class="sheet">
+  <h3>Apodo de la pantalla 3</h3>
+  <div class="sub" style="margin-bottom:8px">Es la de 3840×2160 · HDMI</div>
+  <div class="field"><span>Tele living|</span><small>11/32</small></div>
+  <div class="acts"><span class="btn" style="margin-right:auto">Quitar apodo</span><span class="btn">Cancelar</span><span class="btn p">Guardar</span></div>
+ </div></div>
+</div></div>
+
+<div><p class="lbl">Apaisado</p><div class="phoneL"><div class="notchL"></div><button class="hamb" aria-label="Menú">☰</button>
+ <div class="mainL" style="opacity:.5"><div class="top"><b>Pantallas</b></div>
+  <div class="bodyL c2"><div class="map" style="height:118px"></div><div class="box"><div class="row"><div class="ico">1</div><div class="grow">Monitor izquierdo</div></div><div class="row"><div class="ico">2</div><div class="grow">Principal ★</div></div></div></div></div>
+ <div class="sheetwrap center"><div class="sheet" style="padding:12px 14px">
+  <h3>Apodo de la pantalla 3</h3>
+  <div class="field"><span>Tele living|</span><small>11/32</small></div>
+  <div class="acts"><span class="btn" style="margin-right:auto">Quitar apodo</span><span class="btn">Cancelar</span><span class="btn p">Guardar</span></div>
+ </div></div>
+</div></div>
+</div></section>
+
+<section class="pair"><h2>B · Sin apodo todavía, y error</h2>
+<p class="why">Sin apodo: se sugiere el nombre que reporta el monitor como texto de ayuda. Error: la PC no pudo guardar (el celu no pierde lo escrito).</p>
+<div class="both">
+<div><p class="lbl">Sin apodo</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div><div class="body" style="opacity:.5"></div>
+ <div class="sheetwrap"><div class="sheet">
+  <h3>Apodo de la pantalla 1</h3>
+  <div class="sub" style="margin-bottom:8px">Es la de 1920×1080 · DisplayPort</div>
+  <div class="field"><span style="color:var(--mut)">DELL U2412M</span><small>0/32</small></div>
+  <div class="acts"><span class="btn">Cancelar</span><span class="btn p" style="opacity:.45">Guardar</span></div>
+ </div></div>
+</div></div>
+<div><p class="lbl">Error al guardar</p><div class="phone"><div class="notch"></div>
+ <div class="top"><b>Pantallas</b></div><div class="body" style="opacity:.5"></div>
+ <div class="sheetwrap"><div class="sheet">
+  <h3>Apodo de la pantalla 3</h3>
+  <div class="field"><span>Tele del cuarto|</span><small>15/32</small></div>
+  <div class="err">No se pudo guardar. Probá de nuevo.</div>
+  <div class="acts"><span class="btn">Cancelar</span><span class="btn p">Reintentar</span></div>
+ </div></div>
+</div></div>
+</div></section>
+</body>
+</html>
